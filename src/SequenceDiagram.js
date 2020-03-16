@@ -14,15 +14,30 @@ function mouseUp(setHoldingClick, setPan) {
   }
 }
 
+function mouseWheel(zoom, setZoom) {
+  const zoomVelocity = 0.001
+  return e => {
+    setZoom(zoom - e.deltaY * zoomVelocity)
+    console.log(e.deltaX, e.deltaY)
+  }
+}
+
 function mouseMove(holdingClick, pan, setPan, delta, setDelta) {
   const panVelocity = 0.5
   return e => {
     if (holdingClick) {
       setPan({ x1: e.clientX, y1: e.clientY, x0: pan.x1, y0: pan.y1 })
-      setDelta({
-        x: delta.x + (e.clientX - pan.x0) * panVelocity,
-        y: delta.y + (e.clientY - pan.y0) * panVelocity
-      })
+      const deltaX = (e.clientX - pan.x0) * panVelocity
+      const deltaY = (e.clientY - pan.y0) * panVelocity
+      const movDirection = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical'
+      if (movDirection == 'horizontal') {
+        setDelta({
+          x: delta.x + deltaX,
+          y: delta.y
+        })
+      } else {
+        setDelta({ x: delta.x, y: delta.y + deltaY })
+      }
     }
   }
 }
@@ -31,6 +46,7 @@ function SequenceDiagram(props) {
   const [holdingClick, setHoldingClick] = useState(false)
   const [pan, setPan] = useState({ x0: null, y0: null, x1: null, y1: null })
   const [delta, setDelta] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
 
   return (
     <svg
@@ -39,8 +55,11 @@ function SequenceDiagram(props) {
       onMouseDown={mouseDown(setHoldingClick, setPan)}
       onMouseUp={mouseUp(setHoldingClick, setPan)}
       onMouseMove={mouseMove(holdingClick, pan, setPan, delta, setDelta)}
-      onMouseLeave={mouseUp(setHoldingClick, setPan)}>
-      <g transform={`translate(${delta.x}, ${delta.y})`}>{props.children}</g>
+      onMouseLeave={mouseUp(setHoldingClick, setPan)}
+      onWheel={mouseWheel(zoom, setZoom)}>
+      <g transform={`translate(${delta.x}, ${delta.y}) scale(${zoom}, ${zoom})`}>
+        {props.children}
+      </g>
     </svg>
   )
 }
