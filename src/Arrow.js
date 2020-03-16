@@ -7,7 +7,7 @@ function Arrow(props) {
   const toIndex = lifelines.findIndex(l => l.name === to)
   const spaceBetweenLifelines = 300
   const direction = fromIndex < toIndex ? 'right' : 'left'
-  const baseLine = 120
+  const baseLine = 160
 
   const x =
     direction === 'right'

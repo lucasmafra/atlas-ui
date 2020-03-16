@@ -1,5 +1,6 @@
 {
   "rules": {
       "space-before-function-paren": ["error", "never"],
+      "indent": [2, 2]
   }
 }

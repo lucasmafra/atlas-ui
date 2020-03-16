@@ -3,6 +3,7 @@ import ExecutionBox from './ExecutionBox'
 import Lifeline from './Lifeline'
 import Arrow from './Arrow'
 import { trace } from './mock'
+import SequenceDiagram from './SequenceDiagram'
 
 function App() {
   const renderLifelines = trace.lifelines.map(({ name, icon }) => (
@@ -24,12 +25,12 @@ function App() {
   ))
 
   return (
-    <div style={{ margin: 32 }}>
-      <svg width='20000' height='600'>
+    <div style={{ margin: 32, border: '1px solid #cecece', height: 'calc(100vh - 66px)' }}>
+      <SequenceDiagram>
         {renderLifelines}
         {renderArrows}
         {renderExecutionBoxes}
-      </svg>
+      </SequenceDiagram>
     </div>
   )
 }

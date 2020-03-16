@@ -5,7 +5,7 @@ function ExecutionBox(props) {
   const { durationMs: traceDurationMs, startTime: traceStartTime } = trace
   const index = trace.lifelines.findIndex(l => l.name === lifeline)
   const spaceBetweenLifelines = 300
-  const baseLine = 120
+  const baseLine = 160
   const x = spaceBetweenLifelines * index + 32
   const y = ((startTime - traceStartTime) * 100) / traceDurationMs + baseLine
   const length = (durationMs / traceDurationMs) * 100

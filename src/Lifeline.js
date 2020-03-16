@@ -13,29 +13,29 @@ function Lifeline(props) {
   const { name, icon, trace } = props
   const { lifelines } = trace
   const spaceBetweenLifelines = 300
+  const baseLine = 40
   const x0 = 40
-  const y0 = 112
-  const length = 300
+  const y0 = 152
+  const length = 800
   const index = lifelines.findIndex(l => l.name === name)
   const renderIcon = icons[icon]
-
   return (
     <g transform={`translate(${spaceBetweenLifelines * index}, 0)`}>
       <text
         x={40}
-        y={20}
+        y={baseLine}
         fill='black'
         textAnchor='middle'
         style={{ fontWeight: 600, fontSize: 16, textTransform: 'uppercase' }}>
         {name}
       </text>
-      {renderIcon}
+      <g transform={`translate(0, ${baseLine})`}>{renderIcon}</g>
       <path
         id='lifeLine'
         strokeDasharray='5,5'
         stroke='black'
         strokeWidth='2'
-        d={`M ${x0} ${y0} L ${x0} ${y0 + length}'`}
+        d={`M ${x0} ${y0} L ${x0} ${y0 + length}`}
       />
     </g>
   )
