@@ -32,11 +32,11 @@ function mouseMove(holdingClick, pan, setPan, delta, setDelta) {
       const movDirection = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical'
       if (movDirection == 'horizontal') {
         setDelta({
-          x: delta.x + deltaX,
+          x: Math.min(delta.x + deltaX, 0),
           y: delta.y
         })
       } else {
-        setDelta({ x: delta.x, y: delta.y + deltaY })
+        setDelta({ x: delta.x, y: Math.min(delta.y + deltaY, 0) })
       }
     }
   }
@@ -57,9 +57,7 @@ function SequenceDiagram(props) {
       onMouseMove={mouseMove(holdingClick, pan, setPan, delta, setDelta)}
       onMouseLeave={mouseUp(setHoldingClick, setPan)}
       onWheel={mouseWheel(zoom, setZoom)}>
-      <g transform={`translate(${delta.x}, ${delta.y}) scale(${zoom}, ${zoom})`}>
-        {props.children}
-      </g>
+      <g transform={`translate(${delta.x}, ${delta.y}) scale(${zoom})`}>{props.children}</g>
     </svg>
   )
 }
