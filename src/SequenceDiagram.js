@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { scale, transform, translate, inverse, applyToPoint } from './matrix'
 
 function mouseDown(setHoldingClick, setPan) {
   return e => {
@@ -14,30 +15,34 @@ function mouseUp(setHoldingClick, setPan) {
   }
 }
 
-function mouseWheel(zoom, setZoom) {
-  const zoomVelocity = 0.001
+function getSvgPoint(matrix, x, y) {
+  const inverseMatrix = inverse(matrix)
+  return applyToPoint(inverseMatrix, { x, y })
+}
+
+function mouseWheel(matrix, setMatrix) {
   return e => {
-    setZoom(zoom - e.deltaY * zoomVelocity)
-    console.log(e.deltaX, e.deltaY)
+    const zoomVelocity = 0.01
+    const scaleFactor = 1 - zoomVelocity * (e.deltaY / (Math.abs(e.deltaY) || 1))
+    const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY)
+    const newMatrix = transform(
+      matrix,
+      translate(svgPoint.x, svgPoint.y),
+      scale(scaleFactor, scaleFactor),
+      translate(-svgPoint.x, -svgPoint.y)
+    )
+    setMatrix(newMatrix)
   }
 }
 
-function mouseMove(holdingClick, pan, setPan, delta, setDelta) {
-  const panVelocity = 0.5
+function mouseMove(holdingClick, pan, setPan, matrix, setMatrix) {
+  const panVelocity = 1.5
   return e => {
     if (holdingClick) {
       setPan({ x1: e.clientX, y1: e.clientY, x0: pan.x1, y0: pan.y1 })
-      const deltaX = (e.clientX - pan.x0) * panVelocity
-      const deltaY = (e.clientY - pan.y0) * panVelocity
-      const movDirection = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical'
-      if (movDirection == 'horizontal') {
-        setDelta({
-          x: Math.min(delta.x + deltaX, 0),
-          y: delta.y
-        })
-      } else {
-        setDelta({ x: delta.x, y: Math.min(delta.y + deltaY, 0) })
-      }
+      const delta = { x: (e.clientX - pan.x1) * panVelocity, y: (e.clientY - pan.y1) * panVelocity }
+      const newMatrix = transform(matrix, translate(delta.x, delta.y))
+      setMatrix(newMatrix)
     }
   }
 }
@@ -45,8 +50,7 @@ function mouseMove(holdingClick, pan, setPan, delta, setDelta) {
 function SequenceDiagram(props) {
   const [holdingClick, setHoldingClick] = useState(false)
   const [pan, setPan] = useState({ x0: null, y0: null, x1: null, y1: null })
-  const [delta, setDelta] = useState({ x: 0, y: 0 })
-  const [zoom, setZoom] = useState(1)
+  const [matrix, setMatrix] = useState({ a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 })
 
   return (
     <svg
@@ -54,10 +58,13 @@ function SequenceDiagram(props) {
       height='100%'
       onMouseDown={mouseDown(setHoldingClick, setPan)}
       onMouseUp={mouseUp(setHoldingClick, setPan)}
-      onMouseMove={mouseMove(holdingClick, pan, setPan, delta, setDelta)}
+      onMouseMove={mouseMove(holdingClick, pan, setPan, matrix, setMatrix)}
       onMouseLeave={mouseUp(setHoldingClick, setPan)}
-      onWheel={mouseWheel(zoom, setZoom)}>
-      <g transform={`translate(${delta.x}, ${delta.y}) scale(${zoom})`}>{props.children}</g>
+      onWheel={mouseWheel(matrix, setMatrix)}>
+      <g
+        transform={`matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`}>
+        {props.children}
+      </g>
     </svg>
   )
 }
