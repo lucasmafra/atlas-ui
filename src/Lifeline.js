@@ -23,7 +23,7 @@ function Lifeline(props) {
     <g transform={`translate(${spaceBetweenLifelines * index}, 0)`}>
       <text
         x={40}
-        y={baseLine}
+        y={baseLine + 8}
         fill='black'
         textAnchor='middle'
         style={{ fontWeight: 600, fontSize: 16, textTransform: 'uppercase' }}>

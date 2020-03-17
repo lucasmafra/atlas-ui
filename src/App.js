@@ -4,6 +4,7 @@ import Lifeline from './Lifeline'
 import Arrow from './Arrow'
 import { trace } from './mock'
 import SequenceDiagram from './SequenceDiagram'
+import 'antd/dist/antd.css'
 
 function App() {
   const renderLifelines = trace.lifelines.map(({ name, icon }) => (
