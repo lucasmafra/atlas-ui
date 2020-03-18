@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { scale, transform, translate, inverse, applyToPoint } from './matrix'
 import { Button, Tooltip } from 'antd'
 import { PlusOutlined, MinusOutlined, ExpandAltOutlined } from '@ant-design/icons'
-
+import * as myPan from './pan/pan'
 const initialMatrix = {
   a: 0.8590683010253904,
   b: 0,
@@ -90,48 +90,14 @@ function mouseMove(holdingClick, pan, setPan, matrix, setMatrix, svg, diagram) {
     if (holdingClick) {
       setPan({ x1: e.clientX, y1: e.clientY, x0: pan.x1, y0: pan.y1 })
       const delta = { x: (e.clientX - pan.x1) * panVelocity, y: (e.clientY - pan.y1) * panVelocity }
-      if (Math.abs(delta.x) > Math.abs(delta.y)) {
-        delta.y = 0
-      } else {
-        delta.x = 0
+      const svgDimensions = svg.current.getBoundingClientRect()
+      const figureDimensions = diagram.current.getBoundingClientRect()
+      const panOptions = {
+        moveOnlyOneAxis: true,
+        preventPanOutsideFigure: true
       }
-      const { width: diagramWidth, height: diagramHeight } = diagram.current.getBoundingClientRect()
-      const { width: svgWidth, height: svgHeight } = svg.current.getBoundingClientRect()
-      const margin = 40
-      if (svgWidth > diagramWidth) delta.x = 0
-      if (svgHeight > diagramHeight) delta.y = 0
-
-      let newMatrix = transform(matrix, translate(delta.x, delta.y))
-
-      if (newMatrix.e > initialMatrix.e) {
-        const exceeded = newMatrix.e - initialMatrix.e
-        newMatrix = transform(newMatrix, translate(-exceeded, 0))
-      }
-
-      if (
-        diagramWidth > svgWidth &&
-        Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin > Math.abs(diagramWidth)
-      ) {
-        const exceeded =
-          Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin - Math.abs(diagramWidth)
-        newMatrix = transform(newMatrix, translate(exceeded, 0))
-      }
-
-      if (newMatrix.f > initialMatrix.f) {
-        const exceeded = newMatrix.f - initialMatrix.f
-        newMatrix = transform(newMatrix, translate(0, -exceeded))
-      }
-
-      if (
-        diagramHeight > svgHeight &&
-        Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin > Math.abs(diagramHeight)
-      ) {
-        const exceeded =
-          Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin - Math.abs(diagramHeight)
-        newMatrix = transform(newMatrix, translate(0, exceeded))
-      }
-
-      setMatrix(newMatrix)
+      const panContext = { svgDimensions, figureDimensions }
+      setMatrix(myPan.pan(matrix, delta, panOptions, panContext))
     }
   }
 }
