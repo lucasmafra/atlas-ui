@@ -16,7 +16,7 @@ function Lifeline(props) {
   const baseLine = 40
   const x0 = 40
   const y0 = 152
-  const length = 2000
+  const length = 1800
   const index = lifelines.findIndex(l => l.name === name)
   const renderIcon = icons[icon]
   return (
@@ -26,7 +26,17 @@ function Lifeline(props) {
         y={baseLine + 8}
         fill='black'
         textAnchor='middle'
-        style={{ fontWeight: 600, fontSize: 16, textTransform: 'uppercase' }}>
+        style={{
+          fontWeight: 600,
+          fontSize: 16,
+          textTransform: 'uppercase',
+          WebkitTouchCallout: 'none' /* iOS Safari */,
+          WebkitUserSelect: 'none' /* Safari */,
+          KhtmlUserSelect: 'none' /* Konqueror HTML */,
+          MozUserSelect: 'none' /* Old versions of Firefox */,
+          msUserSelect: 'none' /* Internet Explorer/Edge */,
+          userSelect: 'none'
+        }}>
         {name}
       </text>
       <g transform={`translate(0, ${baseLine})`}>{renderIcon}</g>

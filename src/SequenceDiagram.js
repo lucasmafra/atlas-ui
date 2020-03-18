@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { scale, transform, translate, inverse, applyToPoint } from './matrix'
 import { Button, Tooltip } from 'antd'
 import { PlusOutlined, MinusOutlined, ExpandAltOutlined } from '@ant-design/icons'
@@ -31,34 +31,106 @@ function getSvgPoint(matrix, x, y) {
   return applyToPoint(inverseMatrix, { x, y })
 }
 
-function mouseWheel(matrix, setMatrix) {
+function mouseWheel(matrix, setMatrix, svg, diagram) {
   return e => {
-    const zoomVelocity = 0.005
+    const zoomVelocity = 0.012
     const scaleFactor = 1 - zoomVelocity * (e.deltaY / (Math.abs(e.deltaY) || 1))
-    const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY)
-    const newMatrix = transform(
+    const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY - 100)
+    const { width: diagramWidth, height: diagramHeight } = diagram.current.getBoundingClientRect()
+    const { width: svgWidth, height: svgHeight } = svg.current.getBoundingClientRect()
+
+    const margin = 40
+    let newMatrix = transform(
       matrix,
       translate(svgPoint.x, svgPoint.y),
       scale(scaleFactor, scaleFactor),
       translate(-svgPoint.x, -svgPoint.y)
     )
+    const originalDiagramWidith = inverse(matrix).a * diagramWidth
+    const { x: nextDiagramWidth } = applyToPoint(newMatrix, { x: originalDiagramWidith, y: 0 })
+    if (scaleFactor < 1 && nextDiagramWidth + margin < svgWidth) {
+      e.preventDefault()
+      return
+    }
+
+    if (newMatrix.e > initialMatrix.e) {
+      const exceeded = newMatrix.e - initialMatrix.e
+      newMatrix = transform(newMatrix, translate(-exceeded, 0))
+    }
+
+    if (
+      diagramWidth > svgWidth &&
+      Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin > Math.abs(diagramWidth)
+    ) {
+      const exceeded = Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin - Math.abs(diagramWidth)
+      newMatrix = transform(newMatrix, translate(exceeded, 0))
+    }
+
+    if (newMatrix.f > initialMatrix.f) {
+      const exceeded = newMatrix.f - initialMatrix.f
+      newMatrix = transform(newMatrix, translate(0, -exceeded))
+    }
+
+    if (
+      diagramHeight > svgHeight &&
+      Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin > Math.abs(diagramHeight)
+    ) {
+      const exceeded =
+        Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin - Math.abs(diagramHeight)
+      newMatrix = transform(newMatrix, translate(0, exceeded))
+    }
     setMatrix(newMatrix)
     e.preventDefault()
   }
 }
 
-function limitPan(matrix) {
-  return matrix
-}
-
-function mouseMove(holdingClick, pan, setPan, matrix, setMatrix) {
+function mouseMove(holdingClick, pan, setPan, matrix, setMatrix, svg, diagram) {
   const panVelocity = 1.5
   return e => {
     if (holdingClick) {
       setPan({ x1: e.clientX, y1: e.clientY, x0: pan.x1, y0: pan.y1 })
       const delta = { x: (e.clientX - pan.x1) * panVelocity, y: (e.clientY - pan.y1) * panVelocity }
+      if (Math.abs(delta.x) > Math.abs(delta.y)) {
+        delta.y = 0
+      } else {
+        delta.x = 0
+      }
+      const { width: diagramWidth, height: diagramHeight } = diagram.current.getBoundingClientRect()
+      const { width: svgWidth, height: svgHeight } = svg.current.getBoundingClientRect()
+      const margin = 40
+      if (svgWidth > diagramWidth) delta.x = 0
+      if (svgHeight > diagramHeight) delta.y = 0
+
       let newMatrix = transform(matrix, translate(delta.x, delta.y))
-      newMatrix = limitPan(newMatrix)
+
+      if (newMatrix.e > initialMatrix.e) {
+        const exceeded = newMatrix.e - initialMatrix.e
+        newMatrix = transform(newMatrix, translate(-exceeded, 0))
+      }
+
+      if (
+        diagramWidth > svgWidth &&
+        Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin > Math.abs(diagramWidth)
+      ) {
+        const exceeded =
+          Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin - Math.abs(diagramWidth)
+        newMatrix = transform(newMatrix, translate(exceeded, 0))
+      }
+
+      if (newMatrix.f > initialMatrix.f) {
+        const exceeded = newMatrix.f - initialMatrix.f
+        newMatrix = transform(newMatrix, translate(0, -exceeded))
+      }
+
+      if (
+        diagramHeight > svgHeight &&
+        Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin > Math.abs(diagramHeight)
+      ) {
+        const exceeded =
+          Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin - Math.abs(diagramHeight)
+        newMatrix = transform(newMatrix, translate(0, exceeded))
+      }
+
       setMatrix(newMatrix)
     }
   }
@@ -102,18 +174,23 @@ function SequenceDiagram(props) {
   const [holdingClick, setHoldingClick] = useState(false)
   const [pan, setPan] = useState({ x0: null, y0: null, x1: null, y1: null })
   const [matrix, setMatrix] = useState(initialMatrix)
+  const svg = useRef(null)
+  const diagram = useRef(null)
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <svg
         width='100%'
         height='100%'
+        ref={svg}
         onMouseDown={mouseDown(setHoldingClick, setPan)}
         onMouseUp={mouseUp(setHoldingClick, setPan)}
-        onMouseMove={mouseMove(holdingClick, pan, setPan, matrix, setMatrix)}
+        onMouseMove={mouseMove(holdingClick, pan, setPan, matrix, setMatrix, svg, diagram)}
         onMouseLeave={mouseUp(setHoldingClick, setPan)}
-        onWheel={mouseWheel(matrix, setMatrix)}>
+        onWheel={mouseWheel(matrix, setMatrix, svg, diagram)}>
         <g
+          id='diagram'
+          ref={diagram}
           transform={`matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`}>
           {props.children}
         </g>

@@ -1,5 +1,5 @@
 export function scale(sx, sy = undefined) {
-  if (sy === 'undefined') sy = sx
+  if (typeof sy === 'undefined') sy = sx
   return {
     a: sx,
     c: 0,

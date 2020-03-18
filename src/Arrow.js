@@ -38,7 +38,18 @@ function Arrow(props) {
             justifyContent: 'center',
             margin: 0
           }}>
-          <span style={{ alignSelf: 'flex-end' }}>{label}</span>
+          <span
+            style={{
+              alignSelf: 'flex-end',
+              WebkitTouchCallout: 'none' /* iOS Safari */,
+              WebkitUserSelect: 'none' /* Safari */,
+              KhtmlUserSelect: 'none' /* Konqueror HTML */,
+              MozUserSelect: 'none' /* Old versions of Firefox */,
+              msUserSelect: 'none' /* Internet Explorer/Edge */,
+              userSelect: 'none'
+            }}>
+            {label}
+          </span>
         </p>
       </foreignObject>
       <g transform={`translate(${x}, ${y}) ${rotate}`}>
