@@ -3,36 +3,35 @@ export const preventZoomOutsideFigure = ({ matrix, scaleFactor, point, options, 
     return { matrix, scaleFactor, point, options, context }
   }
 
-  const { svgDimensions, figureDimensions } = context
-  const maxE = 0
-  const maxF = 0
+  if (scaleFactor >= 1) {
+    return { matrix, scaleFactor, point, options, context }
+  }
 
-  const minE = -(figureDimensions.width * matrix.a * scaleFactor - svgDimensions.width)
-  const minF = -(figureDimensions.height * matrix.d * scaleFactor - svgDimensions.height)
+  const { figureDimensions, svgDimensions } = context
 
-  const newE = matrix.a * (point.x * (1 - scaleFactor)) + matrix.e
-  const newF = matrix.d * (point.y * (1 - scaleFactor)) + matrix.f
-
-  if (minE > maxE) {
+  if (figureDimensions.width * scaleFactor < svgDimensions.width) {
     return { matrix, scaleFactor: 1, point, options, context }
   }
 
-  const newPoint = {
-    x:
-      newE > minE
-        ? newE < maxE
-          ? point.x
-          : matrix.e / (matrix.a * (scaleFactor - 1))
-        : (matrix.a * scaleFactor * figureDimensions.width + matrix.e - svgDimensions.width) /
-          (matrix.a * (scaleFactor - 1)),
+  const missingToMaxX =
+    svgDimensions.width -
+    figureDimensions.width * scaleFactor -
+    point.x * (matrix.a * (1 - scaleFactor)) -
+    matrix.e
 
-    y:
-      newF > minF
-        ? newF < maxF
-          ? point.y
-          : matrix.f / (matrix.d * (scaleFactor - 1))
-        : (matrix.d * scaleFactor * figureDimensions.height + matrix.f - svgDimensions.height) /
-          (matrix.d * (scaleFactor - 1))
+  const exceedingMinX = point.x * (matrix.a * (1 - scaleFactor)) + matrix.e
+
+  const exceedingMinY = point.y * (matrix.d * (1 - scaleFactor)) + matrix.f
+
+  if (missingToMaxX > 0) {
+    matrix.e += missingToMaxX
+  } else if (exceedingMinX > 0) {
+    matrix.e -= exceedingMinX
   }
-  return { matrix, scaleFactor, point: newPoint, options, context }
+
+  if (exceedingMinY > 0) {
+    matrix.f -= exceedingMinY
+  }
+
+  return { matrix, scaleFactor, point, options, context }
 }

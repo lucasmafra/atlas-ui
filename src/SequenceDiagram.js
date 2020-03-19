@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react'
-import { scale, transform, translate, inverse, applyToPoint } from './matrix'
 import { Button } from 'antd'
 import { PlusOutlined, MinusOutlined, ExpandAltOutlined } from '@ant-design/icons'
 import { pan } from './pan/pan'
@@ -34,62 +33,16 @@ function mouseUp(setHoldingClick, setPan) {
   }
 }
 
-function getSvgPoint(matrix, x, y) {
-  const inverseMatrix = inverse(matrix)
-  return applyToPoint(inverseMatrix, { x, y })
-}
-
 function mouseWheel(matrix, setMatrix, svg, diagram) {
   return e => {
     const zoomVelocity = 0.012
     const scaleFactor = 1 - zoomVelocity * (e.deltaY / (Math.abs(e.deltaY) || 1))
-    const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY - 100)
     const figureDimensions = diagram.current.getBoundingClientRect()
     const svgDimensions = svg.current.getBoundingClientRect()
-
-    // const margin = 40
-    /*let newMatrix = transform(
-      matrix,
-      translate(svgPoint.x, svgPoint.y),
-      scale(scaleFactor, scaleFactor),
-      translate(-svgPoint.x, -svgPoint.y)
-    )*/
-    //const originalDiagramWidith = inverse(matrix).a * diagramWidth
-    //const { x: nextDiagramWidth } = applyToPoint(newMatrix, { x: originalDiagramWidith, y: 0 })
-    /*if (scaleFactor < 1 && nextDiagramWidth + margin < svgWidth) {
-      e.preventDefault()
-      return
-    }
-
-    if (newMatrix.e > initialMatrix.e) {
-      const exceeded = newMatrix.e - initialMatrix.e
-      newMatrix = transform(newMatrix, translate(-exceeded, 0))
-    }
-
-    if (
-      diagramWidth > svgWidth &&
-      Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin > Math.abs(diagramWidth)
-    ) {
-      const exceeded = Math.abs(newMatrix.e) + Math.abs(svgWidth) - margin - Math.abs(diagramWidth)
-      newMatrix = transform(newMatrix, translate(exceeded, 0))
-    }
-
-    if (newMatrix.f > initialMatrix.f) {
-      const exceeded = newMatrix.f - initialMatrix.f
-      newMatrix = transform(newMatrix, translate(0, -exceeded))
-    }
-
-    if (
-      diagramHeight > svgHeight &&
-      Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin > Math.abs(diagramHeight)
-    ) {
-      const exceeded =
-        Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin - Math.abs(diagramHeight)
-      newMatrix = transform(newMatrix, translate(0, exceeded))
-    }*/
+    const point = { x: e.clientX, y: e.clientY - 100 }
     const zoomOptions = { preventZoomOutsideFigure: true }
     const zoomContext = { figureDimensions, svgDimensions }
-    setMatrix(zoom(matrix, scaleFactor, svgPoint, zoomOptions, zoomContext))
+    setMatrix(zoom(matrix, scaleFactor, point, zoomOptions, zoomContext))
     e.preventDefault()
   }
 }
@@ -125,33 +78,11 @@ function resetMatrix(setMatrix) {
 }
 
 function zoomIn(matrix, setMatrix) {
-  return e => {
-    const zoomVelocity = 0.025
-    const scaleFactor = 1 + zoomVelocity
-    const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY)
-    const newMatrix = transform(
-      matrix,
-      translate(svgPoint.x, svgPoint.y),
-      scale(scaleFactor, scaleFactor),
-      translate(-svgPoint.x, -svgPoint.y)
-    )
-    setMatrix(newMatrix)
-  }
+  return e => {}
 }
 
 function zoomOut(matrix, setMatrix) {
-  return e => {
-    const zoomVelocity = -0.025
-    const scaleFactor = 1 + zoomVelocity
-    const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY)
-    const newMatrix = transform(
-      matrix,
-      translate(svgPoint.x, svgPoint.y),
-      scale(scaleFactor, scaleFactor),
-      translate(-svgPoint.x, -svgPoint.y)
-    )
-    setMatrix(newMatrix)
-  }
+  return e => {}
 }
 
 function SequenceDiagram(props) {

@@ -16,7 +16,7 @@ function Lifeline(props) {
   const baseLine = 40
   const x0 = 40
   const y0 = 152
-  const length = 600
+  const length = 10000
   const index = lifelines.findIndex(l => l.name === name)
   const renderIcon = icons[icon]
   return (
