@@ -46,20 +46,17 @@ describe('pan', () => {
       })
     })
 
-    test('preventPanOnFigureSmallerThanSvg', () => {
+    test('panVelocity', () => {
       const matrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
       const delta = { x: 2, y: 3 }
-      const svgDimensions = { width: 1000, height: 1000 }
-      const figureDimensions = { width: 800, height: 1200 }
-      const context = { svgDimensions, figureDimensions }
-      const options = { preventPanOnFigureSmallerThanSvg: true }
-      expect(nut.pan(matrix, delta, options, context)).toStrictEqual({
+      const options = { panVelocity: 2 }
+      expect(nut.pan(matrix, delta, options)).toStrictEqual({
         a: 1,
         b: 0,
         c: 0,
         d: 1,
-        e: 0,
-        f: 3
+        e: 4,
+        f: 6
       })
     })
   })

@@ -1,15 +1,23 @@
 import React, { useState, useRef } from 'react'
 import { scale, transform, translate, inverse, applyToPoint } from './matrix'
-import { Button, Tooltip } from 'antd'
+import { Button } from 'antd'
 import { PlusOutlined, MinusOutlined, ExpandAltOutlined } from '@ant-design/icons'
-import * as myPan from './pan/pan'
+import { pan } from './pan/pan'
+import { zoom } from './zoom/zoom'
+
 const initialMatrix = {
-  a: 0.8590683010253904,
+  a: 1,
   b: 0,
   c: 0,
-  d: 0.8590683010253904,
-  e: 3.3387490216066467,
-  f: -5.144605668334748
+  d: 1,
+  e: 0,
+  f: 0
+}
+
+const panOptions = {
+  moveOnlyOneAxis: true,
+  preventPanOutsideFigure: true,
+  panVelocity: 1.5
 }
 
 function mouseDown(setHoldingClick, setPan) {
@@ -36,19 +44,19 @@ function mouseWheel(matrix, setMatrix, svg, diagram) {
     const zoomVelocity = 0.012
     const scaleFactor = 1 - zoomVelocity * (e.deltaY / (Math.abs(e.deltaY) || 1))
     const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY - 100)
-    const { width: diagramWidth, height: diagramHeight } = diagram.current.getBoundingClientRect()
-    const { width: svgWidth, height: svgHeight } = svg.current.getBoundingClientRect()
+    // const { width: diagramWidth, height: diagramHeight } = diagram.current.getBoundingClientRect()
+    // const { width: svgWidth, height: svgHeight } = svg.current.getBoundingClientRect()
 
-    const margin = 40
-    let newMatrix = transform(
+    // const margin = 40
+    /*let newMatrix = transform(
       matrix,
       translate(svgPoint.x, svgPoint.y),
       scale(scaleFactor, scaleFactor),
       translate(-svgPoint.x, -svgPoint.y)
-    )
-    const originalDiagramWidith = inverse(matrix).a * diagramWidth
-    const { x: nextDiagramWidth } = applyToPoint(newMatrix, { x: originalDiagramWidith, y: 0 })
-    if (scaleFactor < 1 && nextDiagramWidth + margin < svgWidth) {
+    )*/
+    //const originalDiagramWidith = inverse(matrix).a * diagramWidth
+    //const { x: nextDiagramWidth } = applyToPoint(newMatrix, { x: originalDiagramWidith, y: 0 })
+    /*if (scaleFactor < 1 && nextDiagramWidth + margin < svgWidth) {
       e.preventDefault()
       return
     }
@@ -78,32 +86,41 @@ function mouseWheel(matrix, setMatrix, svg, diagram) {
       const exceeded =
         Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin - Math.abs(diagramHeight)
       newMatrix = transform(newMatrix, translate(0, exceeded))
-    }
-    setMatrix(newMatrix)
+    }*/
+    const zoomOptions = { minZoom: 0.5, maxZoom: 1.5 }
+    setMatrix(zoom(matrix, scaleFactor, svgPoint, zoomOptions))
     e.preventDefault()
   }
 }
 
-function mouseMove(holdingClick, pan, setPan, matrix, setMatrix, svg, diagram) {
-  const panVelocity = 1.5
+function mouseMove(
+  holdingClick,
+  cursorLocation,
+  setCursorLocation,
+  matrix,
+  setMatrix,
+  svg,
+  diagram
+) {
   return e => {
     if (holdingClick) {
-      setPan({ x1: e.clientX, y1: e.clientY, x0: pan.x1, y0: pan.y1 })
-      const delta = { x: (e.clientX - pan.x1) * panVelocity, y: (e.clientY - pan.y1) * panVelocity }
+      setCursorLocation({
+        x1: e.clientX,
+        y1: e.clientY,
+        x0: cursorLocation.x1,
+        y0: cursorLocation.y1
+      })
+      const delta = { x: e.clientX - cursorLocation.x1, y: e.clientY - cursorLocation.y1 }
       const svgDimensions = svg.current.getBoundingClientRect()
       const figureDimensions = diagram.current.getBoundingClientRect()
-      const panOptions = {
-        moveOnlyOneAxis: true,
-        preventPanOutsideFigure: true
-      }
       const panContext = { svgDimensions, figureDimensions }
-      setMatrix(myPan.pan(matrix, delta, panOptions, panContext))
+      setMatrix(pan(matrix, delta, panOptions, panContext))
     }
   }
 }
 
 function resetMatrix(setMatrix) {
-  return e => setMatrix(initialMatrix)
+  return _ => setMatrix(initialMatrix)
 }
 
 function zoomIn(matrix, setMatrix) {
@@ -138,7 +155,7 @@ function zoomOut(matrix, setMatrix) {
 
 function SequenceDiagram(props) {
   const [holdingClick, setHoldingClick] = useState(false)
-  const [pan, setPan] = useState({ x0: null, y0: null, x1: null, y1: null })
+  const [cursorLocation, setCursorLocation] = useState({ x0: null, y0: null, x1: null, y1: null })
   const [matrix, setMatrix] = useState(initialMatrix)
   const svg = useRef(null)
   const diagram = useRef(null)
@@ -149,10 +166,18 @@ function SequenceDiagram(props) {
         width='100%'
         height='100%'
         ref={svg}
-        onMouseDown={mouseDown(setHoldingClick, setPan)}
-        onMouseUp={mouseUp(setHoldingClick, setPan)}
-        onMouseMove={mouseMove(holdingClick, pan, setPan, matrix, setMatrix, svg, diagram)}
-        onMouseLeave={mouseUp(setHoldingClick, setPan)}
+        onMouseDown={mouseDown(setHoldingClick, setCursorLocation)}
+        onMouseUp={mouseUp(setHoldingClick, setCursorLocation)}
+        onMouseMove={mouseMove(
+          holdingClick,
+          cursorLocation,
+          setCursorLocation,
+          matrix,
+          setMatrix,
+          svg,
+          diagram
+        )}
+        onMouseLeave={mouseUp(setHoldingClick, setCursorLocation)}
         onWheel={mouseWheel(matrix, setMatrix, svg, diagram)}>
         <g
           id='diagram'
