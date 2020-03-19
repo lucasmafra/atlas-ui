@@ -44,8 +44,8 @@ function mouseWheel(matrix, setMatrix, svg, diagram) {
     const zoomVelocity = 0.012
     const scaleFactor = 1 - zoomVelocity * (e.deltaY / (Math.abs(e.deltaY) || 1))
     const svgPoint = getSvgPoint(matrix, e.clientX, e.clientY - 100)
-    // const { width: diagramWidth, height: diagramHeight } = diagram.current.getBoundingClientRect()
-    // const { width: svgWidth, height: svgHeight } = svg.current.getBoundingClientRect()
+    const figureDimensions = diagram.current.getBoundingClientRect()
+    const svgDimensions = svg.current.getBoundingClientRect()
 
     // const margin = 40
     /*let newMatrix = transform(
@@ -87,8 +87,9 @@ function mouseWheel(matrix, setMatrix, svg, diagram) {
         Math.abs(newMatrix.f) + Math.abs(svgHeight) - margin - Math.abs(diagramHeight)
       newMatrix = transform(newMatrix, translate(0, exceeded))
     }*/
-    const zoomOptions = { minZoom: 0.5, maxZoom: 1.5 }
-    setMatrix(zoom(matrix, scaleFactor, svgPoint, zoomOptions))
+    const zoomOptions = { preventZoomOutsideFigure: true }
+    const zoomContext = { figureDimensions, svgDimensions }
+    setMatrix(zoom(matrix, scaleFactor, svgPoint, zoomOptions, zoomContext))
     e.preventDefault()
   }
 }

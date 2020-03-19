@@ -1,5 +1,5 @@
-export const tap = v => {
-  console.log(v)
+export const tap = (k = '', v) => {
+  console.log(k, v)
   return v
 }
 

@@ -1,17 +1,25 @@
 import { transform, translate, scale } from '../matrix'
 import { pipe } from '../functional'
-import { minZoom } from './interceptors/min-zoom'
-import { maxZoom } from './interceptors/max-zoom'
+import { preventZoomOutsideFigure } from './interceptors/prevent-zoom-outside-figure'
 
-export const zoom = (matrix, scaleFactor, point, options = {}) => {
-  const { scaleFactor: limitedScaleFactor } = pipe(
-    minZoom,
-    maxZoom
-  )({ matrix, scaleFactor, point, options })
+const identity = x => x
+export const zoom = (matrix, scaleFactor, point, options = {}, context = {}) => {
+  const { scaleFactor: limitedScaleFactor, point: limitedPoint } = pipe(identity)({
+    matrix,
+    scaleFactor,
+    point,
+    options,
+    context
+  })
+
+  console.log('scaleFactor', scaleFactor)
+  console.log('limitedScaleFactor', limitedScaleFactor)
+  console.log('point', point)
+  console.log('limitedPoint', limitedPoint)
 
   return transform(
     matrix,
-    translate(point.x, point.y),
+    translate(limitedPoint.x, limitedPoint.y),
     scale(limitedScaleFactor),
     translate(-point.x, -point.y)
   )

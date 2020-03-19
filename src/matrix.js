@@ -2,10 +2,10 @@ export function scale(sx, sy = undefined) {
   if (typeof sy === 'undefined') sy = sx
   return {
     a: sx,
-    c: 0,
-    e: 0,
     b: 0,
+    c: 0,
     d: sy,
+    e: 0,
     f: 0
   }
 }
@@ -16,10 +16,10 @@ export function transform(...matrices) {
   const multiply = (m1, m2) => {
     return {
       a: m1.a * m2.a + m1.c * m2.b,
-      c: m1.a * m2.c + m1.c * m2.d,
-      e: m1.a * m2.e + m1.c * m2.f + m1.e,
       b: m1.b * m2.a + m1.d * m2.b,
+      c: m1.a * m2.c + m1.c * m2.d,
       d: m1.b * m2.c + m1.d * m2.d,
+      e: m1.a * m2.e + m1.c * m2.f + m1.e,
       f: m1.b * m2.e + m1.d * m2.f + m1.f
     }
   }
@@ -45,10 +45,10 @@ export function transform(...matrices) {
 export function translate(dx, dy = 0) {
   return {
     a: 1,
-    c: 0,
-    e: dx,
     b: 0,
+    c: 0,
     d: 1,
+    e: dx,
     f: dy
   }
 }
