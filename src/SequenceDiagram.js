@@ -3,6 +3,7 @@ import { Button } from 'antd'
 import { PlusOutlined, MinusOutlined, ExpandAltOutlined } from '@ant-design/icons'
 import { pan } from './pan/pan'
 import { zoom } from './zoom/zoom'
+import BlockPageScroll from './BlockPageScroll'
 
 const initialMatrix = {
   a: 1,
@@ -43,7 +44,6 @@ function mouseWheel(matrix, setMatrix, svg, diagram) {
     const zoomOptions = { preventZoomOutsideFigure: true }
     const zoomContext = { figureDimensions, svgDimensions }
     setMatrix(zoom(matrix, scaleFactor, point, zoomOptions, zoomContext))
-    e.preventDefault()
   }
 }
 
@@ -94,30 +94,32 @@ function SequenceDiagram(props) {
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <svg
-        width='100%'
-        height='100%'
-        ref={svg}
-        onMouseDown={mouseDown(setHoldingClick, setCursorLocation)}
-        onMouseUp={mouseUp(setHoldingClick, setCursorLocation)}
-        onMouseMove={mouseMove(
-          holdingClick,
-          cursorLocation,
-          setCursorLocation,
-          matrix,
-          setMatrix,
-          svg,
-          diagram
-        )}
-        onMouseLeave={mouseUp(setHoldingClick, setCursorLocation)}
-        onWheel={mouseWheel(matrix, setMatrix, svg, diagram)}>
-        <g
-          id='diagram'
-          ref={diagram}
-          transform={`matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`}>
-          {props.children}
-        </g>
-      </svg>
+      <BlockPageScroll style={{ width: '100%', height: '100%' }}>
+        <svg
+          width='100%'
+          height='100%'
+          ref={svg}
+          onMouseDown={mouseDown(setHoldingClick, setCursorLocation)}
+          onMouseUp={mouseUp(setHoldingClick, setCursorLocation)}
+          onMouseMove={mouseMove(
+            holdingClick,
+            cursorLocation,
+            setCursorLocation,
+            matrix,
+            setMatrix,
+            svg,
+            diagram
+          )}
+          onMouseLeave={mouseUp(setHoldingClick, setCursorLocation)}
+          onWheel={mouseWheel(matrix, setMatrix, svg, diagram)}>
+          <g
+            id='diagram'
+            ref={diagram}
+            transform={`matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`}>
+            {props.children}
+          </g>
+        </svg>
+      </BlockPageScroll>
       <div
         style={{
           position: 'absolute',
