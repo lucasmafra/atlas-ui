@@ -16,7 +16,7 @@ describe('zoom', () => {
   })
 
   describe('options', () => {
-    test('minZoom', () => {
+    /*test('minZoom', () => {
       const matrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
       const scaleFactor = 0.5
       const point = { x: 5, y: 5 }
@@ -45,5 +45,6 @@ describe('zoom', () => {
         f: 0
       })
     })
+*/
   })
 })

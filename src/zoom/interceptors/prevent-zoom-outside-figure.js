@@ -1,37 +1,22 @@
+import { pipe } from '../../functional'
+import { minZoom } from './min-zoom'
+import { minX } from './min-x'
+import { maxX } from './max-x'
+import { minY } from './min-y'
+
 export const preventZoomOutsideFigure = ({ matrix, scaleFactor, point, options, context }) => {
   if (!options.preventZoomOutsideFigure) {
     return { matrix, scaleFactor, point, options, context }
   }
-
   if (scaleFactor >= 1) {
     return { matrix, scaleFactor, point, options, context }
   }
 
   const { figureDimensions, svgDimensions } = context
-
-  if (figureDimensions.width * scaleFactor < svgDimensions.width) {
-    return { matrix, scaleFactor: 1, point, options, context }
+  const limit = {
+    minZoom: svgDimensions.width / figureDimensions.width,
+    minX: 0,
+    minY: 0
   }
-
-  const missingToMaxX =
-    svgDimensions.width -
-    figureDimensions.width * scaleFactor -
-    point.x * (matrix.a * (1 - scaleFactor)) -
-    matrix.e
-
-  const exceedingMinX = point.x * (matrix.a * (1 - scaleFactor)) + matrix.e
-
-  const exceedingMinY = point.y * (matrix.d * (1 - scaleFactor)) + matrix.f
-
-  if (missingToMaxX > 0) {
-    matrix.e += missingToMaxX
-  } else if (exceedingMinX > 0) {
-    matrix.e -= exceedingMinX
-  }
-
-  if (exceedingMinY > 0) {
-    matrix.f -= exceedingMinY
-  }
-
-  return { matrix, scaleFactor, point, options, context }
+  return pipe(minZoom, minX, maxX, minY)({ matrix, scaleFactor, point, options: limit, context })
 }
