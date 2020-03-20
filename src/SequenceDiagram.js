@@ -47,24 +47,12 @@ function mouseWheel(matrix, setMatrix, svg, diagram) {
   }
 }
 
-function mouseMove(
-  holdingClick,
-  cursorLocation,
-  setCursorLocation,
-  matrix,
-  setMatrix,
-  svg,
-  diagram
-) {
+function mouseMove(holdingClick, cursor, setCursor, matrix, setMatrix, svg, diagram) {
   return e => {
     if (holdingClick) {
-      setCursorLocation({
-        x1: e.clientX,
-        y1: e.clientY,
-        x0: cursorLocation.x1,
-        y0: cursorLocation.y1
-      })
-      const delta = { x: e.clientX - cursorLocation.x1, y: e.clientY - cursorLocation.y1 }
+      const newCursor = { x1: e.clientX, y1: e.clientY, x0: cursor.x1, y0: cursor.y1 }
+      setCursor(newCursor)
+      const delta = { x: e.clientX - cursor.x1, y: e.clientY - cursor.y1 }
       const svgDimensions = svg.current.getBoundingClientRect()
       const figureDimensions = diagram.current.getBoundingClientRect()
       const panContext = { svgDimensions, figureDimensions }
@@ -77,12 +65,30 @@ function resetMatrix(setMatrix) {
   return _ => setMatrix(initialMatrix)
 }
 
-function zoomIn(matrix, setMatrix) {
-  return e => {}
+function zoomIn(matrix, setMatrix, svg, diagram) {
+  return e => {
+    const zoomVelocity = 0.05
+    const zoomMode = 'ZOOM_IN'
+    const svgDimensions = svg.current.getBoundingClientRect()
+    const figureDimensions = diagram.current.getBoundingClientRect()
+    const point = { x: svgDimensions.width / 2, y: svgDimensions.height / 2 }
+    const zoomOptions = { zoomMode, zoomVelocity, preventZoomOutsideFigure: true }
+    const zoomContext = { figureDimensions, svgDimensions }
+    setMatrix(zoom(matrix, point, zoomOptions, zoomContext))
+  }
 }
 
-function zoomOut(matrix, setMatrix) {
-  return e => {}
+function zoomOut(matrix, setMatrix, svg, diagram) {
+  return e => {
+    const zoomVelocity = 0.05
+    const zoomMode = 'ZOOM_OUT'
+    const svgDimensions = svg.current.getBoundingClientRect()
+    const figureDimensions = diagram.current.getBoundingClientRect()
+    const point = { x: svgDimensions.width / 2, y: svgDimensions.height / 2 }
+    const zoomOptions = { zoomMode, zoomVelocity, preventZoomOutsideFigure: true }
+    const zoomContext = { figureDimensions, svgDimensions }
+    setMatrix(zoom(matrix, point, zoomOptions, zoomContext))
+  }
 }
 
 function SequenceDiagram(props) {
@@ -128,10 +134,18 @@ function SequenceDiagram(props) {
           display: 'flex'
         }}>
         <div>
-          <Button size='large' icon={<PlusOutlined />} onClick={zoomIn(matrix, setMatrix)} />
+          <Button
+            size='large'
+            icon={<PlusOutlined />}
+            onClick={zoomIn(matrix, setMatrix, svg, diagram)}
+          />
         </div>
         <div style={{ marginLeft: 4 }}>
-          <Button size='large' icon={<MinusOutlined />} onClick={zoomOut(matrix, setMatrix)} />
+          <Button
+            size='large'
+            icon={<MinusOutlined />}
+            onClick={zoomOut(matrix, setMatrix, svg, diagram)}
+          />
         </div>
         <div style={{ marginLeft: 4 }}>
           <Button size='large' icon={<ExpandAltOutlined />} onClick={resetMatrix(setMatrix)} />
