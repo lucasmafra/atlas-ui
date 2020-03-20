@@ -37,13 +37,13 @@ function mouseUp(setHoldingClick, setPan) {
 function mouseWheel(matrix, setMatrix, svg, diagram) {
   return e => {
     const zoomVelocity = 0.012
-    const scaleFactor = 1 - zoomVelocity * (e.deltaY / (Math.abs(e.deltaY) || 1))
+    const zoomMode = e.deltaY / (Math.abs(e.deltaY) || 1) < 0 ? 'ZOOM_IN' : 'ZOOM_OUT'
     const figureDimensions = diagram.current.getBoundingClientRect()
     const svgDimensions = svg.current.getBoundingClientRect()
     const point = { x: e.clientX, y: e.clientY - 100 }
-    const zoomOptions = { preventZoomOutsideFigure: true }
+    const zoomOptions = { zoomMode, zoomVelocity, preventZoomOutsideFigure: true }
     const zoomContext = { figureDimensions, svgDimensions }
-    setMatrix(zoom(matrix, scaleFactor, point, zoomOptions, zoomContext))
+    setMatrix(zoom(matrix, point, zoomOptions, zoomContext))
   }
 }
 
