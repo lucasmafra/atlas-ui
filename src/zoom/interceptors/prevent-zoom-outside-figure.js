@@ -5,7 +5,7 @@ import { maxX } from './max-x'
 import { minY } from './min-y'
 
 export const preventZoomOutsideFigure = ({ matrix, scaleFactor, point, options, context }) => {
-  if (!options.preventZoomOutsideFigure || scaleFactor >= 1) {
+  if (!options.preventZoomOutsideFigure) {
     return { matrix, scaleFactor, point, options, context }
   }
 

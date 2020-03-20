@@ -1,61 +1,45 @@
 import React, { useState, useRef } from 'react'
-import { Button } from 'antd'
-import { PlusOutlined, MinusOutlined, ExpandAltOutlined } from '@ant-design/icons'
+import ZoomControls from './ZoomControls'
 import { pan } from './pan/pan'
 import { zoom } from './zoom/zoom'
 import BlockPageScroll from './BlockPageScroll'
 
-const initialMatrix = {
-  a: 1,
-  b: 0,
-  c: 0,
-  d: 1,
-  e: 0,
-  f: 0
-}
+const initialMatrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
 
-const panOptions = {
-  moveOnlyOneAxis: true,
-  preventPanOutsideFigure: true,
-  panVelocity: 1.5
-}
+const panOptions = { moveOnlyOneAxis: true, preventPanOutsideFigure: true, panVelocity: 1.5 }
 
-function mouseDown(setHoldingClick, setPan) {
+const mouseDown = (setHoldingClick, setPan) => {
   return e => {
     setHoldingClick(true)
     setPan({ x0: e.clientX, y0: e.clientY, x1: e.clientX, y1: e.clientY })
   }
 }
 
-function mouseUp(setHoldingClick, setPan) {
+const mouseUp = (setHoldingClick, setPan) => {
   return e => {
     setHoldingClick(false)
     setPan({ x0: null, y0: null, x1: null, y1: null })
   }
 }
 
-function mouseWheel(matrix, setMatrix, svg, diagram) {
+const mouseWheel = (matrix, setMatrix, dimensions) => {
   return e => {
     const zoomVelocity = 0.012
     const zoomMode = e.deltaY / (Math.abs(e.deltaY) || 1) < 0 ? 'ZOOM_IN' : 'ZOOM_OUT'
-    const figureDimensions = diagram.current.getBoundingClientRect()
-    const svgDimensions = svg.current.getBoundingClientRect()
     const point = { x: e.clientX, y: e.clientY - 100 }
     const zoomOptions = { zoomMode, zoomVelocity, preventZoomOutsideFigure: true }
-    const zoomContext = { figureDimensions, svgDimensions }
+    const zoomContext = { svgDimensions: dimensions.svg, figureDimensions: dimensions.figure }
     setMatrix(zoom(matrix, point, zoomOptions, zoomContext))
   }
 }
 
-function mouseMove(holdingClick, cursor, setCursor, matrix, setMatrix, svg, diagram) {
+const mouseMove = (holdingClick, cursor, setCursor, matrix, setMatrix, dimensions) => {
   return e => {
     if (holdingClick) {
       const newCursor = { x1: e.clientX, y1: e.clientY, x0: cursor.x1, y0: cursor.y1 }
       setCursor(newCursor)
       const delta = { x: e.clientX - cursor.x1, y: e.clientY - cursor.y1 }
-      const svgDimensions = svg.current.getBoundingClientRect()
-      const figureDimensions = diagram.current.getBoundingClientRect()
-      const panContext = { svgDimensions, figureDimensions }
+      const panContext = { svgDimensions: dimensions.svg, figureDimensions: dimensions.figure }
       setMatrix(pan(matrix, delta, panOptions, panContext))
     }
   }
@@ -65,38 +49,41 @@ function resetMatrix(setMatrix) {
   return _ => setMatrix(initialMatrix)
 }
 
-function zoomIn(matrix, setMatrix, svg, diagram) {
+const zoomIn = (matrix, setMatrix, dimensions) => {
   return e => {
     const zoomVelocity = 0.05
     const zoomMode = 'ZOOM_IN'
-    const svgDimensions = svg.current.getBoundingClientRect()
-    const figureDimensions = diagram.current.getBoundingClientRect()
-    const point = { x: svgDimensions.width / 2, y: svgDimensions.height / 2 }
+    const point = { x: dimensions.svg.width / 2, y: dimensions.svg.height / 2 }
     const zoomOptions = { zoomMode, zoomVelocity, preventZoomOutsideFigure: true }
-    const zoomContext = { figureDimensions, svgDimensions }
+    const zoomContext = { svgDimensions: dimensions.svg, figureDimensions: dimensions.figure }
     setMatrix(zoom(matrix, point, zoomOptions, zoomContext))
   }
 }
 
-function zoomOut(matrix, setMatrix, svg, diagram) {
+const zoomOut = (matrix, setMatrix, dimensions) => {
   return e => {
     const zoomVelocity = 0.05
     const zoomMode = 'ZOOM_OUT'
-    const svgDimensions = svg.current.getBoundingClientRect()
-    const figureDimensions = diagram.current.getBoundingClientRect()
-    const point = { x: svgDimensions.width / 2, y: svgDimensions.height / 2 }
+    const point = { x: dimensions.svg.width / 2, y: dimensions.svg.height / 2 }
     const zoomOptions = { zoomMode, zoomVelocity, preventZoomOutsideFigure: true }
-    const zoomContext = { figureDimensions, svgDimensions }
+    const zoomContext = { svgDimensions: dimensions.svg, figureDimensions: dimensions.figure }
     setMatrix(zoom(matrix, point, zoomOptions, zoomContext))
   }
 }
 
-function SequenceDiagram(props) {
+const getDimensions = el => {
+  if (!el.current) return { width: 0, height: 0 }
+  return el.current.getBoundingClientRect()
+}
+
+const SequenceDiagram = props => {
   const [holdingClick, setHoldingClick] = useState(false)
-  const [cursorLocation, setCursorLocation] = useState({ x0: null, y0: null, x1: null, y1: null })
+  const [cursor, setCursor] = useState()
   const [matrix, setMatrix] = useState(initialMatrix)
-  const svg = useRef(null)
-  const diagram = useRef(null)
+  const svg = useRef()
+  const figure = useRef()
+  const dimensions = { svg: getDimensions(svg), figure: getDimensions(figure) }
+  const { a, b, c, d, e, f } = matrix
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -105,51 +92,22 @@ function SequenceDiagram(props) {
           width='100%'
           height='100%'
           ref={svg}
-          onMouseDown={mouseDown(setHoldingClick, setCursorLocation)}
-          onMouseUp={mouseUp(setHoldingClick, setCursorLocation)}
-          onMouseMove={mouseMove(
-            holdingClick,
-            cursorLocation,
-            setCursorLocation,
-            matrix,
-            setMatrix,
-            svg,
-            diagram
-          )}
-          onMouseLeave={mouseUp(setHoldingClick, setCursorLocation)}
-          onWheel={mouseWheel(matrix, setMatrix, svg, diagram)}>
-          <g
-            id='diagram'
-            ref={diagram}
-            transform={`matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`}>
+          onMouseDown={mouseDown(setHoldingClick, setCursor)}
+          onMouseUp={mouseUp(setHoldingClick, setCursor)}
+          onMouseMove={mouseMove(holdingClick, cursor, setCursor, matrix, setMatrix, dimensions)}
+          onMouseLeave={mouseUp(setHoldingClick, setCursor)}
+          onWheel={mouseWheel(matrix, setMatrix, dimensions)}>
+          <g ref={figure} transform={`matrix(${a}, ${b}, ${c}, ${d}, ${e}, ${f})`}>
             {props.children}
           </g>
         </svg>
       </BlockPageScroll>
-      <div
-        style={{
-          position: 'absolute',
-          right: 32,
-          bottom: 32,
-          display: 'flex'
-        }}>
-        <div>
-          <Button
-            size='large'
-            icon={<PlusOutlined />}
-            onClick={zoomIn(matrix, setMatrix, svg, diagram)}
-          />
-        </div>
-        <div style={{ marginLeft: 4 }}>
-          <Button
-            size='large'
-            icon={<MinusOutlined />}
-            onClick={zoomOut(matrix, setMatrix, svg, diagram)}
-          />
-        </div>
-        <div style={{ marginLeft: 4 }}>
-          <Button size='large' icon={<ExpandAltOutlined />} onClick={resetMatrix(setMatrix)} />
-        </div>
+      <div style={{ position: 'absolute', right: 32, bottom: 32 }}>
+        <ZoomControls
+          onZoomIn={zoomIn(matrix, setMatrix, dimensions)}
+          onZoomOut={zoomOut(matrix, setMatrix, dimensions)}
+          onFitToScreen={resetMatrix(setMatrix)}
+        />
       </div>
     </div>
   )
