@@ -1,21 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+const fetchIcon = name => fetch(`/icons/${name}.svg`).then(r => r.text())
 
 function HexagonIcon() {
-  const x = 4
-  const y = 28
-  const width = 72
-  const height = 72
+  const color = '#4387FD'
+  const size = 72
+  const name = 'hexagon'
+  const [icon, setIcon] = useState(null)
+
+  fetchIcon(name).then(icon => setIcon(icon))
 
   return (
-    <image
-      id='hexag
-on'
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      href='https://cdn0.iconfinder.com/data/icons/icocentre-free-icons/169/f-hexagon_128-128.png'
-    />
+    <svg fill={color} width={size} height={size}>
+      <foreignObject width={size} height={size}>
+        <div dangerouslySetInnerHTML={{ __html: icon }} />
+      </foreignObject>
+    </svg>
   )
 }
 

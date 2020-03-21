@@ -6,43 +6,53 @@ export const trace = {
   lifelines: [
     {
       name: 'app',
-      icon: 'mobile'
+      icon: 'mobile',
+      color: '#aa00ff'
     },
     {
       name: 'bff',
-      icon: 'hexagon'
+      icon: 'hexagon',
+      color: '#4387fd'
     },
     {
       name: 'transfers',
-      icon: 'hexagon'
+      icon: 'hexagon',
+      color: '#4387fd'
     },
     {
       name: 'transfer-out-requested',
-      icon: 'topic'
+      icon: 'topic',
+      color: '#4387fd'
     },
     {
       name: 'deposits',
-      icon: 'hexagon'
+      icon: 'hexagon',
+      color: '#4387fd'
     },
     {
       name: 'transfer-out-liquidation',
-      icon: 'topic'
+      icon: 'topic',
+      color: '#4387fd'
     },
     {
       name: 'new-transfer-out',
-      icon: 'topic'
+      icon: 'topic',
+      color: '#4387fd'
     },
     {
       name: 'transfers-gateway',
-      icon: 'hexagon'
+      icon: 'hexagon',
+      color: '#4387fd'
     },
     {
       name: 'send-bacen-message',
-      icon: 'topic'
+      icon: 'topic',
+      color: '#4387fd'
     },
     {
       name: 'bacen-client',
-      icon: 'hexagon'
+      icon: 'hexagon',
+      color: '#4387fd'
     }
   ],
   processes: [

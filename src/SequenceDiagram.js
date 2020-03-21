@@ -86,17 +86,16 @@ const SequenceDiagram = props => {
   const { a, b, c, d, e, f } = matrix
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <div
+      style={{ position: 'relative', width: '100%', height: '100%' }}
+      onMouseDown={mouseDown(setHoldingClick, setCursor)}
+      onMouseUp={mouseUp(setHoldingClick, setCursor)}
+      onMouseMove={mouseMove(holdingClick, cursor, setCursor, matrix, setMatrix, dimensions)}
+      onMouseLeave={mouseUp(setHoldingClick, setCursor)}
+      onWheel={mouseWheel(matrix, setMatrix, dimensions)}
+      ref={svg}>
       <BlockPageScroll style={{ width: '100%', height: '100%' }}>
-        <svg
-          width='100%'
-          height='100%'
-          ref={svg}
-          onMouseDown={mouseDown(setHoldingClick, setCursor)}
-          onMouseUp={mouseUp(setHoldingClick, setCursor)}
-          onMouseMove={mouseMove(holdingClick, cursor, setCursor, matrix, setMatrix, dimensions)}
-          onMouseLeave={mouseUp(setHoldingClick, setCursor)}
-          onWheel={mouseWheel(matrix, setMatrix, dimensions)}>
+        <svg width='100%' height='100%'>
           <g ref={figure} transform={`matrix(${a}, ${b}, ${c}, ${d}, ${e}, ${f})`}>
             {props.children}
           </g>

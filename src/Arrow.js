@@ -1,25 +1,29 @@
 import React from 'react'
+import { getStreakY, getLifelineHorizontalCenter } from './drawing'
 
 function Arrow(props) {
-  const { from, to, startTime, label, trace } = props
+  const { from, to, startTime, label, trace, context } = props
+  const {
+    spaceBetweenLifelines,
+    executionBox,
+    arrow: { labelFontSize, labelLineHeight, labelLines }
+  } = context
   const { lifelines, durationMs: traceDurationMs, startTime: traceStartTime } = trace
   const fromIndex = lifelines.findIndex(l => l.name === from)
   const toIndex = lifelines.findIndex(l => l.name === to)
-  const spaceBetweenLifelines = 300
   const direction = fromIndex < toIndex ? 'right' : 'left'
-  const baseLine = 160
+  const headWidth = 4
+  const headHeight = 8
+  const labelHeight = labelFontSize * labelLineHeight * labelLines
+  const x = getLifelineHorizontalCenter(context) + executionBox.width - 8
+  const xOffset =
+    direction === 'right' ? spaceBetweenLifelines * fromIndex : spaceBetweenLifelines * toIndex
 
-  const x =
-    direction === 'right'
-      ? spaceBetweenLifelines * fromIndex + 48
-      : spaceBetweenLifelines * toIndex + 48
-
-  const y = ((startTime - traceStartTime) * 100) / traceDurationMs + baseLine
+  const y = getStreakY(context)
+  const yOffset = ((startTime - traceStartTime) * 100) / traceDurationMs
 
   const length = Math.abs(toIndex - fromIndex) * spaceBetweenLifelines - 20
 
-  const headWidth = 4
-  const headHeight = 8
   const color = '#545b64'
 
   const rotate =
@@ -27,32 +31,36 @@ function Arrow(props) {
 
   return (
     <g>
-      <foreignObject width={length} x={x} y={y - 36} height='40'>
-        <p
+      <foreignObject
+        width={length}
+        x={x + xOffset}
+        y={y + yOffset - labelHeight}
+        height={labelHeight}>
+        <div
           style={{
-            fontStyle: 'italic',
-            fontSize: 12,
-            height: '100%',
             display: 'flex',
-            textAlign: 'center',
             justifyContent: 'center',
-            margin: 0
+            alignItems: 'flex-end',
+            height: '100%'
           }}>
-          <span
+          <p
             style={{
-              alignSelf: 'flex-end',
-              WebkitTouchCallout: 'none' /* iOS Safari */,
-              WebkitUserSelect: 'none' /* Safari */,
-              KhtmlUserSelect: 'none' /* Konqueror HTML */,
-              MozUserSelect: 'none' /* Old versions of Firefox */,
-              msUserSelect: 'none' /* Internet Explorer/Edge */,
-              userSelect: 'none'
+              fontStyle: 'italic',
+              fontSize: labelFontSize,
+              lineHeight: labelLineHeight,
+              margin: 0,
+              textAlign: 'center',
+              userSelect: 'none',
+              wordBreak: 'break-all',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              display: '-webkit-box'
             }}>
             {label}
-          </span>
-        </p>
+          </p>
+        </div>
       </foreignObject>
-      <g transform={`translate(${x}, ${y}) ${rotate}`}>
+      <g transform={`translate(${x + xOffset}, ${y + yOffset}) ${rotate}`}>
         <path
           d={`M 0 ${headHeight} L ${length} ${headHeight}`}
           fill='none'

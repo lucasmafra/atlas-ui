@@ -1,51 +1,66 @@
 import React from 'react'
-import MobileIcon from './MobileIcon'
-import HexagonIcon from './HexagonIcon'
-import TopicIcon from './TopicIcon'
+import Icon from './Icon'
+import { tap } from './utils'
 
-const icons = {
-  mobile: <MobileIcon />,
-  hexagon: <HexagonIcon />,
-  topic: <TopicIcon />
-}
-
-function Lifeline(props) {
-  const { name, icon, trace } = props
+const Lifeline = props => {
+  const { name, icon, color, trace, context } = props
+  const {
+    spaceBetweenLifelines,
+    lifeline: {
+      labelFontSize,
+      iconSize,
+      labelWidth,
+      labelLineHeight,
+      labelLines,
+      labelIconMargin,
+      iconStreakMargin,
+      streakWidth
+    }
+  } = context
   const { lifelines } = trace
-  const spaceBetweenLifelines = 300
-  const baseLine = 40
-  const x0 = 40
-  const y0 = 152
+  const labelHeight = labelLineHeight * labelFontSize * labelLines
+  const xCenter = labelWidth / 2
+  const yIcon = labelHeight + labelIconMargin
+  const yStreak = labelHeight + labelIconMargin + iconSize + iconStreakMargin
   const length = 10000
   const index = lifelines.findIndex(l => l.name === name)
-  const renderIcon = icons[icon]
+  const renderIcon = <Icon name={icon} size={iconSize} color={tap(color)} />
+
   return (
     <g transform={`translate(${spaceBetweenLifelines * index}, 0)`}>
-      <text
-        x={40}
-        y={baseLine + 8}
-        fill='black'
-        textAnchor='middle'
-        style={{
-          fontWeight: 600,
-          fontSize: 16,
-          textTransform: 'uppercase',
-          WebkitTouchCallout: 'none' /* iOS Safari */,
-          WebkitUserSelect: 'none' /* Safari */,
-          KhtmlUserSelect: 'none' /* Konqueror HTML */,
-          MozUserSelect: 'none' /* Old versions of Firefox */,
-          msUserSelect: 'none' /* Internet Explorer/Edge */,
-          userSelect: 'none'
-        }}>
-        {name}
-      </text>
-      <g transform={`translate(0, ${baseLine})`}>{renderIcon}</g>
+      <foreignObject width={labelWidth} height={labelHeight}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%'
+          }}>
+          <p
+            style={{
+              fontWeight: 600,
+              fontSize: labelFontSize,
+              lineHeight: labelLineHeight,
+              margin: 0,
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              userSelect: 'none',
+              wordBreak: 'break-all',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              display: '-webkit-box'
+            }}>
+            {name}
+          </p>
+        </div>
+      </foreignObject>
+      <g transform={`translate(${xCenter - iconSize / 2}, ${yIcon})`}>{renderIcon}</g>
       <path
         id='lifeLine'
         strokeDasharray='5,5'
         stroke='black'
-        strokeWidth='2'
-        d={`M ${x0} ${y0} L ${x0} ${y0 + length}`}
+        strokeWidth={streakWidth}
+        d={`M ${xCenter} ${yStreak} L ${xCenter} ${yStreak + length}`}
       />
     </g>
   )

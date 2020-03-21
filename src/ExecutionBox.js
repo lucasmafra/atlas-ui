@@ -1,17 +1,29 @@
 import React from 'react'
 
-function ExecutionBox(props) {
-  const { startTime, durationMs, lifeline, trace } = props
+const ExecutionBox = props => {
+  const { startTime, durationMs, lifeline, trace, context } = props
+  const {
+    spaceBetweenLifelines,
+    lifeline: {
+      labelWidth,
+      labelFontSize,
+      labelLines,
+      labelLineHeight,
+      iconSize,
+      labelIconMargin,
+      iconStreakMargin
+    },
+    executionBox: { width }
+  } = context
+  const labelHeight = labelLineHeight * labelFontSize * labelLines
   const { durationMs: traceDurationMs, startTime: traceStartTime } = trace
   const index = trace.lifelines.findIndex(l => l.name === lifeline)
-  const spaceBetweenLifelines = 300
-  const baseLine = 160
-  const x = spaceBetweenLifelines * index + 32
-  const y = ((startTime - traceStartTime) * 100) / traceDurationMs + baseLine
+  const xCenter = spaceBetweenLifelines * index + labelWidth / 2 - width / 2
+  const y = labelHeight + iconSize + labelIconMargin + iconStreakMargin
+  const yOffset = ((startTime - traceStartTime) * 100) / traceDurationMs
   const length = (durationMs / traceDurationMs) * 100
-  const width = 16
-  const fill = '#FFD966'
-  return <rect id='executionBox' x={x} y={y} width={width} height={length} fill={fill} />
+  const fill = '#ffd966'
+  return <rect x={xCenter} y={y + yOffset} width={width} height={length} fill={fill} />
 }
 
 export default ExecutionBox

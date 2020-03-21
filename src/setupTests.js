@@ -5,3 +5,4 @@
 import '@testing-library/jest-dom/extend-expect'
 import { tap } from './utils'
 global.tap = tap
+require('jest-fetch-mock').enableMocks()
