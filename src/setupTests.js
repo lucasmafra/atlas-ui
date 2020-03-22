@@ -3,6 +3,6 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect'
-import { tap } from './utils'
+import { tap } from './common-js/utils'
 global.tap = tap
 require('jest-fetch-mock').enableMocks()

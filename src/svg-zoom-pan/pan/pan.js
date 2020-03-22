@@ -1,5 +1,5 @@
 import { transform, translate } from '../matrix'
-import { pipe } from '../functional'
+import { pipe } from '../../common-js/functional'
 import { moveOnlyOneAxis } from './interceptors/move-only-one-axis'
 import { preventPanOutsideFigure } from './interceptors/prevent-pan-outside-figure'
 import { panVelocity } from './interceptors/pan-velocity'

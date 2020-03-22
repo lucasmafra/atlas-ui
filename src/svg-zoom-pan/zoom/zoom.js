@@ -1,5 +1,5 @@
 import { transform, translate, scale, applyToPoint, inverse } from '../matrix'
-import { pipe } from '../functional'
+import { pipe } from '../../common-js/functional'
 import { preventZoomOutsideFigure } from './interceptors/prevent-zoom-outside-figure'
 import { scaleFactor } from './interceptors/scale-factor'
 

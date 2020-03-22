@@ -1,4 +1,4 @@
-import { isUndefined } from '../../utils'
+import { isUndefined } from '../../../common-js/utils'
 
 export const minX = ({ matrix, options, delta, ...rest }) => {
   if (isUndefined(options.minX)) return { matrix, options, delta, ...rest }

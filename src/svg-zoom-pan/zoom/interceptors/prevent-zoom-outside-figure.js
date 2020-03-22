@@ -1,4 +1,4 @@
-import { pipe } from '../../functional'
+import { pipe } from '../../../common-js/functional'
 import { minZoom } from './min-zoom'
 import { minX } from './min-x'
 import { maxX } from './max-x'

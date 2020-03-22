@@ -1,4 +1,4 @@
-import { pipe } from '../../functional'
+import { pipe } from '../../../common-js/functional'
 import { minX } from './min-x'
 import { maxX } from './max-x'
 import { minY } from './min-y'
