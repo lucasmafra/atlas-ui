@@ -44,6 +44,26 @@ export const getLifelineOffset = (lifeline, sequenceDiagram, theme) => {
 }
 
 /*
+ * Computes lifeline label height based on <theme>
+ */
+export const getLifelineLabelHeight = theme => {
+  const { labelFontSize, labelLineHeight, labelLines } = getLifelineTheme(theme)
+  return labelLineHeight * labelFontSize * labelLines
+}
+
+/*
+ * Computes icon coordinate based on <theme> and relative to the lifeline
+ */
+export const getLifelineIconCoordinates = theme => {
+  const { labelWidth, iconSize, labelIconMargin } = getLifelineTheme(theme)
+  const labelHeight = getLifelineLabelHeight(theme)
+  return {
+    x: (labelWidth - iconSize) / 2,
+    y: labelHeight + labelIconMargin
+  }
+}
+
+/*
  * Returns 'right' or 'left' according to <from> and <to> positions in <sequenceDiagram>
  */
 export const getArrowDirection = (from, to, sequenceDiagram) => {

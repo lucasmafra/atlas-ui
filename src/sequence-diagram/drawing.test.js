@@ -37,6 +37,31 @@ test('getLifelineOffset', () => {
   expect(nut.getLifelineOffset('c', sequenceDiagram, theme)).toBe(500)
 })
 
+test('getLifelineLabelHeight', () => {
+  const theme = {
+    lifeline: {
+      labelFontSize: 12,
+      labelLineHeight: 1.5,
+      labelLines: 2
+    }
+  }
+  expect(nut.getLifelineLabelHeight(theme)).toBe(36)
+})
+
+test('getLifelineIconCoordinates', () => {
+  const theme = {
+    lifeline: {
+      labelWidth: 80,
+      iconSize: 32,
+      labelFontSize: 12,
+      labelLineHeight: 1.5,
+      labelLines: 2,
+      labelIconMargin: 4
+    }
+  }
+  expect(nut.getLifelineIconCoordinates(theme)).toStrictEqual({ x: 24, y: 40 })
+})
+
 describe('getArrowDirection', () => {
   const sequenceDiagram = { lifelines: [{ name: 'a' }, { name: 'b' }] }
 

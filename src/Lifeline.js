@@ -1,67 +1,17 @@
 import React from 'react'
-import Icon from './Icon'
-import { tap } from './utils'
+import LifelineLabel from './LifelineLabel'
+import LifelineStreak from './LifelineStreak'
+import { getLifelineOffset } from './sequence-diagram/drawing'
+import LifelineIcon from './LifelineIcon'
 
-const Lifeline = props => {
-  const { name, icon, color, trace, context } = props
-  const {
-    spaceBetweenLifelines,
-    lifeline: {
-      labelFontSize,
-      iconSize,
-      labelWidth,
-      labelLineHeight,
-      labelLines,
-      labelIconMargin,
-      iconStreakMargin,
-      streakWidth
-    }
-  } = context
-  const { lifelines } = trace
-  const labelHeight = labelLineHeight * labelFontSize * labelLines
-  const xCenter = labelWidth / 2
-  const yIcon = labelHeight + labelIconMargin
-  const yStreak = labelHeight + labelIconMargin + iconSize + iconStreakMargin
-  const length = 10000
-  const index = lifelines.findIndex(l => l.name === name)
-  const renderIcon = <Icon name={icon} size={iconSize} color={tap(color)} />
-
+const Lifeline = ({ name, icon, color, trace, context }) => {
+  const streakLength = 10000
+  const x = getLifelineOffset(name, trace, context)
   return (
-    <g transform={`translate(${spaceBetweenLifelines * index}, 0)`}>
-      <foreignObject width={labelWidth} height={labelHeight}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%'
-          }}>
-          <p
-            style={{
-              fontWeight: 600,
-              fontSize: labelFontSize,
-              lineHeight: labelLineHeight,
-              margin: 0,
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              userSelect: 'none',
-              wordBreak: 'break-all',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              display: '-webkit-box'
-            }}>
-            {name}
-          </p>
-        </div>
-      </foreignObject>
-      <g transform={`translate(${xCenter - iconSize / 2}, ${yIcon})`}>{renderIcon}</g>
-      <path
-        id='lifeLine'
-        strokeDasharray='5,5'
-        stroke='black'
-        strokeWidth={streakWidth}
-        d={`M ${xCenter} ${yStreak} L ${xCenter} ${yStreak + length}`}
-      />
+    <g transform={`translate(${x}, 0)`}>
+      <LifelineLabel label={name} theme={context} />
+      <LifelineIcon icon={icon} color={color} theme={context} />
+      <LifelineStreak length={streakLength} theme={context} />
     </g>
   )
 }
