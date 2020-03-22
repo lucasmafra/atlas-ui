@@ -13,7 +13,8 @@ export const theme = {
     streakWidth: 2
   },
   executionBox: {
-    width: 16
+    width: 16,
+    color: '#ffd966'
   },
   arrow: {
     color: '#545b64',

@@ -88,8 +88,8 @@ export const getArrowXCoordinate = (from, to, sequenceDiagram, streakCoordinates
  * Computes arrow y coordinate
  */
 export const getArrowYCoordinate = (startTime, sequenceDiagram, streakCoordinates) => {
-  const { durationMs: traceDurationMs, startTime: traceStartTime } = sequenceDiagram
-  const yOffset = ((startTime - traceStartTime) * 100) / traceDurationMs
+  const { durationMs: totalDurationMs, startTime: totalStartTime } = sequenceDiagram
+  const yOffset = ((startTime - totalStartTime) * 100) / totalDurationMs
   return streakCoordinates.y + yOffset
 }
 
@@ -135,10 +135,46 @@ export const getArrowLabelCoordinates = theme => {
 /*
  * Computes rotation to be applied on arrow so it can be turned from right to left
  */
-export const getArrowRotation = (direction, length, context) => {
-  const { headWidth, headHeight } = getArrowTheme(context)
+export const getArrowRotation = (direction, length, theme) => {
+  const { headWidth, headHeight } = getArrowTheme(theme)
   const degrees = direction === 'right' ? 0 : 180
   const x = (length + headWidth) / 2
   const y = headHeight
   return { degrees, x, y }
+}
+
+/*
+ * Computes execution box x coordinate
+ */
+export const getExecutionBoxXCoordinate = (lifeline, sequenceDiagram, streakCoordinates, theme) => {
+  const lifelineOffset = getLifelineOffset(lifeline, sequenceDiagram, theme)
+  const { width } = getExecutionBoxTheme(theme)
+  return lifelineOffset + streakCoordinates.x - width / 2
+}
+
+/*
+ * Computes execution box y coordinate
+ */
+export const getExecutionBoxYCoordinate = (startTime, sequenceDiagram, streakCoordinates) => {
+  const { durationMs: totalDurationMs, startTime: totalStartTime } = sequenceDiagram
+  const yOffset = ((startTime - totalStartTime) * 100) / totalDurationMs
+  return streakCoordinates.y + yOffset
+}
+
+/*
+ * Computes execution box (x, y) coordinates
+ */
+export const getExecutionBoxCoordinates = (lifeline, startTime, sequenceDiagram, theme) => {
+  const streakCoordinates = getStreakCoordinates(theme)
+  return {
+    x: getExecutionBoxXCoordinate(lifeline, sequenceDiagram, streakCoordinates, theme),
+    y: getExecutionBoxYCoordinate(startTime, sequenceDiagram, streakCoordinates)
+  }
+}
+
+/*
+ * Computes execution box length
+ */
+export const getExecutionBoxLength = (durationMs, sequenceDiagram) => {
+  return (durationMs / sequenceDiagram.durationMs) * 100
 }

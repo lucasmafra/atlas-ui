@@ -174,3 +174,50 @@ test('getArrowRotation', () => {
     y: 8
   })
 })
+
+test('getExecutionBoxXCoordinate', () => {
+  const theme = {
+    spaceBetweenLifelines: 300,
+    executionBox: { width: 32 }
+  }
+  const streakCoordinates = { x: 100, y: 0 }
+  const sequenceDiagram = { lifelines: [{ name: 'a' }, { name: 'b' }] }
+  expect(nut.getExecutionBoxXCoordinate('a', sequenceDiagram, streakCoordinates, theme)).toBe(84)
+  expect(nut.getExecutionBoxXCoordinate('b', sequenceDiagram, streakCoordinates, theme)).toBe(384)
+})
+
+test('getExecutionBoxYCoordinate', () => {
+  const streakCoordinates = { x: 0, y: 100 }
+  const sequenceDiagram = { durationMs: 100, startTime: 10 }
+  expect(nut.getExecutionBoxYCoordinate(50, sequenceDiagram, streakCoordinates)).toBe(140)
+})
+
+test('getExecutionBoxCoordinates', () => {
+  const theme = {
+    spaceBetweenLifelines: 300,
+    lifeline: {
+      labelWidth: 200,
+      labelFontSize: 16,
+      labelLineHeight: 1.5,
+      labelLines: 2,
+      iconSize: 48,
+      labelIconMargin: 8,
+      iconStreakMargin: 4
+    },
+    executionBox: { width: 32 }
+  }
+  const sequenceDiagram = {
+    lifelines: [{ name: 'a' }, { name: 'b' }],
+    durationMs: 100,
+    startTime: 10
+  }
+  expect(nut.getExecutionBoxCoordinates('b', 50, sequenceDiagram, theme)).toStrictEqual({
+    x: 384,
+    y: 148
+  })
+})
+
+test('getExecutionBoxLenght', () => {
+  const sequenceDiagram = { durationMs: 100 }
+  expect(nut.getExecutionBoxLength(40, sequenceDiagram)).toBe(40)
+})

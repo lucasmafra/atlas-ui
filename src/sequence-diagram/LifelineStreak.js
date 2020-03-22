@@ -1,5 +1,5 @@
 import React from 'react'
-import { getStreakCoordinates, getLifelineTheme } from './sequence-diagram/drawing'
+import { getStreakCoordinates, getLifelineTheme } from './drawing'
 
 const LifelineStreak = ({ length, theme }) => {
   const { streakWidth } = getLifelineTheme(theme)
@@ -9,7 +9,7 @@ const LifelineStreak = ({ length, theme }) => {
     <g>
       <path
         id='lifeLine'
-        strokeDasharray='5,5'
+        strokeDasharray='4,4'
         stroke='black'
         strokeWidth={streakWidth}
         d={`M ${x} ${y} L ${x} ${y + length}`}

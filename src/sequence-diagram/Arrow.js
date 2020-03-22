@@ -1,5 +1,5 @@
 import React from 'react'
-import { getArrowCoordinates, getArrowDirection, getArrowLength } from './sequence-diagram/drawing'
+import { getArrowCoordinates, getArrowDirection, getArrowLength } from './drawing'
 import ArrowLabel from './ArrowLabel'
 import ArrowIcon from './ArrowIcon'
 

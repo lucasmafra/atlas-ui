@@ -1,5 +1,5 @@
 import React from 'react'
-import { getLifelineTheme } from './sequence-diagram/drawing'
+import { getLifelineTheme } from './drawing'
 
 const LifelineLabel = ({ label, theme }) => {
   const { labelFontSize, labelWidth, labelLineHeight, labelLines } = getLifelineTheme(theme)
