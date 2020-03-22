@@ -1,5 +1,5 @@
 export const theme = {
-  spaceBetweenLifelines: 320,
+  spaceBetweenLifelines: 280,
   verticalMargin: 0,
   horizontalMargin: 40,
   lifeline: {
@@ -16,8 +16,12 @@ export const theme = {
     width: 16
   },
   arrow: {
+    color: '#545b64',
     labelFontSize: 10,
     labelLineHeight: 1.25,
-    labelLines: 2
+    labelLines: 2,
+    headWidth: 4,
+    headHeight: 8,
+    labelMargin: 4
   }
 }
