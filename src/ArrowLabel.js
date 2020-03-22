@@ -1,5 +1,9 @@
 import React from 'react'
-import { getArrowTheme, getArrowLabelHeight, getArrowLabelCoordinates } from './drawing'
+import {
+  getArrowTheme,
+  getArrowLabelHeight,
+  getArrowLabelCoordinates
+} from './sequence-diagram/drawing'
 
 const ArrowLabel = ({ label, context, length }) => {
   const { labelFontSize, labelLineHeight, labelLines } = getArrowTheme(context)

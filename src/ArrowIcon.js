@@ -1,5 +1,5 @@
 import React from 'react'
-import { getArrowTheme, getArrowRotation } from './drawing'
+import { getArrowTheme, getArrowRotation } from './sequence-diagram/drawing'
 
 const ArrowIcon = ({ context, direction, length }) => {
   const { color, headWidth, headHeight } = getArrowTheme(context)
