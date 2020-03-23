@@ -5,7 +5,7 @@ import SequenceDiagram from './sequence-diagram/SequenceDiagram'
 
 function App() {
   return (
-    <div style={{ padding: 32, height: '100vh' }}>
+    <div style={{ padding: 32, height: '100vh' }} data-testid={'sequence-diagram'}>
       <SequenceDiagram data={data} />
     </div>
   )
