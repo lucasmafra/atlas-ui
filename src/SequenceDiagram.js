@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
-import ZoomControls from './ZoomControls'
-import { pan } from './pan/pan'
-import { zoom } from './zoom/zoom'
+import ZoomControls from './svg-zoom-pan/ZoomControls'
+import { zoom } from './svg-zoom-pan/zoom/zoom'
+import { pan } from './svg-zoom-pan/pan/pan'
 import BlockPageScroll from './BlockPageScroll'
 
 const initialMatrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
