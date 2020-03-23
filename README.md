@@ -1,3 +1,3 @@
 # svg-react-exploration
 
-![Test](https://github.com/lucasmafra/svg-react-exploration/workflows/Test/badge.svg)
+![CI](https://github.com/lucasmafra/svg-react-exploration/workflows/CI/badge.svg)
