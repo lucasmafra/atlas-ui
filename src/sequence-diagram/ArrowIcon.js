@@ -1,9 +1,9 @@
 import React from 'react'
 import { getArrowTheme, getArrowRotation } from './drawing'
 
-const ArrowIcon = ({ context, direction, length }) => {
-  const { color, headWidth, headHeight } = getArrowTheme(context)
-  const { degrees, x, y } = getArrowRotation(direction, length, context)
+const ArrowIcon = ({ direction, length, theme }) => {
+  const { color, headWidth, headHeight } = getArrowTheme(theme)
+  const { degrees, x, y } = getArrowRotation(direction, length, theme)
 
   return (
     <g transform={`rotate(${degrees}, ${x}, ${y})`}>

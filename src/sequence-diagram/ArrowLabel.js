@@ -1,11 +1,11 @@
 import React from 'react'
 import { getArrowTheme, getArrowLabelHeight, getArrowLabelCoordinates } from './drawing'
 
-const ArrowLabel = ({ label, context, length }) => {
-  const { labelFontSize, labelLineHeight, labelLines } = getArrowTheme(context)
-  const labelHeight = getArrowLabelHeight(context)
+const ArrowLabel = ({ label, theme, length }) => {
+  const { labelFontSize, labelLineHeight, labelLines } = getArrowTheme(theme)
+  const labelHeight = getArrowLabelHeight(theme)
 
-  const { x, y } = getArrowLabelCoordinates(context)
+  const { x, y } = getArrowLabelCoordinates(theme)
 
   return (
     <g transform={`translate(${x}, ${y})`}>

@@ -3,15 +3,15 @@ import { getArrowCoordinates, getArrowDirection, getArrowLength } from './drawin
 import ArrowLabel from './ArrowLabel'
 import ArrowIcon from './ArrowIcon'
 
-const Arrow = ({ from, to, startTime, label, trace, context }) => {
-  const direction = getArrowDirection(from, to, trace)
-  const { x, y } = getArrowCoordinates(from, to, startTime, trace, context)
-  const length = getArrowLength(from, to, trace, context)
+const Arrow = ({ from, to, startTime, label, sequenceDiagram, theme }) => {
+  const direction = getArrowDirection(from, to, sequenceDiagram)
+  const { x, y } = getArrowCoordinates(from, to, startTime, sequenceDiagram, theme)
+  const length = getArrowLength(from, to, sequenceDiagram, theme)
 
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <ArrowLabel label={label} length={length} context={context} />
-      <ArrowIcon direction={direction} length={length} context={context} />
+      <ArrowLabel label={label} length={length} theme={theme} />
+      <ArrowIcon direction={direction} length={length} theme={theme} />
     </g>
   )
 }

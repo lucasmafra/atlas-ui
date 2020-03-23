@@ -1,5 +1,5 @@
 export const theme = {
-  spaceBetweenLifelines: 280,
+  spaceBetweenLifelines: 240,
   verticalMargin: 0,
   horizontalMargin: 40,
   lifeline: {

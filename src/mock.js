@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const trace = {
+export const data = {
   startTime: 0,
   durationMs: 10000,
   lifelines: [
@@ -55,7 +55,7 @@ export const trace = {
       color: '#4387fd'
     }
   ],
-  processes: [
+  executionBoxes: [
     {
       id: '1',
       startTime: 100,
@@ -123,7 +123,7 @@ export const trace = {
       lifeline: 'bacen-client'
     }
   ],
-  operations: [
+  arrows: [
     {
       id: '1',
       from: 'app',
