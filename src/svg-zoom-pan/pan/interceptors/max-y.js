@@ -1,4 +1,4 @@
-import { isUndefined } from '../../../common-js/utils'
+import { isUndefined } from '../../../common-js/misc'
 
 export const maxY = ({ matrix, options, delta, ...rest }) => {
   if (isUndefined(options.maxY)) return { matrix, options, delta, ...rest }
