@@ -5,7 +5,7 @@ import Arrow from './sequence-diagram/Arrow'
 import { trace } from './mock'
 import SequenceDiagram from './SequenceDiagram'
 import 'antd/dist/antd.css'
-import { theme } from './theme'
+import { theme } from './sequence-diagram/theme'
 
 function App() {
   const renderLifelines = trace.lifelines.map(({ name, icon, color }) => (
@@ -17,7 +17,6 @@ function App() {
       key={id}
       from={from}
       to={to}
-      y={y}
       startTime={startTime}
       label={label}
       trace={trace}
