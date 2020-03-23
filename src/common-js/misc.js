@@ -1,1 +1,1 @@
-export const isUndefined = v => typeof v === 'undefined'
+export const isUndefined = (v) => typeof v === 'undefined'

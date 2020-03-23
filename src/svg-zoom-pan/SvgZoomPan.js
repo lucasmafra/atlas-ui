@@ -9,21 +9,21 @@ const initialMatrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
 const panOptions = { moveOnlyOneAxis: true, preventPanOutsideFigure: true, panVelocity: 1.5 }
 
 const mouseDown = (setHoldingClick, setPan) => {
-  return e => {
+  return (e) => {
     setHoldingClick(true)
     setPan({ x0: e.clientX, y0: e.clientY, x1: e.clientX, y1: e.clientY })
   }
 }
 
 const mouseUp = (setHoldingClick, setPan) => {
-  return e => {
+  return (e) => {
     setHoldingClick(false)
     setPan({ x0: null, y0: null, x1: null, y1: null })
   }
 }
 
 const mouseWheel = (matrix, setMatrix, dimensions) => {
-  return e => {
+  return (e) => {
     const zoomVelocity = 0.012
     const zoomMode = e.deltaY / (Math.abs(e.deltaY) || 1) < 0 ? 'ZOOM_IN' : 'ZOOM_OUT'
     const point = { x: e.clientX, y: e.clientY - 100 }
@@ -34,7 +34,7 @@ const mouseWheel = (matrix, setMatrix, dimensions) => {
 }
 
 const mouseMove = (holdingClick, cursor, setCursor, matrix, setMatrix, dimensions) => {
-  return e => {
+  return (e) => {
     if (holdingClick) {
       const newCursor = { x1: e.clientX, y1: e.clientY, x0: cursor.x1, y0: cursor.y1 }
       setCursor(newCursor)
@@ -46,11 +46,11 @@ const mouseMove = (holdingClick, cursor, setCursor, matrix, setMatrix, dimension
 }
 
 function resetMatrix(setMatrix) {
-  return _ => setMatrix(initialMatrix)
+  return (_) => setMatrix(initialMatrix)
 }
 
 const zoomIn = (matrix, setMatrix, dimensions) => {
-  return e => {
+  return (e) => {
     const zoomVelocity = 0.05
     const zoomMode = 'ZOOM_IN'
     const point = { x: dimensions.svg.width / 2, y: dimensions.svg.height / 2 }
@@ -61,7 +61,7 @@ const zoomIn = (matrix, setMatrix, dimensions) => {
 }
 
 const zoomOut = (matrix, setMatrix, dimensions) => {
-  return e => {
+  return (e) => {
     const zoomVelocity = 0.05
     const zoomMode = 'ZOOM_OUT'
     const point = { x: dimensions.svg.width / 2, y: dimensions.svg.height / 2 }
@@ -71,12 +71,12 @@ const zoomOut = (matrix, setMatrix, dimensions) => {
   }
 }
 
-const getDimensions = el => {
+const getDimensions = (el) => {
   if (!el.current) return { width: 0, height: 0 }
   return el.current.getBoundingClientRect()
 }
 
-const SvgZoomPan = props => {
+const SvgZoomPan = (props) => {
   const [holdingClick, setHoldingClick] = useState(false)
   const [cursor, setCursor] = useState()
   const [matrix, setMatrix] = useState(initialMatrix)

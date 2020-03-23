@@ -1,22 +1,22 @@
 /*
  * Retrieves arrow specific theme from general theme
  */
-export const getArrowTheme = theme => theme.arrow
+export const getArrowTheme = (theme) => theme.arrow
 
 /*
  * Retrieves lifeline specific theme from general theme
  */
-export const getLifelineTheme = theme => theme.lifeline
+export const getLifelineTheme = (theme) => theme.lifeline
 
 /*
  * Retrieves execution-box specific theme from general theme
  */
-export const getExecutionBoxTheme = theme => theme.executionBox
+export const getExecutionBoxTheme = (theme) => theme.executionBox
 
 /*
  * Computes (x, y) of streak based on theme config
  */
-export const getStreakCoordinates = theme => {
+export const getStreakCoordinates = (theme) => {
   const {
     labelWidth,
     labelLineHeight,
@@ -39,14 +39,14 @@ export const getStreakCoordinates = theme => {
 export const getLifelineOffset = (lifeline, sequenceDiagram, theme) => {
   const { lifelines } = sequenceDiagram
   const { spaceBetweenLifelines } = theme
-  const index = lifelines.findIndex(l => l.name === lifeline)
+  const index = lifelines.findIndex((l) => l.name === lifeline)
   return index * spaceBetweenLifelines
 }
 
 /*
  * Computes lifeline label height based on <theme>
  */
-export const getLifelineLabelHeight = theme => {
+export const getLifelineLabelHeight = (theme) => {
   const { labelFontSize, labelLineHeight, labelLines } = getLifelineTheme(theme)
   return labelLineHeight * labelFontSize * labelLines
 }
@@ -54,7 +54,7 @@ export const getLifelineLabelHeight = theme => {
 /*
  * Computes icon coordinate based on <theme> and relative to the lifeline
  */
-export const getLifelineIconCoordinates = theme => {
+export const getLifelineIconCoordinates = (theme) => {
   const { labelWidth, iconSize, labelIconMargin } = getLifelineTheme(theme)
   const labelHeight = getLifelineLabelHeight(theme)
   return {
@@ -68,8 +68,8 @@ export const getLifelineIconCoordinates = theme => {
  */
 export const getArrowDirection = (from, to, sequenceDiagram) => {
   const { lifelines } = sequenceDiagram
-  const fromIndex = lifelines.findIndex(l => l.name === from)
-  const toIndex = lifelines.findIndex(l => l.name === to)
+  const fromIndex = lifelines.findIndex((l) => l.name === from)
+  const toIndex = lifelines.findIndex((l) => l.name === to)
   return fromIndex < toIndex ? 'right' : 'left'
 }
 
@@ -118,7 +118,7 @@ export const getArrowLength = (from, to, sequenceDiagram, theme) => {
 /*
  * Computes height of arrow label
  */
-export const getArrowLabelHeight = theme => {
+export const getArrowLabelHeight = (theme) => {
   const { labelFontSize, labelLineHeight, labelLines } = getArrowTheme(theme)
   return labelFontSize * labelLineHeight * labelLines
 }
@@ -126,7 +126,7 @@ export const getArrowLabelHeight = theme => {
 /*
  * Computes coordinates of arrow label relative to the arrow according to <theme>
  */
-export const getArrowLabelCoordinates = theme => {
+export const getArrowLabelCoordinates = (theme) => {
   const { headHeight, labelMargin } = getArrowTheme(theme)
   const labelHeight = getArrowLabelHeight(theme)
   return { x: 0, y: -labelHeight + headHeight - labelMargin }
