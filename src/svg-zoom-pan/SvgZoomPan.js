@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
-import ZoomControls from './svg-zoom-pan/ZoomControls'
-import { zoom } from './svg-zoom-pan/zoom/zoom'
-import { pan } from './svg-zoom-pan/pan/pan'
+import ZoomControls from './ZoomControls'
+import { zoom } from './zoom/zoom'
+import { pan } from './pan/pan'
 import BlockPageScroll from './BlockPageScroll'
 
 const initialMatrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
@@ -76,7 +76,7 @@ const getDimensions = el => {
   return el.current.getBoundingClientRect()
 }
 
-const SequenceDiagram = props => {
+const SvgZoomPan = props => {
   const [holdingClick, setHoldingClick] = useState(false)
   const [cursor, setCursor] = useState()
   const [matrix, setMatrix] = useState(initialMatrix)
@@ -112,4 +112,4 @@ const SequenceDiagram = props => {
   )
 }
 
-export default SequenceDiagram
+export default SvgZoomPan

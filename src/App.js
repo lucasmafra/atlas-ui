@@ -3,7 +3,7 @@ import ExecutionBox from './sequence-diagram/ExecutionBox'
 import Lifeline from './sequence-diagram/Lifeline'
 import Arrow from './sequence-diagram/Arrow'
 import { trace } from './mock'
-import SequenceDiagram from './SequenceDiagram'
+import SvgZoomPan from './svg-zoom-pan/SvgZoomPan'
 import 'antd/dist/antd.css'
 import { theme } from './sequence-diagram/theme'
 
@@ -38,13 +38,13 @@ function App() {
   const svgDimensions = { width: 2400, height: 2000 }
   return (
     <div style={{ margin: 32, border: '1px solid #cecece', height: 'calc(100vh - 66px)' }}>
-      <SequenceDiagram>
+      <SvgZoomPan>
         <svg width={svgDimensions.width} height={svgDimensions.height}>
           {renderLifelines}
           {renderArrows}
           {renderExecutionBoxes}
         </svg>
-      </SequenceDiagram>
+      </SvgZoomPan>
     </div>
   )
 }
