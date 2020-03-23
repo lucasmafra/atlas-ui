@@ -1,7 +1,7 @@
 export const theme = {
   spaceBetweenLifelines: 240,
-  verticalMargin: 0,
-  horizontalMargin: 40,
+  verticalMargin: 16,
+  horizontalMargin: 0,
   lifeline: {
     labelFontSize: 12,
     labelLineHeight: 1.5,

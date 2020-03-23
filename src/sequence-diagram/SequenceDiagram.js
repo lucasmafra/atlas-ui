@@ -42,10 +42,11 @@ const SequenceDiagram = ({ data }) => {
     />
   ))
 
+  const { horizontalMargin, verticalMargin } = theme
   return (
     <div style={{ margin: 32, border: '1px solid #cecece', height: 'calc(100vh - 66px)' }}>
       <SvgZoomPan>
-        <g>
+        <g transform={`translate(${horizontalMargin}, ${verticalMargin})`}>
           {renderLifelines}
           {renderArrows}
           {renderExecutionBoxes}
