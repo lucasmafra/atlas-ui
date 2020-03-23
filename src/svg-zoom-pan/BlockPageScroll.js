@@ -7,7 +7,7 @@ const BlockPageScroll = ({ children, style }) => {
     scrollEl.addEventListener('wheel', stopScroll)
     return () => scrollEl.removeEventListener('wheel', stopScroll)
   }, [])
-  const stopScroll = e => e.preventDefault()
+  const stopScroll = (e) => e.preventDefault()
   return (
     <div ref={scrollRef} style={style}>
       {children}

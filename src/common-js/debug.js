@@ -1,4 +1,4 @@
-export const tap = v => {
+export const tap = (v) => {
   console.log(v)
   return v
 }

@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 on: [push]
 
@@ -11,3 +11,12 @@ jobs:
         run: yarn --no-progress --non-interactive --no-lockfile
       - name: Test
         run: yarn test --watchAll=false
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install
+        run: yarn --no-progress --non-interactive --no-lockfile
+      - name: Prettier
+        run: yarn prettier -c "**/*.js"
