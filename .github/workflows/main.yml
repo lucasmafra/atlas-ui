@@ -14,16 +14,9 @@ jobs:
 
   prettier:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Cloning the repository
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-    - name: Prettify the JS Code
-      uses: creyD/prettier_action@v2.1
-      with:
-        prettier_options: '--write "**/*.js"'
-        branch: ${{ github.head_ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v1
+      - name: Install
+        run: yarn --no-progress --non-interactive --no-lockfile
+      - name: Prettier
+        run: yarn prettier -c "**/*.js"
