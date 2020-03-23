@@ -4,7 +4,11 @@ import 'antd/dist/antd.css'
 import SequenceDiagram from './sequence-diagram/SequenceDiagram'
 
 function App() {
-  return <SequenceDiagram data={data} />
+  return (
+    <div style={{ padding: 32, height: '100vh' }}>
+      <SequenceDiagram data={data} />
+    </div>
+  )
 }
 
 export default App

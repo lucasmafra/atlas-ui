@@ -9,7 +9,7 @@ export const theme = {
     iconSize: 32,
     labelIconMargin: 8,
     iconStreakMargin: 16,
-    labelWidth: 240,
+    labelWidth: 200,
     streakWidth: 2
   },
   executionBox: {
