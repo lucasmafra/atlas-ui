@@ -28,8 +28,7 @@ function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
-      }}
-      data-testid={'sequence-diagram'}>
+      }}>
       {loading ? <Spin aria-label='Loading' /> : <SequenceDiagram data={sequenceDiagram} />}
     </div>
   )
