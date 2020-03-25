@@ -9,11 +9,13 @@ function App() {
 
   useEffect(() => {
     fetch('/mock.json')
-      .then((r) => {
-        return r.json()
-      })
+      .then((r) => r.json())
       .then((data) => {
         setSequenceDiagram(data)
+      })
+      .catch((e) => {
+        // TODO error handling
+        console.log(e)
       })
       .finally(() => {
         setTimeout(() => setLoading(false), 1000)
