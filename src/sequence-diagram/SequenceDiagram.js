@@ -19,12 +19,13 @@ const SequenceDiagram = ({ data }) => {
     />
   ))
 
-  const renderArrows = arrows.map(({ id, from, to, startTime, label }) => (
+  const renderArrows = arrows.map(({ id, from, to, startTime, prefix, label }) => (
     <Arrow
       key={id}
       from={from}
       to={to}
       startTime={startTime}
+      prefix={prefix}
       label={label}
       sequenceDiagram={data}
       theme={theme}
