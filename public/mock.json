@@ -1,212 +1,214 @@
 {
-  "startTime": 0,
-  "durationMs": 10000,
-  "lifelines": [
-    {
-      "name": "app",
-      "icon": "mobile",
-      "color": "#aa00ff"
-    },
-    {
-      "name": "bff",
-      "icon": "hexagon",
-      "color": "#4387fd"
-    },
-    {
-      "name": "transfers",
-      "icon": "hexagon",
-      "color": "#4387fd"
-    },
-    {
-      "name": "transfer-out-requested",
-      "icon": "topic",
-      "color": "#4387fd"
-    },
-    {
-      "name": "deposits",
-      "icon": "hexagon",
-      "color": "#4387fd"
-    },
-    {
-      "name": "transfer-out-liquidation",
-      "icon": "topic",
-      "color": "#4387fd"
-    },
-    {
-      "name": "new-transfer-out",
-      "icon": "topic",
-      "color": "#4387fd"
-    },
-    {
-      "name": "transfers-gateway",
-      "icon": "hexagon",
-      "color": "#4387fd"
-    },
-    {
-      "name": "send-bacen-message",
-      "icon": "topic",
-      "color": "#4387fd"
-    },
-    {
-      "name": "bacen-client",
-      "icon": "hexagon",
-      "color": "#4387fd"
-    }
-  ],
-  "executionBoxes": [
-    {
-      "id": "1",
-      "startTime": 100,
-      "durationMs": 7200,
-      "lifeline": "app"
-    },
-    {
-      "id": "2",
-      "startTime": 100,
-      "durationMs": 7200,
-      "lifeline": "bff"
-    },
-    {
-      "id": "3",
-      "startTime": 1500,
-      "durationMs": 4000,
-      "lifeline": "transfers"
-    },
-    {
-      "id": "4",
-      "startTime": 3000,
-      "durationMs": 2000,
-      "lifeline": "transfer-out-requested"
-    },
-    {
-      "id": "5",
-      "startTime": 3500,
-      "durationMs": 2000,
-      "lifeline": "deposits"
-    },
-    {
-      "id": "6",
-      "startTime": 4000,
-      "durationMs": 4500,
-      "lifeline": "transfer-out-liquidation"
-    },
-    {
-      "id": "7",
-      "startTime": 7200,
-      "durationMs": 4500,
-      "lifeline": "transfers"
-    },
-    {
-      "id": "8",
-      "startTime": 9800,
-      "durationMs": 3200,
-      "lifeline": "new-transfer-out"
-    },
-    {
-      "id": "9",
-      "startTime": 11000,
-      "durationMs": 3200,
-      "lifeline": "transfers-gateway"
-    },
-    {
-      "id": "10",
-      "startTime": 12000,
-      "durationMs": 3200,
-      "lifeline": "send-bacen-message"
-    },
-    {
-      "id": "11",
-      "startTime": 14000,
-      "durationMs": 3200,
-      "lifeline": "bacen-client"
-    }
-  ],
-  "arrows": [
-    {
-      "id": "1",
-      "from": "app",
-      "to": "bff",
-      "startTime": 150,
-      "prefix": "GRAPHQL",
-      "label": "mutation/requestTransferOut"
-    },
-    {
-      "id": "2",
-      "from": "bff",
-      "to": "transfers",
-      "startTime": 1500,
-      "prefix": "PUT",
-      "label": "/api/nuconta/:id/transfer-out-requests"
-    },
-    {
-      "id": "3",
-      "from": "transfers",
-      "to": "bff",
-      "startTime": 4000,
-      "label": "response"
-    },
-    {
-      "id": "4",
-      "from": "bff",
-      "to": "app",
-      "startTime": 5500,
-      "label": "response"
-    },
-    {
-      "id": "5",
-      "from": "transfers",
-      "to": "transfer-out-requested",
-      "startTime": 3000,
-      "label": "produce"
-    },
-    {
-      "id": "6",
-      "from": "transfer-out-requested",
-      "to": "deposits",
-      "startTime": 3500,
-      "label": "consume"
-    },
-    {
-      "id": "7",
-      "from": "deposits",
-      "to": "transfer-out-liquidation",
-      "startTime": 4000,
-      "label": "produce"
-    },
-    {
-      "id": "8",
-      "from": "transfer-out-liquidation",
-      "to": "transfers",
-      "startTime": 7200,
-      "label": "consume"
-    },
-    {
-      "id": "9",
-      "from": "transfers",
-      "to": "new-transfer-out",
-      "startTime": 10000,
-      "label": "produce"
-    },
-    {
-      "id": "10",
-      "from": "new-transfer-out",
-      "to": "transfers-gateway",
-      "startTime": 11000,
-      "label": "consume"
-    },
-    {
-      "id": "11",
-      "from": "transfers-gateway",
-      "to": "send-bacen-message",
-      "startTime": 12000,
-      "label": "produce"
-    },
-    {
-      "id": "12",
-      "from": "send-bacen-message",
-      "to": "bacen-client",
-      "startTime": 13800,
-      "label": "consume"
-    }
-  ]
+  "sequence_diagram": {
+    "start_time": 0,
+    "duration_ms": 10000,
+    "lifelines": [
+      {
+        "name": "app",
+        "icon": "mobile",
+        "color": "#aa00ff"
+      },
+      {
+        "name": "bff",
+        "icon": "hexagon",
+        "color": "#4387fd"
+      },
+      {
+        "name": "transfers",
+        "icon": "hexagon",
+        "color": "#4387fd"
+      },
+      {
+        "name": "transfer-out-requested",
+        "icon": "topic",
+        "color": "#4387fd"
+      },
+      {
+        "name": "deposits",
+        "icon": "hexagon",
+        "color": "#4387fd"
+      },
+      {
+        "name": "transfer-out-liquidation",
+        "icon": "topic",
+        "color": "#4387fd"
+      },
+      {
+        "name": "new-transfer-out",
+        "icon": "topic",
+        "color": "#4387fd"
+      },
+      {
+        "name": "transfers-gateway",
+        "icon": "hexagon",
+        "color": "#4387fd"
+      },
+      {
+        "name": "send-bacen-message",
+        "icon": "topic",
+        "color": "#4387fd"
+      },
+      {
+        "name": "bacen-client",
+        "icon": "hexagon",
+        "color": "#4387fd"
+      }
+    ],
+    "execution_boxes": [
+      {
+        "id": "1",
+        "start_time": 100,
+        "duration_ms": 7200,
+        "lifeline": "app"
+      },
+      {
+        "id": "2",
+        "start_time": 100,
+        "duration_ms": 7200,
+        "lifeline": "bff"
+      },
+      {
+        "id": "3",
+        "start_time": 1500,
+        "duration_ms": 4000,
+        "lifeline": "transfers"
+      },
+      {
+        "id": "4",
+        "start_time": 3000,
+        "duration_ms": 2000,
+        "lifeline": "transfer-out-requested"
+      },
+      {
+        "id": "5",
+        "start_time": 3500,
+        "duration_ms": 2000,
+        "lifeline": "deposits"
+      },
+      {
+        "id": "6",
+        "start_time": 4000,
+        "duration_ms": 4500,
+        "lifeline": "transfer-out-liquidation"
+      },
+      {
+        "id": "7",
+        "start_time": 7200,
+        "duration_ms": 4500,
+        "lifeline": "transfers"
+      },
+      {
+        "id": "8",
+        "start_time": 9800,
+        "duration_ms": 3200,
+        "lifeline": "new-transfer-out"
+      },
+      {
+        "id": "9",
+        "start_time": 11000,
+        "duration_ms": 3200,
+        "lifeline": "transfers-gateway"
+      },
+      {
+        "id": "10",
+        "start_time": 12000,
+        "duration_ms": 3200,
+        "lifeline": "send-bacen-message"
+      },
+      {
+        "id": "11",
+        "start_time": 14000,
+        "duration_ms": 3200,
+        "lifeline": "bacen-client"
+      }
+    ],
+    "arrows": [
+      {
+        "id": "1",
+        "from": "app",
+        "to": "bff",
+        "start_time": 150,
+        "prefix": "GRAPHQL",
+        "label": "mutation/requestTransferOut"
+      },
+      {
+        "id": "2",
+        "from": "bff",
+        "to": "transfers",
+        "start_time": 1500,
+        "prefix": "PUT",
+        "label": "/api/nuconta/:id/transfer-out-requests"
+      },
+      {
+        "id": "3",
+        "from": "transfers",
+        "to": "bff",
+        "start_time": 4000,
+        "label": "response"
+      },
+      {
+        "id": "4",
+        "from": "bff",
+        "to": "app",
+        "start_time": 5500,
+        "label": "response"
+      },
+      {
+        "id": "5",
+        "from": "transfers",
+        "to": "transfer-out-requested",
+        "start_time": 3000,
+        "label": "produce"
+      },
+      {
+        "id": "6",
+        "from": "transfer-out-requested",
+        "to": "deposits",
+        "start_time": 3500,
+        "label": "consume"
+      },
+      {
+        "id": "7",
+        "from": "deposits",
+        "to": "transfer-out-liquidation",
+        "start_time": 4000,
+        "label": "produce"
+      },
+      {
+        "id": "8",
+        "from": "transfer-out-liquidation",
+        "to": "transfers",
+        "start_time": 7200,
+        "label": "consume"
+      },
+      {
+        "id": "9",
+        "from": "transfers",
+        "to": "new-transfer-out",
+        "start_time": 10000,
+        "label": "produce"
+      },
+      {
+        "id": "10",
+        "from": "new-transfer-out",
+        "to": "transfers-gateway",
+        "start_time": 11000,
+        "label": "consume"
+      },
+      {
+        "id": "11",
+        "from": "transfers-gateway",
+        "to": "send-bacen-message",
+        "start_time": 12000,
+        "label": "produce"
+      },
+      {
+        "id": "12",
+        "from": "send-bacen-message",
+        "to": "bacen-client",
+        "start_time": 13800,
+        "label": "consume"
+      }
+    ]
+  }
 }
