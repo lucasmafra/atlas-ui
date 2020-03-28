@@ -1,28 +1,27 @@
 export const isUndefined = (v) => typeof v === 'undefined'
 
-const snakeStrToCamel = (str) =>
-  str.replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace('-', '').replace('_', ''))
+export const isArray = (a) => Array.isArray(a)
 
-export const snakeToCamel = (obj) => {
-  if (typeof obj != 'object') return obj
+export const isObject = (o) => o === Object(o) && !isArray(o) && typeof o !== 'function'
 
-  for (const oldName in obj) {
-    // underscore to camel
-    const newName = snakeStrToCamel(oldName)
+const snakeStringToCamel = (s) => {
+  return s.replace(/([-_][a-z])/gi, ($1) => {
+    return $1.toUpperCase().replace('-', '').replace('_', '')
+  })
+}
 
-    // Only process if names are different
-    if (newName !== oldName) {
-      // Check for the old property name to avoid a ReferenceError in strict mode.
-      if (obj.hasOwnProperty(oldName)) {
-        obj[newName] = obj[oldName]
-        delete obj[oldName]
-      }
-    }
+export const objectKeysToCamel = (o) => {
+  if (isObject(o)) {
+    const n = {}
 
-    // Recursion
-    if (typeof obj[newName] == 'object') {
-      obj[newName] = snakeToCamel(obj[newName])
-    }
+    Object.keys(o).forEach((k) => {
+      n[snakeStringToCamel(k)] = objectKeysToCamel(o[k])
+    })
+
+    return n
+  } else if (isArray(o)) {
+    return o.map(objectKeysToCamel)
   }
-  return obj
+
+  return o
 }

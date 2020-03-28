@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css'
 import SequenceDiagram from './sequence-diagram/SequenceDiagram'
-import { snakeToCamel } from './common-js/misc'
+import { objectKeysToCamel } from './common-js/misc'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -12,7 +12,7 @@ function App() {
     fetch('/mock.json')
       .then((r) => r.json())
       .then((data) => {
-        setSequenceDiagram(snakeToCamel(data).sequenceDiagram)
+        setSequenceDiagram(objectKeysToCamel(data).sequenceDiagram)
       })
       .catch((e) => {
         // TODO error handling
