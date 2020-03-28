@@ -5,11 +5,13 @@ import App from './App'
 const serviceName = 'serviceA'
 
 const mockJson = {
-  lifelines: [{ name: serviceName }],
-  executionBoxes: [],
-  arrows: [],
-  startTime: 0,
-  durationMs: 1000
+  sequence_diagram: {
+    lifelines: [{ name: serviceName }],
+    execution_boxes: [],
+    arrows: [],
+    start_time: 0,
+    duration_ms: 1000
+  }
 }
 
 fetch.mockResponse(JSON.stringify(mockJson))
