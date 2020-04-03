@@ -8,14 +8,13 @@ import SvgZoomPan from '../svg-zoom-pan/SvgZoomPan'
 const SequenceDiagram = ({ data }) => {
   const { lifelines, arrows, executionBoxes } = data
 
-  const renderLifelines = lifelines.map(({ name, icon, color }) => (
+  const renderLifelines = lifelines.map(({ name, kind }) => (
     <Lifeline
       key={name}
       name={name}
-      icon={icon}
       sequenceDiagram={data}
-      color={color}
       theme={theme}
+      kind={kind}
     />
   ))
 

@@ -7,3 +7,5 @@ import { tap, tapd } from './common-js/debug'
 global.tap = tap
 global.tapd = tapd
 require('jest-fetch-mock').enableMocks()
+
+beforeEach(() => jest.clearAllMocks())
