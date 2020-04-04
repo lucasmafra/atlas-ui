@@ -9,13 +9,7 @@ const SequenceDiagram = ({ data }) => {
   const { lifelines, arrows, executionBoxes } = data
 
   const renderLifelines = lifelines.map(({ name, kind }) => (
-    <Lifeline
-      key={name}
-      name={name}
-      sequenceDiagram={data}
-      theme={theme}
-      kind={kind}
-    />
+    <Lifeline key={name} name={name} sequenceDiagram={data} theme={theme} kind={kind} />
   ))
 
   const renderArrows = arrows.map(({ id, from, to, startTime, prefix, label }) => (
