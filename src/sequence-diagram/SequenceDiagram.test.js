@@ -5,7 +5,10 @@ import SequenceDiagram from './SequenceDiagram'
 const mockData = {
   startTime: 0,
   durationMs: 1000,
-  lifelines: [{ name: 'serviceA' }, { name: 'serviceB' }],
+  lifelines: [
+    { name: 'serviceA', kind: 'service' },
+    { name: 'serviceB', kind: 'service' }
+  ],
   executionBoxes: [{ id: '1', startTime: 100, durationMs: 500, lifeline: 'serviceA' }],
   arrows: [{ id: '1', from: 'serviceA', to: 'serviceB', startTime: 150, label: 'GET /profiles/1' }]
 }
