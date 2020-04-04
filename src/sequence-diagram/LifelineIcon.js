@@ -23,7 +23,11 @@ const LifelineIcon = ({ theme, kind }) => {
   const { name: iconName, color: iconColor } = kindToIcon[kind]
   const renderIcon = <Icon name={iconName} size={iconSize} color={iconColor} />
   const { x, y } = getLifelineIconCoordinates(theme)
-  return <g transform={`translate(${x}, ${y})`}>{renderIcon}</g>
+  return (
+    <svg>
+      <g transform={`translate(${x}, ${y})`}>{renderIcon}</g>
+    </svg>
+  )
 }
 
 LifelineIcon.propTypes = {
