@@ -8,36 +8,34 @@ const ArrowLabel = ({ prefix, label, theme, length }) => {
   const { x, y } = getArrowLabelCoordinates(theme)
 
   return (
-    <svg transform={`translate(${x}, ${y})`}>
-      <g>
-        <foreignObject width={length} height={labelHeight}>
-          <div
+    <g transform={`translate(${x}, ${y})`}>
+      <foreignObject width={length} height={labelHeight}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            height: '100%'
+          }}>
+          <p
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'flex-end',
-              height: '100%'
+              fontStyle: 'italic',
+              fontSize: labelFontSize,
+              lineHeight: labelLineHeight,
+              margin: 0,
+              textAlign: 'center',
+              userSelect: 'none',
+              wordBreak: 'break-all',
+              WebkitLineClamp: labelLines,
+              WebkitBoxOrient: 'vertical',
+              display: '-webkit-box'
             }}>
-            <p
-              style={{
-                fontStyle: 'italic',
-                fontSize: labelFontSize,
-                lineHeight: labelLineHeight,
-                margin: 0,
-                textAlign: 'center',
-                userSelect: 'none',
-                wordBreak: 'break-all',
-                WebkitLineClamp: labelLines,
-                WebkitBoxOrient: 'vertical',
-                display: '-webkit-box'
-              }}>
-              {prefix} <br />
-              {label}
-            </p>
-          </div>
-        </foreignObject>
-      </g>
-    </svg>
+            {prefix} <br />
+            {label}
+          </p>
+        </div>
+      </foreignObject>
+    </g>
   )
 }
 
