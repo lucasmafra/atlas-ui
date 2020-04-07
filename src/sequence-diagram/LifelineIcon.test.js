@@ -21,7 +21,11 @@ const theme = {
 describe('Tests icon names renders correctly when', () => {
   test('kind is service', async () => {
     await act(async () => {
-      render(<LifelineIcon kind={'service'} theme={theme} />)
+      render(
+        <svg>
+          <LifelineIcon kind={'service'} theme={theme} />
+        </svg>
+      )
 
       expect(Icon.mock.calls[0][0].name).toBe('hexagon')
     })
@@ -29,7 +33,11 @@ describe('Tests icon names renders correctly when', () => {
 
   test('kind is topic', async () => {
     await act(async () => {
-      render(<LifelineIcon kind={'topic'} theme={theme} />)
+      render(
+        <svg>
+          <LifelineIcon kind={'topic'} theme={theme} />
+        </svg>
+      )
 
       expect(Icon.mock.calls[0][0].name).toBe('topic')
     })
@@ -37,7 +45,11 @@ describe('Tests icon names renders correctly when', () => {
 
   test('kind is mobile', async () => {
     await act(async () => {
-      render(<LifelineIcon kind={'mobile'} theme={theme} />)
+      render(
+        <svg>
+          <LifelineIcon kind={'mobile'} theme={theme} />
+        </svg>
+      )
 
       expect(Icon.mock.calls[0][0].name).toBe('mobile')
     })
@@ -47,7 +59,11 @@ describe('Tests icon names renders correctly when', () => {
 describe('Tests icon colors renders correctly when', () => {
   test('kind is service', async () => {
     await act(async () => {
-      render(<LifelineIcon kind={'service'} theme={theme} />)
+      render(
+        <svg>
+          <LifelineIcon kind={'service'} theme={theme} />
+        </svg>
+      )
 
       expect(Icon.mock.calls[0][0].color).toBe('#4387fd')
     })
@@ -55,7 +71,11 @@ describe('Tests icon colors renders correctly when', () => {
 
   test('kind is topic', async () => {
     await act(async () => {
-      render(<LifelineIcon kind={'topic'} theme={theme} />)
+      render(
+        <svg>
+          <LifelineIcon kind={'topic'} theme={theme} />
+        </svg>
+      )
 
       expect(Icon.mock.calls[0][0].color).toBe('#4387fd')
     })
@@ -63,7 +83,11 @@ describe('Tests icon colors renders correctly when', () => {
 
   test('kind is mobile', async () => {
     await act(async () => {
-      render(<LifelineIcon kind={'mobile'} theme={theme} />)
+      render(
+        <svg>
+          <LifelineIcon kind={'mobile'} theme={theme} />
+        </svg>
+      )
 
       expect(Icon.mock.calls[0][0].color).toBe('#aa00ff')
     })
