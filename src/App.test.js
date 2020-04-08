@@ -6,7 +6,7 @@ const serviceName = 'serviceA'
 
 const mockJson = {
   sequence_diagram: {
-    lifelines: [{ name: serviceName }],
+    lifelines: [{ name: serviceName, kind: 'service' }],
     execution_boxes: [],
     arrows: [],
     start_time: 0,

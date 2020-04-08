@@ -5,53 +5,43 @@
     "lifelines": [
       {
         "name": "app",
-        "icon": "mobile",
-        "color": "#aa00ff"
+        "kind": "mobile"
       },
       {
         "name": "bff",
-        "icon": "hexagon",
-        "color": "#4387fd"
+        "kind": "service"
       },
       {
         "name": "transfers",
-        "icon": "hexagon",
-        "color": "#4387fd"
+        "kind": "service"
       },
       {
         "name": "transfer-out-requested",
-        "icon": "topic",
-        "color": "#4387fd"
+        "kind": "topic"
       },
       {
         "name": "deposits",
-        "icon": "hexagon",
-        "color": "#4387fd"
+        "kind": "service"
       },
       {
         "name": "transfer-out-liquidation",
-        "icon": "topic",
-        "color": "#4387fd"
+        "kind": "topic"
       },
       {
         "name": "new-transfer-out",
-        "icon": "topic",
-        "color": "#4387fd"
+        "kind": "topic"
       },
       {
         "name": "transfers-gateway",
-        "icon": "hexagon",
-        "color": "#4387fd"
+        "kind": "service"
       },
       {
         "name": "send-bacen-message",
-        "icon": "topic",
-        "color": "#4387fd"
+        "kind": "topic"
       },
       {
         "name": "bacen-client",
-        "icon": "hexagon",
-        "color": "#4387fd"
+        "kind": "service"
       }
     ],
     "execution_boxes": [
