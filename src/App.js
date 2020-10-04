@@ -12,7 +12,6 @@ const Container = styled.div`
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
   height: 100vh;
-  padding: 32px;
 `
 
 function App() {
