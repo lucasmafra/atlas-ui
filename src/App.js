@@ -7,6 +7,8 @@ import SequenceDiagram from './sequence-diagram/SequenceDiagram'
 import { objectKeysToCamel } from './common-js/misc'
 import Sidebar from './sidebar/Sidebar'
 import Header from './header/Header'
+import Home from './Pages/Home'
+import Search from './Pages/Search'
 
 const Container = styled.div`
   display: grid;
@@ -44,10 +46,10 @@ function App() {
             {loading ? <Spin aria-label='Loading' /> : <SequenceDiagram data={sequenceDiagram} />}
           </Route>
           <Route path="/search">
-            <p>pagina de search</p>
+            <Search />
           </Route>
           <Route path="/home">
-            <p>home</p>
+            <Home />
           </Route>
           <Redirect to='/home' />
         </Switch>
