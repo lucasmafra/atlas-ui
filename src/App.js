@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css'
+import styled from 'styled-components'
 import SequenceDiagram from './sequence-diagram/SequenceDiagram'
 import { objectKeysToCamel } from './common-js/misc'
+
+const Container = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
+  height: 100vh;
+  padding: 32px;
+`
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -24,16 +33,16 @@ function App() {
   }, [])
 
   return (
-    <div
-      style={{
-        padding: 32,
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
+    <Container>
+      <div style={{ gridColumn: 'span 2' }}>
+        <p>header</p>
+      </div>
+
+      <div style={{ width: '200px' }}>
+        <p>sidebar</p>
+      </div>
       {loading ? <Spin aria-label='Loading' /> : <SequenceDiagram data={sequenceDiagram} />}
-    </div>
+    </Container>
   )
 }
 
