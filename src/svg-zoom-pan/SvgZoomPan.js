@@ -88,7 +88,7 @@ const SvgZoomPan = (props) => {
   return (
     <div
       data-testid='svg-zoom-pan'
-      style={{ position: 'relative', width: '100%', height: '100%' }}
+      style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}
       onMouseDown={mouseDown(setHoldingClick, setCursor)}
       onMouseUp={mouseUp(setHoldingClick, setCursor)}
       onMouseMove={mouseMove(holdingClick, cursor, setCursor, matrix, setMatrix, dimensions)}
