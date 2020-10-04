@@ -4,6 +4,8 @@ import 'antd/dist/antd.css'
 import styled from 'styled-components'
 import SequenceDiagram from './sequence-diagram/SequenceDiagram'
 import { objectKeysToCamel } from './common-js/misc'
+import Sidebar from './sidebar/Sidebar'
+import Header from './header/Header'
 
 const Container = styled.div`
   display: grid;
@@ -34,13 +36,8 @@ function App() {
 
   return (
     <Container>
-      <div style={{ gridColumn: 'span 2' }}>
-        <p>header</p>
-      </div>
-
-      <div style={{ width: '200px' }}>
-        <p>sidebar</p>
-      </div>
+      <Header />
+      <Sidebar />
       {loading ? <Spin aria-label='Loading' /> : <SequenceDiagram data={sequenceDiagram} />}
     </Container>
   )
