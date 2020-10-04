@@ -58,7 +58,7 @@ const Container = styled.div`
   gap: 16px;
   align-content: start;
   width: 300px;
-  padding: 0px 16px;
+  padding: 16px;
 `
 
 const Sidebar = () => {
