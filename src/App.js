@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css'
 import styled from 'styled-components'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import SequenceDiagram from './sequence-diagram/SequenceDiagram'
 import { objectKeysToCamel } from './common-js/misc'
 import Sidebar from './sidebar/Sidebar'
@@ -34,11 +35,24 @@ function App() {
   }, [])
 
   return (
-    <Container>
-      <Header />
-      <Sidebar />
-      {loading ? <Spin aria-label='Loading' /> : <SequenceDiagram data={sequenceDiagram} />}
-    </Container>
+    <BrowserRouter>
+      <Container>
+        <Header />
+        <Sidebar />
+        <Switch>
+          <Route path="/trace/:traceId">
+            {loading ? <Spin aria-label='Loading' /> : <SequenceDiagram data={sequenceDiagram} />}
+          </Route>
+          <Route path="/search">
+            <p>pagina de search</p>
+          </Route>
+          <Route path="/home">
+            <p>home</p>
+          </Route>
+          <Redirect to='/home' />
+        </Switch>
+      </Container>
+    </BrowserRouter>
   )
 }
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link, useHistory } from 'react-router-dom'
 import InputSearch from '../widgets/InputSearch'
 
 const Container = styled.div`
@@ -19,13 +20,17 @@ const Title = styled.h1`
 `
 
 const Header = () => {
-  const handleOnSearch = (value) => {
-    console.log(value)
+  const history = useHistory()
+  
+  const handleOnSearch = (traceId) => {
+    history.push(`/trace/${traceId}`)
   }
 
   return (
     <Container>
-      <Title>Atlas</Title>
+      <Link to='/'>
+        <Title>Atlas</Title>
+      </Link>
       <InputSearch
         placeholder="Search for Trace ID"
         onSearch={handleOnSearch}

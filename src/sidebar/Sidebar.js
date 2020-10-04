@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import { Input, Button, Tooltip } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import AutoComplete from '../widgets/AutoComplete';
+import { objectToQueryParams } from '../common-js/misc';
 
 const SERVICES = [
   {
@@ -63,6 +65,7 @@ const Container = styled.div`
 
 const Sidebar = () => {
   const [form, setForm] = useState({ service: undefined, operation: undefined })
+  const history = useHistory()
 
   const handleOnChangeService = (service) => {
     console.log('search value: ', service)
@@ -76,6 +79,11 @@ const Sidebar = () => {
 
   const handleOnClick = () => {
     console.log(form)
+    const urlParams = objectToQueryParams(form)
+    if (!urlParams) return
+
+    history.push('/search' + urlParams)
+
   }
 
   return (

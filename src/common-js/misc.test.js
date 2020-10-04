@@ -19,3 +19,38 @@ describe('objectKeysToCamel', () => {
     expect(nut.objectKeysToCamel({ attr_a: null })).toStrictEqual({ attrA: null })
   })
 })
+
+describe('objectToQueryParams', () => {
+  test('single param', () => {
+    const obj = { a: 'bleus1' }
+    const queryParams = nut.objectToQueryParams(obj)
+
+    expect(queryParams).toBe('?a=bleus1')
+  })
+
+  test('two params', () => {
+    const obj = { a: 'bleus1', b: 'bleus2' }
+    const queryParams = nut.objectToQueryParams(obj)
+
+    expect(queryParams).toBe('?a=bleus1&b=bleus2')
+  })
+
+  test('no params', () => {
+    const obj = { }
+    const queryParams = nut.objectToQueryParams(obj)
+
+    expect(queryParams).toBe('')
+  })
+
+  test('falsy', () => {
+    expect(nut.objectToQueryParams(null)).toBe('')
+    expect(nut.objectToQueryParams(undefined)).toBe('')
+  })
+
+  test('tricky value', () => {
+    const obj = { a: 0 }
+    const queryParams = nut.objectToQueryParams(obj)
+
+    expect(queryParams).toBe('?a=0')
+  })
+})
