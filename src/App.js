@@ -9,7 +9,7 @@ function App() {
   const [sequenceDiagram, setSequenceDiagram] = useState(null)
 
   useEffect(() => {
-    fetch('/mock.json')
+    fetch('/mock_transaction_feed.json')
       .then((r) => r.json())
       .then((data) => {
         setSequenceDiagram(objectKeysToCamel(data).sequenceDiagram)

@@ -1,0 +1,153 @@
+{
+  "sequence_diagram": {
+    "start_time": 0,
+    "duration_ms": 1000,
+    "lifelines": [
+      {
+        "name": "app",
+        "kind": "mobile"
+      },
+      {
+        "name": "bff",
+        "kind": "service"
+      },
+      {
+        "name": "transfers",
+        "kind": "service"
+      },
+      {
+        "name": "loans",
+        "kind": "service"
+      },
+      {
+        "name": "debit",
+        "kind": "service"
+      },
+      {
+        "name": "boletos",
+        "kind": "service"
+      }
+    ],
+    "execution_boxes": [
+      {
+        "id": "1",
+        "start_time": 0,
+        "duration_ms": 2200,
+        "lifeline": "app"
+      },
+      {
+        "id": "2",
+        "start_time": 0,
+        "duration_ms": 2200,
+        "lifeline": "bff"
+      },
+      {
+        "id": "3",
+        "start_time": 0,
+        "duration_ms": 300,
+        "lifeline": "transfers"
+      },
+      {
+        "id": "4",
+        "start_time": 600,
+        "duration_ms": 300,
+        "lifeline": "loans"
+      },
+      {
+        "id": "5",
+        "start_time": 1200,
+        "duration_ms": 300,
+        "lifeline": "debit"
+      },
+      {
+        "id": "6",
+        "start_time": 1800,
+        "duration_ms": 300,
+        "lifeline": "boletos"
+      },
+      {
+        "id": "7",
+        "start_time": 800,
+        "duration_ms": 400,
+        "lifeline": "debit-card"
+      }
+    ],
+    "arrows": [
+      {
+        "id": "1",
+        "from": "app",
+        "to": "bff",
+        "start_time": 0,
+        "prefix": "GRAPHQL",
+        "label": "query/feed"
+      },
+      {
+        "id": "4",
+        "from": "bff",
+        "to": "app",
+        "start_time": 2050,
+        "label": "response"
+      },
+      {
+        "id": "2",
+        "from": "bff",
+        "to": "transfers",
+        "start_time": 0,
+        "prefix": "GET",
+        "label": "/api/account/:id/transfers"
+      },
+      {
+        "id": "3",
+        "from": "transfers",
+        "to": "bff",
+        "start_time": 200,
+        "label": "response"
+      },
+      {
+        "id": "5",
+        "from": "bff",
+        "to": "loans",
+        "start_time": 600,
+        "prefix": "GET",
+        "label": "/api/account/:id/loans"
+      },
+      {
+        "id": "6",
+        "from": "loans",
+        "to": "bff",
+        "start_time": 800,
+        "label": "response"
+      },
+      {
+        "id": "7",
+        "from": "bff",
+        "to": "debit",
+        "start_time": 1200,
+        "prefix": "GET",
+        "label": "/api/account/:id/debit"
+      },
+      {
+        "id": "8",
+        "from": "debit",
+        "to": "bff",
+        "start_time": 1400,
+        "label": "response"
+      },
+      {
+        "id": "9",
+        "from": "bff",
+        "to": "boletos",
+        "start_time": 1800,
+        "prefix": "GET",
+        "label": "/api/account/:id/boletos"
+      },
+      {
+        "id": "10",
+        "from": "boletos",
+        "to": "bff",
+        "start_time": 2000,
+        "label": "response"
+      }
+    ]
+  }
+}
