@@ -1,15 +1,15 @@
 import React from 'react';
-import { Select } from 'antd';
+import { Select as AntSelect } from 'antd';
 import styled from 'styled-components'
 
-const { Option } = Select;
+const { Option } = AntSelect;
 
 const Label = styled.p`
   margin-bottom: 4px;
   font-weight: bold;
 `
 
-const AutoComplete = ({ options, onSelect, placeholder, label }) => {
+const Select = ({ options, onSelect, placeholder, label }) => {
   const onChange = (id) => {
     console.log(`selected ${id}`);
     onSelect(id);
@@ -18,7 +18,7 @@ const AutoComplete = ({ options, onSelect, placeholder, label }) => {
   return (
     <div>
       {label && <Label>{label}</Label>}
-      <Select
+      <AntSelect
         allowClear
         showSearch
         style={{ width: '100%' }}
@@ -32,9 +32,9 @@ const AutoComplete = ({ options, onSelect, placeholder, label }) => {
         {options.map(({ id, name }) => {
           return <Option key={id} value={id}>{ name }</Option>
         })}
-      </Select>
+      </AntSelect>
     </div>
   )
 }
 
-export default AutoComplete
+export default Select

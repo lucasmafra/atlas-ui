@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import AutoComplete from '../widgets/AutoComplete';
+import Select from '../widgets/Select';
 import { objectToQueryParams } from '../common-js/misc';
 
 const SERVICES = [
@@ -86,13 +86,13 @@ const Sidebar = () => {
 
   return (
     <Container>
-      <AutoComplete
+      <Select
         placeholder="Select a service"
         options={SERVICES}
         onSelect={handleOnChangeService}
         label="Service"
       />
-      <AutoComplete
+      <Select
         placeholder="Select an opeation"
         options={OPERATIONS}
         onSelect={handleOnChangeOperation}
