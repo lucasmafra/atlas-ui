@@ -19,9 +19,7 @@ const StyledHeader = styled.h1`
 const Home = () => {
   return (
     <Container>
-      <StyledHeader>
-        Busque o trace por ID ou por parâmetros
-      </StyledHeader>
+      <StyledHeader>Busque o trace por ID ou por parâmetros</StyledHeader>
     </Container>
   )
 }

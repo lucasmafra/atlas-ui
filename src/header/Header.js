@@ -21,7 +21,7 @@ const Title = styled.h1`
 
 const Header = () => {
   const history = useHistory()
-  
+
   const handleOnSearch = (traceId) => {
     history.push(`/trace/${traceId}`)
   }
@@ -31,12 +31,9 @@ const Header = () => {
       <Link to='/'>
         <Title>Atlas</Title>
       </Link>
-      <InputSearch
-        placeholder="Search for Trace ID"
-        onSearch={handleOnSearch}
-      />
+      <InputSearch placeholder='Search for Trace ID' onSearch={handleOnSearch} />
     </Container>
   )
-} 
+}
 
-export default Header;
+export default Header

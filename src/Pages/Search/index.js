@@ -41,7 +41,11 @@ const Search = () => {
         Aqui mostraremos os resultados da busca para os seguintes parâmetros
       </StyledHeader>
       {Object.entries(objQueryParams).map(([key, value]) => {
-        return <Text key={key}>{key}: {value}</Text>
+        return (
+          <Text key={key}>
+            {key}: {value}
+          </Text>
+        )
       })}
     </Container>
   )

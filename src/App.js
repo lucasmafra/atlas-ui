@@ -22,13 +22,13 @@ function App() {
         <Header />
         <Sidebar />
         <Switch>
-          <Route path="/trace/:traceId">
+          <Route path='/trace/:traceId'>
             <Trace />
           </Route>
-          <Route path="/search">
+          <Route path='/search'>
             <Search />
           </Route>
-          <Route path="/home">
+          <Route path='/home'>
             <Home />
           </Route>
           <Redirect to='/home' />

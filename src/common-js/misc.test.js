@@ -36,7 +36,7 @@ describe('objectToQueryParams', () => {
   })
 
   test('no params', () => {
-    const obj = { }
+    const obj = {}
     const queryParams = nut.objectToQueryParams(obj)
 
     expect(queryParams).toBe('')

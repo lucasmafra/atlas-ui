@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import Select from '../widgets/Select';
-import { objectToQueryParams } from '../common-js/misc';
+import { Button } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
+import Select from '../widgets/Select'
+import { objectToQueryParams } from '../common-js/misc'
 
 const SERVICES = [
   {
@@ -81,32 +81,27 @@ const Sidebar = () => {
     if (!urlParams) return
 
     history.push('/search' + urlParams)
-
   }
 
   return (
     <Container>
       <Select
-        placeholder="Select a service"
+        placeholder='Select a service'
         options={SERVICES}
         onSelect={handleOnChangeService}
-        label="Service"
+        label='Service'
       />
       <Select
-        placeholder="Select an opeation"
+        placeholder='Select an opeation'
         options={OPERATIONS}
         onSelect={handleOnChangeOperation}
-        label="Operation"
+        label='Operation'
       />
-      <StyledButton
-        type="primary"
-        icon={<SearchOutlined />}
-        onClick={handleOnClick}
-      >
+      <StyledButton type='primary' icon={<SearchOutlined />} onClick={handleOnClick}>
         Search
       </StyledButton>
     </Container>
   )
-} 
+}
 
-export default Sidebar;
+export default Sidebar

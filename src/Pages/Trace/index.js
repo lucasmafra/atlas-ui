@@ -13,7 +13,7 @@ const Trace = () => {
   const [loading, setLoading] = useState(true)
   const [sequenceDiagram, setSequenceDiagram] = useState(null)
   const { traceId } = useParams()
-  
+
   useEffect(() => {
     console.log('dentro trace ID = ', traceId)
     setLoading(true)
@@ -31,9 +31,11 @@ const Trace = () => {
       })
   }, [traceId])
 
-  return loading
-    ? <StyledSpin aria-label='Loading' size="large" />
-    : <SequenceDiagram data={sequenceDiagram} />
+  return loading ? (
+    <StyledSpin aria-label='Loading' size='large' />
+  ) : (
+    <SequenceDiagram data={sequenceDiagram} />
+  )
 }
 
 export default Trace
