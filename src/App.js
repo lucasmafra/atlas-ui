@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Spin } from 'antd'
+import React from 'react'
 import 'antd/dist/antd.css'
 import styled from 'styled-components'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
-import SequenceDiagram from './sequence-diagram/SequenceDiagram'
-import { objectKeysToCamel } from './common-js/misc'
 import Sidebar from './sidebar/Sidebar'
 import Header from './header/Header'
 import Home from './Pages/Home'
 import Search from './Pages/Search'
+import Trace from './Pages/Trace'
 
 const Container = styled.div`
   display: grid;
@@ -18,24 +16,6 @@ const Container = styled.div`
 `
 
 function App() {
-  const [loading, setLoading] = useState(true)
-  const [sequenceDiagram, setSequenceDiagram] = useState(null)
-
-  useEffect(() => {
-    fetch('/mock_transaction_feed.json')
-      .then((r) => r.json())
-      .then((data) => {
-        setSequenceDiagram(objectKeysToCamel(data).sequenceDiagram)
-      })
-      .catch((e) => {
-        // TODO error handling
-        console.log(e)
-      })
-      .finally(() => {
-        setTimeout(() => setLoading(false), 1000)
-      })
-  }, [])
-
   return (
     <BrowserRouter>
       <Container>
@@ -43,7 +23,7 @@ function App() {
         <Sidebar />
         <Switch>
           <Route path="/trace/:traceId">
-            {loading ? <Spin aria-label='Loading' /> : <SequenceDiagram data={sequenceDiagram} />}
+            <Trace />
           </Route>
           <Route path="/search">
             <Search />

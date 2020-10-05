@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { Input, Button, Tooltip } from 'antd';
+import { Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import AutoComplete from '../widgets/AutoComplete';
 import { objectToQueryParams } from '../common-js/misc';
@@ -47,8 +47,6 @@ const OPERATIONS = [
     name: 'produce'
   }
 ]
-
-const { Search } = Input;
 
 const StyledButton = styled(Button)`
   justify-self: start;
