@@ -1,6 +1,15 @@
 import React from 'react'
 import { render, act, wait } from '@testing-library/react'
-import App from './App'
+import { BrowserRouter } from 'react-router-dom'
+import Trace from './'
+
+function TraceToBeTested() {
+  return (
+    <BrowserRouter>
+      <Trace />
+    </BrowserRouter>
+  )
+}
 
 const serviceName = 'serviceA'
 
@@ -18,7 +27,7 @@ fetch.mockResponse(JSON.stringify(mockJson))
 
 test('fetches json and renders diagram', async () => {
   await act(async () => {
-    const { getByText, queryByLabelText } = await render(<App />)
+    const { getByText, queryByLabelText } = await render(<TraceToBeTested />)
 
     await wait(() => {
       expect(getByText(serviceName)).toBeInTheDocument()
@@ -29,7 +38,7 @@ test('fetches json and renders diagram', async () => {
 
 test('while is fetching render loader', async () => {
   await act(async () => {
-    const { getByLabelText, queryByText } = await render(<App />)
+    const { getByLabelText, queryByText } = await render(<TraceToBeTested />)
     expect(getByLabelText('Loading')).toBeInTheDocument()
     expect(queryByText(serviceName)).toBe(null)
   })

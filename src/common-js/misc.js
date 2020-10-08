@@ -25,3 +25,16 @@ export const objectKeysToCamel = (o) => {
 
   return o
 }
+
+export const objectToQueryParams = (object) => {
+  if (!object) return ''
+
+  const queryParams = Object.entries(object).reduce((queryString, item) => {
+    const [key, value] = item
+    if (value === null || value === undefined) return queryString
+
+    return `${queryString}${key}=${value}&`
+  }, '?')
+
+  return queryParams.slice(0, -1)
+}
