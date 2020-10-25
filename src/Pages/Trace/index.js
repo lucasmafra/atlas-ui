@@ -3,7 +3,7 @@ import { Spin } from 'antd'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { objectKeysToCamel } from '../../common-js/misc'
-import SequenceDiagram from '../../sequence-diagram/SequenceDiagram'
+import SequenceDiagram from '../../SequenceDiagram/SequenceDiagram'
 
 const StyledSpin = styled(Spin)`
   align-self: center;

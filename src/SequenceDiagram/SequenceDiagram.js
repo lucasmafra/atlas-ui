@@ -3,7 +3,7 @@ import Lifeline from './Lifeline'
 import Arrow from './Arrow'
 import { theme } from './theme'
 import ExecutionBox from './ExecutionBox'
-import SvgZoomPan from '../svg-zoom-pan/SvgZoomPan'
+import SvgZoomPan from '../SvgZoomPan/SvgZoomPan'
 
 const SequenceDiagram = ({ data }) => {
   const { lifelines, arrows, executionBoxes } = data
