@@ -17,7 +17,7 @@ const Trace = () => {
   useEffect(() => {
     console.log('dentro trace ID = ', traceId)
     setLoading(true)
-    fetch('/mock_transaction_feed.json')
+    fetch('http://localhost:9000/api/traces/mock_transfer_out/sequence-diagram')
       .then((r) => r.json())
       .then((data) => {
         setSequenceDiagram(objectKeysToCamel(data).sequenceDiagram)
