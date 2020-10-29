@@ -167,7 +167,7 @@ export const getExecutionBoxLength = (startTimeMs, durationMs, sequenceDiagram, 
 /*
  * Converts a given instant t (milliseconds) into its Y coordinate
  */
-export const getYCoordinate = (t,  sequenceDiagram, theme, streakCoordinates) => {
+export const getYCoordinate = (t, sequenceDiagram, theme, streakCoordinates) => {
   const { startTime } = sequenceDiagram
   const { yAxisResolution } = theme
   return streakCoordinates.y + (t - startTime) * yAxisResolution

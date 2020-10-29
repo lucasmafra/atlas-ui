@@ -108,7 +108,7 @@ test('getArrowCoordinates', () => {
       iconStreakMargin: 4
     },
     executionBox: { width: 32 },
-    yAxisResolution: 20,
+    yAxisResolution: 20
   }
   expect(nut.getArrowCoordinates(from, to, startTime, sequenceDiagram, theme)).toStrictEqual({
     x: 236,
@@ -220,13 +220,15 @@ test('getExecutionBoxLenght', () => {
       labelIconMargin: 8,
       iconStreakMargin: 4
     },
-    executionBox: { width: 32 },
+    executionBox: { width: 32 }
   }
   const sequenceDiagram = { startTime: 0 }
   const startTime = 100
   const duration = 300
   const streakCoordinates = { x: 0, y: 0 }
-  expect(nut.getExecutionBoxLength(startTime, duration, sequenceDiagram, theme, streakCoordinates)).toBe(6000)
+  expect(
+    nut.getExecutionBoxLength(startTime, duration, sequenceDiagram, theme, streakCoordinates)
+  ).toBe(6000)
 })
 
 test('getYCoordinate', () => {

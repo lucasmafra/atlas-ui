@@ -14,7 +14,7 @@ export const theme = {
   },
   executionBox: {
     width: 16,
-    color: '#ffd966',
+    color: '#ffd966'
   },
   arrow: {
     color: '#545b64',
@@ -23,7 +23,7 @@ export const theme = {
     labelLines: 2,
     headWidth: 4,
     headHeight: 8,
-    labelMargin: 4,
+    labelMargin: 4
   },
-  yAxisResolution: .4,
+  yAxisResolution: 0.4
 }
