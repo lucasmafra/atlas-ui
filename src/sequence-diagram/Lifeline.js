@@ -6,7 +6,7 @@ import { getLifelineOffset } from './drawing'
 import LifelineIcon from './LifelineIcon'
 
 const Lifeline = ({ name, kind, sequenceDiagram, theme }) => {
-  const streakLength = 1500 // TODO think of a better way to define this length
+  const streakLength = 6000 // TODO think of a better way to define this length
   const x = getLifelineOffset(name, sequenceDiagram, theme)
   return (
     <g transform={`translate(${x}, 0)`}>

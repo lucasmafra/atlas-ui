@@ -10,7 +10,7 @@ const mockData = {
     { name: 'serviceB', kind: 'service' }
   ],
   executionBoxes: [{ id: '1', startTime: 100, durationMs: 500, lifeline: 'serviceA' }],
-  arrows: [{ id: '1', from: 'serviceA', to: 'serviceB', startTime: 150, label: 'GET /profiles/1' }]
+  arrows: [{ id: '1', from: 'serviceA', to: 'serviceB', startTime: 150, label: 'GET /profiles/1' }],
 }
 
 test('render lifelines', async () => {
