@@ -4,7 +4,7 @@ import { getExecutionBoxTheme, getExecutionBoxCoordinates, getExecutionBoxLength
 const ExecutionBox = ({ startTime, durationMs, lifeline, sequenceDiagram, theme }) => {
   const { color, width } = getExecutionBoxTheme(theme)
   const { x, y } = getExecutionBoxCoordinates(lifeline, startTime, sequenceDiagram, theme)
-  const length = getExecutionBoxLength(durationMs, sequenceDiagram)
+  const length = getExecutionBoxLength(startTime, durationMs, sequenceDiagram, theme)
   return <rect data-testid='execution-box' x={x} y={y} width={width} height={length} fill={color} />
 }
 

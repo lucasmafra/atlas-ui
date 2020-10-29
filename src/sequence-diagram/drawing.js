@@ -85,22 +85,13 @@ export const getArrowXCoordinate = (from, to, sequenceDiagram, streakCoordinates
 }
 
 /*
- * Computes arrow y coordinate
- */
-export const getArrowYCoordinate = (startTime, sequenceDiagram, streakCoordinates) => {
-  const { durationMs: totalDurationMs, startTime: totalStartTime } = sequenceDiagram
-  const yOffset = ((startTime - totalStartTime) * 100) / totalDurationMs
-  return streakCoordinates.y + yOffset
-}
-
-/*
  * Computes (x, y) of arrow
  */
 export const getArrowCoordinates = (from, to, startTime, sequenceDiagram, theme) => {
   const streakCoordinates = getStreakCoordinates(theme)
   return {
     x: getArrowXCoordinate(from, to, sequenceDiagram, streakCoordinates, theme),
-    y: getArrowYCoordinate(startTime, sequenceDiagram, streakCoordinates)
+    y: getYCoordinate(startTime, sequenceDiagram, theme, streakCoordinates)
   }
 }
 
@@ -153,28 +144,31 @@ export const getExecutionBoxXCoordinate = (lifeline, sequenceDiagram, streakCoor
 }
 
 /*
- * Computes execution box y coordinate
- */
-export const getExecutionBoxYCoordinate = (startTime, sequenceDiagram, streakCoordinates) => {
-  const { durationMs: totalDurationMs, startTime: totalStartTime } = sequenceDiagram
-  const yOffset = ((startTime - totalStartTime) * 100) / totalDurationMs
-  return streakCoordinates.y + yOffset
-}
-
-/*
  * Computes execution box (x, y) coordinates
  */
 export const getExecutionBoxCoordinates = (lifeline, startTime, sequenceDiagram, theme) => {
   const streakCoordinates = getStreakCoordinates(theme)
   return {
     x: getExecutionBoxXCoordinate(lifeline, sequenceDiagram, streakCoordinates, theme),
-    y: getExecutionBoxYCoordinate(startTime, sequenceDiagram, streakCoordinates)
+    y: getYCoordinate(startTime, sequenceDiagram, theme, streakCoordinates)
   }
 }
 
 /*
  * Computes execution box length
  */
-export const getExecutionBoxLength = (durationMs, sequenceDiagram) => {
-  return (durationMs / sequenceDiagram.durationMs) * 100
+export const getExecutionBoxLength = (startTimeMs, durationMs, sequenceDiagram, theme) => {
+  const streakCoordinates = getStreakCoordinates(theme)
+  const minY = getYCoordinate(startTimeMs, sequenceDiagram, theme, streakCoordinates)
+  const maxY = getYCoordinate(startTimeMs + durationMs, sequenceDiagram, theme, streakCoordinates)
+  return maxY - minY
+}
+
+/*
+ * Converts a given instant t (milliseconds) into its Y coordinate
+ */
+export const getYCoordinate = (t, sequenceDiagram, theme, streakCoordinates) => {
+  const { startTime } = sequenceDiagram
+  const { yAxisResolution } = theme
+  return streakCoordinates.y + (t - startTime) * yAxisResolution
 }

@@ -87,12 +87,6 @@ test('getArrowXCoordinate', () => {
   expect(nut.getArrowXCoordinate('b', 'c', sequenceDiagram, streakCoordinates, theme)).toBe(416)
 })
 
-test('getArrowYCoordinate', () => {
-  const streakCoordinates = { x: 100, y: 0 }
-  const sequenceDiagram = { startTime: 10, durationMs: 100 }
-  expect(nut.getArrowYCoordinate(50, sequenceDiagram, streakCoordinates)).toBe(40)
-})
-
 test('getArrowCoordinates', () => {
   const from = 'b'
   const to = 'c'
@@ -113,11 +107,12 @@ test('getArrowCoordinates', () => {
       labelIconMargin: 8,
       iconStreakMargin: 4
     },
-    executionBox: { width: 32 }
+    executionBox: { width: 32 },
+    yAxisResolution: 20
   }
   expect(nut.getArrowCoordinates(from, to, startTime, sequenceDiagram, theme)).toStrictEqual({
     x: 236,
-    y: 148
+    y: 908
   })
 })
 
@@ -186,12 +181,6 @@ test('getExecutionBoxXCoordinate', () => {
   expect(nut.getExecutionBoxXCoordinate('b', sequenceDiagram, streakCoordinates, theme)).toBe(384)
 })
 
-test('getExecutionBoxYCoordinate', () => {
-  const streakCoordinates = { x: 0, y: 100 }
-  const sequenceDiagram = { durationMs: 100, startTime: 10 }
-  expect(nut.getExecutionBoxYCoordinate(50, sequenceDiagram, streakCoordinates)).toBe(140)
-})
-
 test('getExecutionBoxCoordinates', () => {
   const theme = {
     spaceBetweenLifelines: 300,
@@ -204,7 +193,8 @@ test('getExecutionBoxCoordinates', () => {
       labelIconMargin: 8,
       iconStreakMargin: 4
     },
-    executionBox: { width: 32 }
+    executionBox: { width: 32 },
+    yAxisResolution: 20
   }
   const sequenceDiagram = {
     lifelines: [{ name: 'a' }, { name: 'b' }],
@@ -213,11 +203,40 @@ test('getExecutionBoxCoordinates', () => {
   }
   expect(nut.getExecutionBoxCoordinates('b', 50, sequenceDiagram, theme)).toStrictEqual({
     x: 384,
-    y: 148
+    y: 908
   })
 })
 
 test('getExecutionBoxLenght', () => {
-  const sequenceDiagram = { durationMs: 100 }
-  expect(nut.getExecutionBoxLength(40, sequenceDiagram)).toBe(40)
+  const theme = {
+    yAxisResolution: 20,
+    spaceBetweenLifelines: 300,
+    lifeline: {
+      labelWidth: 200,
+      labelFontSize: 16,
+      labelLineHeight: 1.5,
+      labelLines: 2,
+      iconSize: 48,
+      labelIconMargin: 8,
+      iconStreakMargin: 4
+    },
+    executionBox: { width: 32 }
+  }
+  const sequenceDiagram = { startTime: 0 }
+  const startTime = 100
+  const duration = 300
+  const streakCoordinates = { x: 0, y: 0 }
+  expect(
+    nut.getExecutionBoxLength(startTime, duration, sequenceDiagram, theme, streakCoordinates)
+  ).toBe(6000)
+})
+
+test('getYCoordinate', () => {
+  const theme = {
+    yAxisResolution: 20 // 20px per millisecond
+  }
+  const t = 500
+  const sequenceDiagram = { startTime: 200 }
+  const streakCoordinates = { x: 0, y: 100 }
+  expect(nut.getYCoordinate(t, sequenceDiagram, theme, streakCoordinates)).toBe(6100)
 })
