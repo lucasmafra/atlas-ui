@@ -1,16 +1,16 @@
 export const theme = {
-  spaceBetweenLifelines: 240,
-  verticalMargin: 16,
+  spaceBetweenLifelines: 40,
+  verticalMargin: 80,
   horizontalMargin: 0,
   lifeline: {
-    labelFontSize: 12,
+    labelFontSize: 8,
     labelLineHeight: 1.5,
     labelLines: 2,
-    iconSize: 32,
-    labelIconMargin: 8,
+    iconSize: 16,
+    labelIconMargin: 0,
     iconStreakMargin: 16,
-    labelWidth: 200,
-    streakWidth: 2
+    labelWidth: 100,
+    streakWidth: 1
   },
   executionBox: {
     width: 16,
@@ -25,5 +25,8 @@ export const theme = {
     headHeight: 8,
     labelMargin: 4
   },
-  yAxisResolution: 0.4
+  yAxisResolution: 1,
+  node: {
+    radius: 4
+  }
 }

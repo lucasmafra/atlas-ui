@@ -8,8 +8,11 @@ import SvgZoomPan from '../svg-zoom-pan/SvgZoomPan'
 const SequenceDiagram = ({ data }) => {
   const { lifelines, arrows, executionBoxes } = data
 
-  const renderLifelines = lifelines.map(({ name, kind }) => (
-    <Lifeline key={name} name={name} sequenceDiagram={data} theme={theme} kind={kind} />
+  const renderLifelinesHeader = lifelines.map(({ name, kind }) => (
+    <g>
+      <LifelineLabel key={name} name={name} sequenceDiagram={data} theme={theme} kind={kind} />
+      <LifelineIcon key={name} name={name} sequenceDiagram={data} theme={theme} kind={kind} />
+    </g>
   ))
 
   const renderArrows = arrows.map(({ id, from, to, startTime, prefix, label }) => (
@@ -39,9 +42,9 @@ const SequenceDiagram = ({ data }) => {
   const { horizontalMargin, verticalMargin } = theme
   return (
     <div style={{ border: '1px solid #cecece', height: '100%', width: '100%' }}>
+      {renderLifelines}
       <SvgZoomPan>
         <g transform={`translate(${horizontalMargin}, ${verticalMargin})`}>
-          {renderLifelines}
           {renderArrows}
           {renderExecutionBoxes}
         </g>

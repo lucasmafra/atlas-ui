@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { getLifelineTheme, getLifelineIconCoordinates } from './drawing'
+import { getLifelineTheme, getLifelineIconCoordinates, getLifelineOffset } from './drawing'
 import Icon from './Icon'
 
 const kindToIcon = {
@@ -18,12 +18,13 @@ const kindToIcon = {
   }
 }
 
-const LifelineIcon = ({ theme, kind }) => {
+const LifelineIcon = ({ theme, kind, name, sequenceDiagram }) => {
   const { iconSize } = getLifelineTheme(theme)
   const { name: iconName, color: iconColor } = kindToIcon[kind]
   const renderIcon = <Icon name={iconName} size={iconSize} color={iconColor} />
   const { x, y } = getLifelineIconCoordinates(theme)
-  return <g transform={`translate(${x}, ${y})`}>{renderIcon}</g>
+  const lifelineOffset = getLifelineOffset(name, sequenceDiagram, theme)
+  return <g transform={`translate(${x + lifelineOffset}, ${y})`}>{renderIcon}</g>
 }
 
 LifelineIcon.propTypes = {

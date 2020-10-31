@@ -3,7 +3,9 @@ import { Spin } from 'antd'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { objectKeysToCamel } from '../../common-js/misc'
-import SequenceDiagram from '../../sequence-diagram/SequenceDiagram'
+import SequenceDiagram from '../../sequence-diagram/SequenceDiagramV2'
+import * as logParser from '../../sequence-diagram/log-parser'
+const parse = require('csv-parse/lib/sync')
 
 const StyledSpin = styled(Spin)`
   align-self: center;
@@ -17,10 +19,18 @@ const Trace = () => {
   useEffect(() => {
     console.log('dentro trace ID = ', traceId)
     setLoading(true)
-    fetch('http://localhost:9000/api/traces/mock_transfer_out/sequence-diagram')
-      .then((r) => r.json())
-      .then((data) => {
-        setSequenceDiagram(objectKeysToCamel(data).sequenceDiagram)
+    fetch('/transfer_out_log.csv')
+      .then((r) => {
+        return r.text()
+      })
+      .then((rawData) => {
+        const logs = parse(rawData, { columns: true, skip_empty_lines: true })
+        const data = {
+          lifelines: logParser.parseLifelines(logs),
+          nodes: logParser.parseNodes(logs),
+          arrows: logParser.parseArrows(logs)
+        }
+        setSequenceDiagram(data)
       })
       .catch((e) => {
         // TODO error handling

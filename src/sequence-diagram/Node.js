@@ -9,10 +9,9 @@ const withStartTime = (sequenceDiagram) => ({
 const Node = ({ node, sequenceDiagram, theme }) => {
   const { x, y } = getNodeCoordinates(node, withStartTime(sequenceDiagram), theme)
   const { radius } = getNodeTheme(theme)
-  console.log('x, y', x, y)
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <circle cx="0" cy="0" r={radius} stroke="black" strokeWidth="2" fill="purple" />
+      <circle cx="0" cy="0" r={radius} stroke="black" strokeWidth="1" fill="purple" />
     </g>
   )
 }

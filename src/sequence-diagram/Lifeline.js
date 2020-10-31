@@ -6,13 +6,12 @@ import { getLifelineOffset } from './drawing'
 import LifelineIcon from './LifelineIcon'
 
 const Lifeline = ({ name, kind, sequenceDiagram, theme }) => {
-  const streakLength = 6000 // TODO think of a better way to define this length
-  const x = getLifelineOffset(name, sequenceDiagram, theme)
+
   return (
-    <g transform={`translate(${x}, 0)`}>
-      <LifelineLabel label={name} theme={theme} />
-      <LifelineIcon kind={kind} theme={theme} />
-      <LifelineStreak length={streakLength} theme={theme} />
+    <g>
+      <LifelineLabel name={name} sequenceDiagram={sequenceDiagram} label={name} theme={theme} />
+      <LifelineIcon name={name} sequenceDiagram={sequenceDiagram} kind={kind} theme={theme} />
+      <LifelineStreak name={name} sequenceDiagram={sequenceDiagram} theme={theme} />
     </g>
   )
 }

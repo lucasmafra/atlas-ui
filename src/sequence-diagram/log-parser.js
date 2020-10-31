@@ -56,10 +56,11 @@ export const parseNodes = logs => {
 }
 
 export const parseLifelines = logs => {
-  return _.uniqBy(logs.map((log) => ({
+  return _.uniqBy(_.sortBy(logs.map((log) => ({
     id: logToLifelineId(log),
+    time: new Date(log._time).getTime(),
     label: log.source
-  })), 'id')
+  })), 'time'), 'id')
 }
 
 export const parseArrows = logs => {

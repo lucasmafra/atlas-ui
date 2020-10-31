@@ -14,6 +14,11 @@ export const getLifelineTheme = (theme) => theme.lifeline
 export const getExecutionBoxTheme = (theme) => theme.executionBox
 
 /*
+ * Retrieves node specific theme from general theme
+ */
+export const getNodeTheme = (theme) => theme.node
+
+/*
  * Computes (x, y) of streak based on theme config
  */
 export const getStreakCoordinates = (theme) => {
@@ -39,7 +44,7 @@ export const getStreakCoordinates = (theme) => {
 export const getLifelineOffset = (lifeline, sequenceDiagram, theme) => {
   const { lifelines } = sequenceDiagram
   const { spaceBetweenLifelines } = theme
-  const index = lifelines.findIndex((l) => l.name === lifeline)
+  const index = lifelines.findIndex((l) => l.name === lifeline || l.id === lifeline || l.label === lifeline)
   return index * spaceBetweenLifelines
 }
 
@@ -171,4 +176,32 @@ export const getYCoordinate = (t, sequenceDiagram, theme, streakCoordinates) => 
   const { startTime } = sequenceDiagram
   const { yAxisResolution } = theme
   return streakCoordinates.y + (t - startTime) * yAxisResolution
+}
+
+/*
+ * Computes node x coordinate
+ */
+export const getNodeXCoordinate = (node, sequenceDiagram, streakCoordinates, theme) => {
+  const lifelineOffset = getLifelineOffset(node.lifeline, sequenceDiagram, theme)
+  return lifelineOffset + streakCoordinates.x
+}
+
+/*
+ * Computes node y coordinate
+ */
+export const getNodeYCoordinate = (node, sequenceDiagram, streakCoordinates, theme) => {
+  const times = sequenceDiagram.nodes.map((node) => node.time).sort()
+  const index = times.indexOf(node.time)
+  return streakCoordinates.y + (index * 16)
+}
+
+/*
+ * Computes node (x, y) coordinates
+ */
+export const getNodeCoordinates = (node, sequenceDiagram, theme) => {
+  const streakCoordinates = getStreakCoordinates(theme)
+  return {
+    x: getNodeXCoordinate(node, sequenceDiagram, streakCoordinates, theme),
+    y: getNodeYCoordinate(node, sequenceDiagram, streakCoordinates, theme)
+  }
 }
