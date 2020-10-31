@@ -2,9 +2,12 @@ import React from 'react'
 import LifelineLabel from './LifelineLabel'
 import LifelineIcon from './LifelineIcon'
 import Lifeline from './Lifeline'
+import LifelineStreak from './LifelineStreak'
 // import ArrowV2 from './ArrowV2'
 import { theme } from './theme'
 import Node from './Node'
+import useDimensions from "react-cool-dimensions";
+
 // import SvgZoomPan from '../svg-zoom-pan/SvgZoomPan'
 
 const SequenceDiagramV2 = ({ data }) => {
@@ -19,6 +22,10 @@ const SequenceDiagramV2 = ({ data }) => {
 
   const renderLifelines = lifelines.map(({ id, label }) => (
     <Lifeline key={id} name={label} kind={'service'} sequenceDiagram={data} theme={theme} />
+  ))
+
+  const renderLifelinesStreak = lifelines.map(({ id, label }) => (
+    <LifelineStreak key={id} name={label} sequenceDiagram={data} theme={theme} />
   ))
 
   //////////////////////////////////////////////////
@@ -41,11 +48,25 @@ const SequenceDiagramV2 = ({ data }) => {
   })
 
   const { horizontalMargin, verticalMargin } = theme
+
+  const { ref, width, height, entry, unobserve, observe } = useDimensions({
+    onResize: ({ width, height, entry, unobserve, observe }) => {
+      // Triggered whenever the size of the target is changed
+    },
+  });
+
+  console.log('width', width, 'height', height)
+
   return (
     <div style={{ border: '1px solid #cecece', height: '100%', width: '100%', overflow: 'auto' }}>
-      <svg width="6000" height="32000">
+      <svg width={width + 100} height="120" style={{position: 'sticky', top: 0, background: 'white'}}>
         <g transform={`translate(${horizontalMargin}, ${verticalMargin})`}>
-          {renderLifelines}
+          {renderLifelinesHeader}
+        </g>
+      </svg>
+      <svg width={width + 100} height={height}>
+        <g transform={`translate(${horizontalMargin}, ${-verticalMargin})`} ref={ref}>
+        {renderLifelinesStreak}
           {renderNodes}
         </g>
       </svg>
