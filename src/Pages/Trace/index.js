@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import SequenceDiagram from '../../sequence-diagram/SequenceDiagramV2'
 import * as logParser from '../../sequence-diagram/log-parser'
+import { logProfile } from '../../common-js/debug'
 const parse = require('csv-parse/lib/sync')
 
 const StyledSpin = styled(Spin)`
@@ -16,9 +17,8 @@ const Trace = ({ onSelectNode, selectedNode }) => {
   const { traceId } = useParams()
 
   useEffect(() => {
-    console.log('dentro trace ID = ', traceId)
     setLoading(true)
-    fetch('/transfer_out_log.csv')
+    fetch(`/${traceId}.csv`)
       .then((r) => {
         return r.text()
       })
@@ -40,10 +40,12 @@ const Trace = ({ onSelectNode, selectedNode }) => {
       })
   }, [traceId])
 
+
+
   return loading ? (
     <StyledSpin aria-label='Loading' size='large' />
   ) : (
-    <SequenceDiagram data={sequenceDiagram} onSelectNode={onSelectNode} selectedNode={selectedNode} />
+      <SequenceDiagram data={sequenceDiagram} onSelectNode={onSelectNode} selectedNode={selectedNode} />
   )
 }
 

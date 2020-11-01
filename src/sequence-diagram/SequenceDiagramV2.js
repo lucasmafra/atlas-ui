@@ -6,7 +6,7 @@ import LifelineStreak from './LifelineStreak'
 import { theme } from './theme'
 import Node from './Node'
 import useDimensions from "react-cool-dimensions";
-
+import { logProfile } from '../common-js/debug'
 // import SvgZoomPan from '../svg-zoom-pan/SvgZoomPan'
 
 const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode }) => {
@@ -55,8 +55,8 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode }) => {
           {renderLifelinesHeader}
         </g>
       </svg>
-      <svg width={width + 100} height={height}>
-        <g transform={`translate(${horizontalMargin}, ${-verticalMargin})`} ref={ref}>
+      <svg width={width + 100} height={height} ref={ref}>
+        <g transform={`translate(${horizontalMargin}, ${-verticalMargin})`} >
           {renderLifelinesStreak}
           {renderNodes}
         </g>

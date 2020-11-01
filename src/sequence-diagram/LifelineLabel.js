@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { getLifelineTheme, getLifelineOffset } from './drawing'
 
 const LifelineLabel = ({ label, theme, name, sequenceDiagram }) => {
   const { labelFontSize, labelWidth, labelLineHeight, labelLines } = getLifelineTheme(theme)
   const labelHeight = labelLineHeight * labelFontSize * labelLines
-  const lifelineOffset = getLifelineOffset(name, sequenceDiagram, theme)
+  const lifelineOffset = useMemo(() => getLifelineOffset(name, sequenceDiagram, theme), [name, sequenceDiagram, theme])
   const sin45 = 0.71
   return (
     <g transform={`translate(${lifelineOffset + ((labelWidth/2)* sin45)}, ${((-labelWidth/2)* sin45)}) rotate(-45, ${labelWidth/2}, ${labelHeight/2})`}>

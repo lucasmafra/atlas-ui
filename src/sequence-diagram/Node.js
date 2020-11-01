@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { getNodeCoordinates, getNodeTheme } from './drawing'
 
 const withStartTime = (sequenceDiagram) => ({
@@ -7,8 +7,8 @@ const withStartTime = (sequenceDiagram) => ({
 })
 
 const Node = ({ node, sequenceDiagram, theme, onSelectNode, selectedNode }) => {
-  const { x, y } = getNodeCoordinates(node, withStartTime(sequenceDiagram), theme)
   const { radius, color } = getNodeTheme(theme)
+  const { x, y } = useMemo(() => getNodeCoordinates(node, withStartTime(sequenceDiagram), theme), [node, sequenceDiagram, theme])
   const actualRadius = selectedNode && selectedNode.id === node.id ? radius * 1.4 : radius
   const strokeWidth = selectedNode && selectedNode.id === node.id ? 3 : 1
   const strokeColor = selectedNode && selectedNode.id === node.id ? 'blue' : 'black'

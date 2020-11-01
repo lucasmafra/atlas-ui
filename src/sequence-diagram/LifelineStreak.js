@@ -1,11 +1,11 @@
-import React from 'react'
-import { getStreakCoordinates, getLifelineTheme, getLifelineOffset } from './drawing'
+import React, { useMemo } from 'react'
+import { getStreakCoordinates, getLifelineTheme, getLifelineOffset, getLifelineStreakLength } from './drawing'
 
 const LifelineStreak = ({ name, sequenceDiagram, theme }) => {
   const { streakWidth } = getLifelineTheme(theme)
   const { x, y } = getStreakCoordinates(theme)
-  const streakLength = 32000 // TODO think of a better way to define this length
-  const lifelineOffset = getLifelineOffset(name, sequenceDiagram, theme)
+  const streakLength = useMemo(() => getLifelineStreakLength(sequenceDiagram, theme), [sequenceDiagram, theme])
+  const lifelineOffset = useMemo(() => getLifelineOffset(name, sequenceDiagram, theme), [name, sequenceDiagram, theme])
   return (
     <g transform={`translate(${lifelineOffset}, 0)`}>
       <path

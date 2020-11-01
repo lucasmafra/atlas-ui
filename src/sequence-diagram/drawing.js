@@ -205,3 +205,12 @@ export const getNodeCoordinates = (node, sequenceDiagram, theme) => {
     y: getNodeYCoordinate(node, sequenceDiagram, streakCoordinates, theme)
   }
 }
+
+/*
+ * Computes lifeline streak length
+ */
+export const getLifelineStreakLength = (sequenceDiagram, theme) => {
+  const streakCoordinates = getStreakCoordinates(theme)
+  const times = sequenceDiagram.nodes.map((node) => node.time).sort()
+  return streakCoordinates.y + (times.length * 16)
+}

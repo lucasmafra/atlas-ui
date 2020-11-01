@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { getLifelineTheme, getLifelineIconCoordinates, getLifelineOffset } from './drawing'
 import Icon from './Icon'
 
@@ -23,7 +23,7 @@ const LifelineIcon = ({ theme, kind, name, sequenceDiagram }) => {
   const { name: iconName, color: iconColor } = kindToIcon[kind]
   const renderIcon = <Icon name={iconName} size={iconSize} color={iconColor} />
   const { x, y } = getLifelineIconCoordinates(theme)
-  const lifelineOffset = getLifelineOffset(name, sequenceDiagram, theme)
+  const lifelineOffset = useMemo(() => getLifelineOffset(name, sequenceDiagram, theme), [name, sequenceDiagram, theme])
   return <g transform={`translate(${x + lifelineOffset}, ${y})`}>{renderIcon}</g>
 }
 
