@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-const _ = require('lodash');
+import * as _ from 'lodash'
 const { sha256 } = require('js-sha256');
 
 const unpack = (str) => {
