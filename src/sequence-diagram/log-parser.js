@@ -49,7 +49,7 @@ const findOutLog = (inLog, logs) => {
 export const parseNodes = logs => {
   return _.uniqBy(logs.map((log) => ({
     id: logToNodeId(log),
-    meta: log._raw,
+    meta: log,
     time: new Date(log._time).getTime(),
     lifeline: log.source
   })), 'id')

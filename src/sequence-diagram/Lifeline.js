@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import LifelineLabel from './LifelineLabel'
 import LifelineStreak from './LifelineStreak'
-import { getLifelineOffset } from './drawing'
 import LifelineIcon from './LifelineIcon'
 
 const Lifeline = ({ name, kind, sequenceDiagram, theme }) => {

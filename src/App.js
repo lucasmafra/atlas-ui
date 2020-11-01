@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import 'antd/dist/antd.css'
 import styled from 'styled-components'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
@@ -16,14 +16,16 @@ const Container = styled.div`
 `
 
 function App() {
+  const [selectedNode, selectNode] = useState()
+
   return (
     <BrowserRouter>
       <Container>
         <Header />
-        <Sidebar />
+        <Sidebar selectedNode={selectedNode}/>
         <Switch>
           <Route path='/trace/:traceId'>
-            <Trace />
+            <Trace onSelectNode={selectNode} selectedNode={selectedNode} />
           </Route>
           <Route path='/search'>
             <Search />

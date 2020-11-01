@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Spin } from 'antd'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { objectKeysToCamel } from '../../common-js/misc'
 import SequenceDiagram from '../../sequence-diagram/SequenceDiagramV2'
 import * as logParser from '../../sequence-diagram/log-parser'
 const parse = require('csv-parse/lib/sync')
@@ -11,7 +10,7 @@ const StyledSpin = styled(Spin)`
   align-self: center;
 `
 
-const Trace = () => {
+const Trace = ({ onSelectNode, selectedNode }) => {
   const [loading, setLoading] = useState(true)
   const [sequenceDiagram, setSequenceDiagram] = useState(null)
   const { traceId } = useParams()
@@ -44,7 +43,7 @@ const Trace = () => {
   return loading ? (
     <StyledSpin aria-label='Loading' size='large' />
   ) : (
-    <SequenceDiagram data={sequenceDiagram} />
+    <SequenceDiagram data={sequenceDiagram} onSelectNode={onSelectNode} selectedNode={selectedNode} />
   )
 }
 

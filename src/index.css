@@ -5,3 +5,7 @@
 p {
   margin: 0;
 }
+
+.log-value-cell {
+    word-break: break-all;
+}

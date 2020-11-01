@@ -1,12 +1,12 @@
 export const theme = {
-  spaceBetweenLifelines: 40,
+  spaceBetweenLifelines: 60,
   verticalMargin: 80,
   horizontalMargin: 0,
   lifeline: {
-    labelFontSize: 8,
+    labelFontSize: 10,
     labelLineHeight: 1.5,
     labelLines: 2,
-    iconSize: 16,
+    iconSize: 24,
     labelIconMargin: 0,
     iconStreakMargin: 16,
     labelWidth: 100,
@@ -27,6 +27,7 @@ export const theme = {
   },
   yAxisResolution: 1,
   node: {
-    radius: 4
+    radius: 6,
+    color: 'gray'
   }
 }

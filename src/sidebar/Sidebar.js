@@ -1,105 +1,65 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
-import { Button } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
-import Select from '../widgets/Select'
-import { objectToQueryParams } from '../common-js/misc'
-
-const SERVICES = [
-  {
-    id: 1,
-    name: 'apolo'
-  },
-  {
-    id: 2,
-    name: 'appa'
-  },
-  {
-    id: 3,
-    name: 'beco-diagonal'
-  },
-  {
-    id: 4,
-    name: 'c3po'
-  }
-]
-
-const OPERATIONS = [
-  {
-    id: 1,
-    name: 'GET HTTP'
-  },
-  {
-    id: 2,
-    name: 'POST HTTP'
-  },
-  {
-    id: 3,
-    name: 'graphql mutation'
-  },
-  {
-    id: 4,
-    name: 'consume'
-  },
-  {
-    id: 5,
-    name: 'produce'
-  }
-]
-
-const StyledButton = styled(Button)`
-  justify-self: start;
-`
+import { Table } from 'antd'
+const _ = require('lodash');
 
 const Container = styled.div`
   display: grid;
   grid-auto-flow: row;
   gap: 16px;
   align-content: start;
-  width: 300px;
+  width: 480px;
   padding: 16px;
+  height: 100%;
+  overflow: auto;
 `
 
-const Sidebar = () => {
-  const [form, setForm] = useState({ service: undefined, operation: undefined })
-  const history = useHistory()
+const columns = [
+  {
+    title: 'Field',
+    dataIndex: 'field',
+    key: 'field',
+    className: 'log-value-cell',
+    colSpan: 1,
+    width: 100
+  },
+  {
+    title: 'Value',
+    dataIndex: 'value',
+    key: 'key',
+    className: 'log-value-cell',
+    colSpan: 2
+  },
+];
 
-  const handleOnChangeService = (service) => {
-    console.log('search value: ', service)
-    setForm({ ...form, service })
-  }
+const sortFields = [
+  'source',
+  'log',
+  'log_level',
+  '_time',
+  'cid',
+  '_raw',
+  'method',
+  'host'
+]
 
-  const handleOnChangeOperation = (operation) => {
-    console.log('search value: ', operation)
-    setForm({ ...form, operation })
-  }
+const nodeToDataSource = node => Object.keys(node.meta).map(k => ({ field: k, value: node.meta[k], key: `${k}-${node.meta[k]}` })).filter((row) => row.value)
 
-  const handleOnClick = () => {
-    console.log(form)
-    const urlParams = objectToQueryParams(form)
-    if (!urlParams) return
+const safeNodeToDataSource = (node) => {
+  if (!node) return []
+  return nodeToDataSource(node)
+}
 
-    history.push('/search' + urlParams)
-  }
+const withSorting = dataSource => _.sortBy(dataSource, (row) => {
+ const index= sortFields.indexOf(row.field)
+  if (index === -1) return 9999
+  return index
+})
 
+const Sidebar = ({ selectedNode}) => {
   return (
     <Container>
-      <Select
-        placeholder='Select a service'
-        options={SERVICES}
-        onSelect={handleOnChangeService}
-        label='Service'
-      />
-      <Select
-        placeholder='Select an opeation'
-        options={OPERATIONS}
-        onSelect={handleOnChangeOperation}
-        label='Operation'
-      />
-      <StyledButton type='primary' icon={<SearchOutlined />} onClick={handleOnClick}>
-        Search
-      </StyledButton>
+      <Table dataSource={withSorting(safeNodeToDataSource(selectedNode))} columns={columns} pagination={{pageSize: 200}}/>
     </Container>
   )
 }
