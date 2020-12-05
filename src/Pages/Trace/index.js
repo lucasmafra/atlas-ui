@@ -21,11 +21,13 @@ const Trace = ({ onSelectNode, selectedNode }) => {
 
   useEffect(() => {
     setLoading(true)
+    console.log(`/${traceId}.csv`)
     fetch(`/${traceId}.csv`)
       .then((r) => {
         return r.text()
       })
       .then((rawData) => {
+        console.log('RAW DATA', rawData)
         const logs = parse(rawData, { columns: true, skip_empty_lines: true })
         const nodes = logParser.parseNodes(logs)
         const ungroupableNodes = nodes.filter((node) => inOrOutNodes.indexOf(node.meta.log) !== -1)
