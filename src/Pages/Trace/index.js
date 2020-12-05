@@ -18,11 +18,13 @@ const Trace = ({ onSelectNode, selectedNode }) => {
 
   useEffect(() => {
     setLoading(true)
+    console.log(`/${traceId}.csv`)
     fetch(`/${traceId}.csv`)
       .then((r) => {
         return r.text()
       })
       .then((rawData) => {
+        console.log('RAW DATA', rawData)
         const logs = parse(rawData, { columns: true, skip_empty_lines: true })
         const data = {
           lifelines: logParser.parseLifelines(logs),
