@@ -5,12 +5,14 @@ import LifelineStreak from './LifelineStreak'
 // import ArrowV2 from './ArrowV2'
 import { theme } from './theme'
 import Node from './Node'
+import NodeGroup from './NodeGroup'
 import useDimensions from "react-cool-dimensions";
 import { logProfile } from '../common-js/debug'
-// import SvgZoomPan from '../svg-zoom-pan/SvgZoomPan'
+import { getUngroupedNodes } from './node-grouping'
 
-const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode }) => {
-  const { lifelines, arrows, nodes } = data
+const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup }) => {
+  const { lifelines, arrows, nodes, groupedNodes } = data
+  const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
 
   const renderLifelinesHeader = lifelines.map(({ id, label }) => (
     <g key={id}>
@@ -33,7 +35,7 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode }) => {
   // ))                                           //
   //////////////////////////////////////////////////
 
-  const renderNodes = nodes.map((node) => {
+  const renderNodes = ungroupedNodes.map((node) => {
     return <Node
              key={node.id}
              node={node}
@@ -41,6 +43,18 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode }) => {
              selectedNode={selectedNode}
              sequenceDiagram={data}
              theme={theme}
+           />
+  })
+
+  const renderNodeGroups = Object.values(groupedNodes).map((nodeGroup) => {
+    return <NodeGroup
+             key={nodeGroup.id}
+             nodeGroup={nodeGroup}
+             onSelectNode={onSelectNode}
+             selectedNode={selectedNode}
+             sequenceDiagram={data}
+             theme={theme}
+             onExpand={onExpandNodeGroup}
            />
   })
 
@@ -59,6 +73,7 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode }) => {
         <g transform={`translate(${horizontalMargin}, ${-verticalMargin})`} >
           {renderLifelinesStreak}
           {renderNodes}
+          {renderNodeGroups}
         </g>
       </svg>
     </div>

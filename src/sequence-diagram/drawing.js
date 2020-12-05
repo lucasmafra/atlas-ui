@@ -1,3 +1,5 @@
+import { getUngroupedNodes } from './node-grouping'
+
 /*
  * Retrieves arrow specific theme from general theme
  */
@@ -190,9 +192,11 @@ export const getNodeXCoordinate = (node, sequenceDiagram, streakCoordinates, the
  * Computes node y coordinate
  */
 export const getNodeYCoordinate = (node, sequenceDiagram, streakCoordinates, theme) => {
-  const times = sequenceDiagram.nodes.map((node) => node.time).sort()
+  const { nodes, groupedNodes } = sequenceDiagram
+  const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
+  const times = [...ungroupedNodes, ...Object.values(groupedNodes)].map((node) => node.time).sort()
   const index = times.indexOf(node.time)
-  return streakCoordinates.y + (index * 16)
+  return streakCoordinates.y + (index * 20)
 }
 
 /*
@@ -211,6 +215,8 @@ export const getNodeCoordinates = (node, sequenceDiagram, theme) => {
  */
 export const getLifelineStreakLength = (sequenceDiagram, theme) => {
   const streakCoordinates = getStreakCoordinates(theme)
-  const times = sequenceDiagram.nodes.map((node) => node.time).sort()
-  return streakCoordinates.y + (times.length * 16)
+  const { nodes, groupedNodes } = sequenceDiagram
+  const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
+  const times = [...ungroupedNodes, ...Object.values(groupedNodes)].map((node) => node.time).sort()
+  return streakCoordinates.y + (times.length * 20)
 }

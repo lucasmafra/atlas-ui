@@ -17,7 +17,6 @@ const Container = styled.div`
 
 function App() {
   const [selectedNode, selectNode] = useState()
-  const [groupedNodes, setGroupedNodes] = useState()
 
   return (
     <BrowserRouter>

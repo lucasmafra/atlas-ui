@@ -4,12 +4,15 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import SequenceDiagram from '../../sequence-diagram/SequenceDiagramV2'
 import * as logParser from '../../sequence-diagram/log-parser'
-import { logProfile } from '../../common-js/debug'
+import { logProfile, tap } from '../../common-js/debug'
+import { withNodeGroupId, collapseNodes, expandNodeGroup } from '../../sequence-diagram/node-grouping'
 const parse = require('csv-parse/lib/sync')
 
 const StyledSpin = styled(Spin)`
   align-self: center;
 `
+
+const inOrOutNodes = ['in-request', 'in-response', 'out-request', 'out-response', 'in-message', 'out-message']
 
 const Trace = ({ onSelectNode, selectedNode }) => {
   const [loading, setLoading] = useState(true)
@@ -24,9 +27,14 @@ const Trace = ({ onSelectNode, selectedNode }) => {
       })
       .then((rawData) => {
         const logs = parse(rawData, { columns: true, skip_empty_lines: true })
+        const nodes = logParser.parseNodes(logs)
+        const ungroupableNodes = nodes.filter((node) => inOrOutNodes.indexOf(node.meta.log) !== -1)
+        const nodesWithGroupId = nodes.map((node) => withNodeGroupId(node, nodes, ungroupableNodes.map(node => node.id)))
+        const groupableNodes = nodesWithGroupId.filter((node) => inOrOutNodes.indexOf(node.meta.log) == -1)
         const data = {
           lifelines: logParser.parseLifelines(logs),
-          nodes: logParser.parseNodes(logs),
+          nodes: nodesWithGroupId,
+          groupedNodes: tap(collapseNodes(groupableNodes, {})),
           arrows: logParser.parseArrows(logs)
         }
         setSequenceDiagram(data)
@@ -41,11 +49,23 @@ const Trace = ({ onSelectNode, selectedNode }) => {
   }, [traceId])
 
 
+  const expand = (groupId) => {
+    console.log('here expand')
+    setSequenceDiagram({
+      ...sequenceDiagram,
+      groupedNodes: expandNodeGroup(groupId, sequenceDiagram.groupedNodes)
+    })
+  }
 
   return loading ? (
     <StyledSpin aria-label='Loading' size='large' />
   ) : (
-      <SequenceDiagram data={sequenceDiagram} onSelectNode={onSelectNode} selectedNode={selectedNode} />
+      <SequenceDiagram
+        data={sequenceDiagram}
+        onSelectNode={onSelectNode}
+        selectedNode={selectedNode}
+        onExpandNodeGroup={expand}
+      />
   )
 }
 
