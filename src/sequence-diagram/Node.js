@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react'
-import { getNodeCoordinates, getNodeTheme, getNodeIndex } from './drawing'
+import { getNodeCoordinates, getNodeTheme } from './drawing'
 import { Menu, Dropdown, Button, Space, Table } from 'antd';
 import styled from 'styled-components'
+import './Node.css';
+import { useHover } from  '../hooks/useHover.js'
 const _ = require('lodash');
 
 const Container = styled.div`
@@ -71,19 +73,20 @@ const withStartTime = (sequenceDiagram) => ({
 })
 
 const Node = ({ node, sequenceDiagram, theme, onSelectNode, selectedNode }) => {
-  const { radius, color } = getNodeTheme(theme)
+  const { radius, color, hoverColor } = getNodeTheme(theme)
   const { x, y } = useMemo(() => getNodeCoordinates(node, withStartTime(sequenceDiagram), theme), [node, sequenceDiagram, theme])
-  const nodeIndex = useMemo(() => getNodeIndex(node, withStartTime(sequenceDiagram)), [node, sequenceDiagram, theme])
-  const actualRadius = selectedNode && selectedNode.id === node.id ? radius * 1.4 : radius
-  const strokeWidth = selectedNode && selectedNode.id === node.id ? 3 : 1
-  const strokeColor = selectedNode && selectedNode.id === node.id ? 'blue' : 'black'
+  const [hoverRef, isHovered] = useHover();
+  const actualRadius = isHovered ? radius * 1.4 : radius
+  const strokeWidth = 1
+  const strokeColor = 'black'
+  const fillColor = isHovered ? hoverColor : color
   const menu = makeMenu(node)
   return (
-    <g transform={`translate(${x}, ${y})`} nodeIndex={nodeIndex}>
-      <circle cx="0" cy="0" r={actualRadius} stroke={strokeColor} strokeWidth={strokeWidth} fill={color} onClick={() => onSelectNode(node)} />
+    <g transform={`translate(${x}, ${y})`}>
+      <circle cx="0" cy="0" r={actualRadius} stroke={strokeColor} strokeWidth={strokeWidth} fill={fillColor} onClick={() => onSelectNode(node)}/>
       <foreignObject width={radius * 2} height={radius * 2} x={-radius} y={-radius}>
         <Dropdown overlay={menu} placement="topCenter">
-          <span style={{width: radius * 2, height: radius * 2, display: 'block'}}/>
+          <span style={{width: radius * 2, height: radius * 2, display: 'block'}} ref={hoverRef}/>
         </Dropdown>
       </foreignObject>
     </g>

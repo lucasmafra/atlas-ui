@@ -28,7 +28,8 @@ export const theme = {
   yAxisResolution: 1,
   node: {
     radius: 6,
-    color: 'gray',
+    color: '#8e8e8e',
+    hoverColor: '#acacac',
     nodeGroupRadius: 10,
     spaceBetweenNodes: 20
   }
