@@ -20,6 +20,7 @@ const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNo
         <span
           onClick={() => onExpand(nodeGroup.id)}
           style={{
+            cursor: 'default',
             fontSize: 12,
             color: 'white',
             width: '100%',
