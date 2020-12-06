@@ -80,6 +80,16 @@ export const collapseNode = (node, groupedNodes) => {
   }
 }
 
+export const collapseNodeGroup = (groupId, groupedNodes) => {
+  return {
+    ...groupedNodes,
+    [groupId]: {
+      ...groupedNodes[groupId],
+      collapsed: true
+    }
+  }
+}
+
 
 export const collapseNodes = (nodes, groupedNodes) => {
   return _.pickBy(

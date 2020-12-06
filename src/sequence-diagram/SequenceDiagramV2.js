@@ -11,7 +11,7 @@ import useDimensions from "react-cool-dimensions";
 import { logProfile } from '../common-js/debug'
 import { getUngroupedNodes } from './node-grouping'
 
-const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup }) => {
+const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup, onCollapseNodeGroup }) => {
   const { lifelines, arrows, nodes, groupedNodes } = data
   const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
 
@@ -67,7 +67,7 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
              selectedNode={selectedNode}
              sequenceDiagram={data}
              theme={theme}
-             onExpand={onExpandNodeGroup}
+             onCollapse={onCollapseNodeGroup}
            />
   })
 

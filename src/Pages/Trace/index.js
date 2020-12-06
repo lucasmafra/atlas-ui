@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import SequenceDiagram from '../../sequence-diagram/SequenceDiagramV2'
 import * as logParser from '../../sequence-diagram/log-parser'
-import { withNodeGroupId, collapseNodes, expandNodeGroup } from '../../sequence-diagram/node-grouping'
+import { withNodeGroupId, collapseNodes, expandNodeGroup, collapseNodeGroup } from '../../sequence-diagram/node-grouping'
 const parse = require('csv-parse/lib/sync')
 
 const StyledSpin = styled(Spin)`
@@ -56,6 +56,13 @@ const Trace = ({ onSelectNode, selectedNode }) => {
     })
   }
 
+  const collapse = (nodeGroup) => {
+    setSequenceDiagram({
+      ...sequenceDiagram,
+      groupedNodes: collapseNodeGroup(nodeGroup.id, sequenceDiagram.groupedNodes)
+    })
+  }
+
   return loading ? (
     <StyledSpin aria-label='Loading' size='large' />
   ) : (
@@ -64,6 +71,7 @@ const Trace = ({ onSelectNode, selectedNode }) => {
         onSelectNode={onSelectNode}
         selectedNode={selectedNode}
         onExpandNodeGroup={expand}
+        onCollapseNodeGroup={collapse}
       />
   )
 }
