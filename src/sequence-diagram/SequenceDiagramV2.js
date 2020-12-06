@@ -2,7 +2,7 @@ import React from 'react'
 import LifelineLabel from './LifelineLabel'
 import LifelineIcon from './LifelineIcon'
 import LifelineStreak from './LifelineStreak'
-// import ArrowV2 from './ArrowV2'
+import Arrow from './Arrow'
 import { theme } from './theme'
 import Node from './Node'
 import NodeGroup from './NodeGroup'
@@ -26,15 +26,17 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
     <LifelineStreak key={id} name={label} sequenceDiagram={data} theme={theme} />
   ))
 
-  //////////////////////////////////////////////////
-  // const renderArrows = arrows.map((arrow) => ( //
-  //   <ArrowV2                                   //
-  //     arrow={arrow}                            //
-  //     sequenceDiagram={data}                   //
-  //     theme={theme}                            //
-  //   />                                         //
-  // ))                                           //
-  //////////////////////////////////////////////////
+
+  console.log('arrows', arrows)
+  const renderArrows = arrows.map((arrow) => (
+    <Arrow
+      key={arrow.id}
+      arrow={arrow}
+      sequenceDiagram={data}
+      theme={theme}
+    />
+  ))
+
 
   const renderNodes = ungroupedNodes.map((node) => {
     return <Node
@@ -88,6 +90,7 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
           {renderNodes}
           {renderNodeGroups}
           {renderNodeGroupMarkers}
+          {renderArrows}
         </g>
       </svg>
     </div>

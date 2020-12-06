@@ -46,13 +46,17 @@ const findOutLog = (inLog, logs) => {
   return logs.filter(outLog).find(log => log.cid === outCid)
 }
 
-export const parseNodes = logs => {
-  return _.uniqBy(logs.map((log) => ({
+const parseNode = log => {
+  return {
     id: logToNodeId(log),
     meta: log,
     time: new Date(log._time).getTime(),
     lifeline: log.source
-  })), 'id')
+  }
+}
+
+export const parseNodes = logs => {
+  return _.uniqBy(logs.map((log) => parseNode(log)), 'id')
 }
 
 export const parseLifelines = logs => {
@@ -64,8 +68,14 @@ export const parseLifelines = logs => {
 }
 
 export const parseArrows = logs => {
-  return _.uniqBy(logs.filter(inLog).map((log) => ({
-    from: safeLogToNodeId(findOutLog(log, logs)),
-    to: logToNodeId(log)
-  })).filter((arrow) => arrow.from !== undefined), ({ from, to }) => `${from}{to}`)
+  return _.uniqBy(logs.filter(inLog).map((log) => {
+    const outLog = findOutLog(log, logs)
+    const from = outLog ? parseNode(outLog) : undefined
+    const to = parseNode(log)
+    return {
+      id: `${from?.id}-${to.id}`,
+      from: from,
+      to: to
+    }
+  })).filter((arrow) => arrow.from !== undefined)
 }

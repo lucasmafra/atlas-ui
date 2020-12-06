@@ -214,7 +214,7 @@ export const getNodeXCoordinate = (node, sequenceDiagram, streakCoordinates, the
 export const getNodeYCoordinate = (node, sequenceDiagram, streakCoordinates, theme) => {
   const { node: { radius, spaceBetweenNodes } } = theme
   const sorted = sortNodesByTime(sequenceDiagram)
-  const index = sorted.indexOf(node)
+  const index = _.findIndex(sorted, (n) => n.id === node.id)
   return streakCoordinates.y + (index * spaceBetweenNodes)
 }
 
