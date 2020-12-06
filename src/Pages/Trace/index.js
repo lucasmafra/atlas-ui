@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import SequenceDiagram from '../../sequence-diagram/SequenceDiagramV2'
 import * as logParser from '../../sequence-diagram/log-parser'
-import { logProfile, tap } from '../../common-js/debug'
 import { withNodeGroupId, collapseNodes, expandNodeGroup } from '../../sequence-diagram/node-grouping'
 const parse = require('csv-parse/lib/sync')
 
@@ -35,7 +34,7 @@ const Trace = ({ onSelectNode, selectedNode }) => {
         const data = {
           lifelines: logParser.parseLifelines(logs),
           nodes: nodesWithGroupId,
-          groupedNodes: tap(collapseNodes(groupableNodes, {})),
+          groupedNodes: collapseNodes(groupableNodes, {}),
           arrows: logParser.parseArrows(logs)
         }
         setSequenceDiagram(data)

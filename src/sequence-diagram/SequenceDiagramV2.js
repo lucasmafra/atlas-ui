@@ -6,6 +6,7 @@ import LifelineStreak from './LifelineStreak'
 import { theme } from './theme'
 import Node from './Node'
 import NodeGroup from './NodeGroup'
+import NodeGroupMarker from './NodeGroupMarker';
 import useDimensions from "react-cool-dimensions";
 import { logProfile } from '../common-js/debug'
 import { getUngroupedNodes } from './node-grouping'
@@ -46,8 +47,20 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
            />
   })
 
-  const renderNodeGroups = Object.values(groupedNodes).map((nodeGroup) => {
+  const renderNodeGroups = Object.values(groupedNodes).filter((nodeGroup) => nodeGroup.collapsed).map((nodeGroup) => {
     return <NodeGroup
+             key={nodeGroup.id}
+             nodeGroup={nodeGroup}
+             onSelectNode={onSelectNode}
+             selectedNode={selectedNode}
+             sequenceDiagram={data}
+             theme={theme}
+             onExpand={onExpandNodeGroup}
+           />
+  })
+
+  const renderNodeGroupMarkers = Object.values(groupedNodes).filter((nodeGroup) => !nodeGroup.collapsed).map((nodeGroup) => {
+    return <NodeGroupMarker
              key={nodeGroup.id}
              nodeGroup={nodeGroup}
              onSelectNode={onSelectNode}
@@ -74,6 +87,7 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
           {renderLifelinesStreak}
           {renderNodes}
           {renderNodeGroups}
+          {renderNodeGroupMarkers}
         </g>
       </svg>
     </div>

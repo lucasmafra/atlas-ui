@@ -59,7 +59,7 @@ const withSorting = dataSource => _.sortBy(dataSource, (row) => {
   return index
 })
 
-const withPicking = node => ({ ...node, meta: _.pick(node.meta, ['source', 'log', '_time'])})
+const withPicking = node => ({ ...node, meta: { ..._.pick(node.meta, ['source', 'log', '_time', 'groupId']), groupId: node.groupId } })
 
 const makeMenu = node => (
   <Container>

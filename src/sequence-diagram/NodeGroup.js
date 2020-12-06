@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import { getNodeCoordinates, getNodeTheme } from './drawing'
+import { Badge } from 'antd'
+import { PlusOutlined } from '@ant-design/icons';
 
 const withStartTime = (sequenceDiagram) => ({
   ...sequenceDiagram,
@@ -17,10 +19,10 @@ const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNo
                        justifyContent: 'center',
                        alignItems: 'center',
                      }}>
-        <span
+        <div
           onClick={() => onExpand(nodeGroup.id)}
           style={{
-            cursor: 'default',
+            cursor: 'pointer',
             fontSize: 12,
             color: 'white',
             width: '100%',
@@ -28,8 +30,8 @@ const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNo
             textAlign: 'center',
             lineHeight: `${nodeGroupRadius * 2}px`
           }}>
-        {nodeGroup.nodes.length}
-        </span>
+          <span>{nodeGroup.nodes.length}</span>
+        </div>
       </foreignObject>
     </g>
   )
