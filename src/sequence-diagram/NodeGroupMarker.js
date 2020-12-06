@@ -46,7 +46,6 @@ const NodeGroupMarker = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, sele
       />
       <path
         id='pseudo'
-        strokeDasharray='4,4'
         strokeWidth={20}
         stroke={'transparent'}
         style={{ cursor: 'pointer'}}
