@@ -53,12 +53,20 @@ const sortNodesByTime = (sequenceDiagram) => {
 }
 
 /*
+ * Computes lifeline index
+ */
+export const getLifelineIndex = (lifeline, sequenceDiagram) => {
+  const { lifelines } = sequenceDiagram
+  return lifelines.findIndex((l) => l.name === lifeline || l.id === lifeline || l.label === lifeline)
+}
+
+
+/*
  * Computes lifeline horizontal offset
  */
 export const getLifelineOffset = (lifeline, sequenceDiagram, theme) => {
-  const { lifelines } = sequenceDiagram
+  const index = getLifelineIndex(lifeline, sequenceDiagram)
   const { spaceBetweenLifelines } = theme
-  const index = lifelines.findIndex((l) => l.name === lifeline || l.id === lifeline || l.label === lifeline)
   return index * spaceBetweenLifelines
 }
 
@@ -208,14 +216,6 @@ export const getNodeYCoordinate = (node, sequenceDiagram, streakCoordinates, the
   const sorted = sortNodesByTime(sequenceDiagram)
   const index = sorted.indexOf(node)
   return streakCoordinates.y + (index * spaceBetweenNodes)
-}
-
-/*
- * Used for debug
-*/
-export const getNodeIndex = (node, sequenceDiagram) => {
-  const sorted = sortNodesByTime(sequenceDiagram)
-  return sorted.indexOf(node)
 }
 
 /*

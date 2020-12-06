@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { getNodeCoordinates, getNodeTheme } from './drawing'
+import { getNodeCoordinates, getNodeTheme, getLifelineIndex } from './drawing'
 import { Menu, Dropdown, Button, Space, Table } from 'antd';
 import styled from 'styled-components'
 import './Node.css';
@@ -81,11 +81,13 @@ const Node = ({ node, sequenceDiagram, theme, onSelectNode, selectedNode }) => {
   const strokeColor = 'black'
   const fillColor = isHovered ? hoverColor : color
   const menu = makeMenu(node)
+  const lifelineIndex = getLifelineIndex(node.lifeline, sequenceDiagram)
+  const dropdownPosition = lifelineIndex < sequenceDiagram.lifelines.length / 2 ? 'topLeft' : 'topRight'
   return (
     <g transform={`translate(${x}, ${y})`}>
       <circle cx="0" cy="0" r={actualRadius} stroke={strokeColor} strokeWidth={strokeWidth} fill={fillColor} onClick={() => onSelectNode(node)}/>
       <foreignObject width={radius * 2} height={radius * 2} x={-radius} y={-radius}>
-        <Dropdown overlay={menu} placement="topCenter">
+        <Dropdown overlay={menu} placement={dropdownPosition}>
           <span style={{width: radius * 2, height: radius * 2, display: 'block'}} ref={hoverRef}/>
         </Dropdown>
       </foreignObject>
