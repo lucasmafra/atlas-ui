@@ -10,8 +10,7 @@ const LifelineStreak = ({ name, sequenceDiagram, theme }) => {
     <g transform={`translate(${lifelineOffset}, 0)`}>
       <path
         id='lifeLine'
-        strokeDasharray='4,4'
-        stroke='black'
+        stroke='#f0f0f0'
         strokeWidth={streakWidth}
         d={`M ${x} ${y} L ${x} ${y + streakLength}`}
       />

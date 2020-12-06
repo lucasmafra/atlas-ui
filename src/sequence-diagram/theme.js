@@ -10,7 +10,7 @@ export const theme = {
     labelIconMargin: 0,
     iconStreakMargin: 36,
     labelWidth: 100,
-    streakWidth: 1
+    streakWidth: 2
   },
   executionBox: {
     width: 16,
@@ -27,10 +27,10 @@ export const theme = {
   },
   yAxisResolution: 1,
   node: {
-    radius: 6,
-    color: '#8e8e8e',
-    hoverColor: '#acacac',
-    nodeGroupRadius: 10,
-    spaceBetweenNodes: 20
+    radius: 5,
+    color: 'white',
+    borderColor: '#bfbfbf',
+    nodeGroupRadius: 15,
+    spaceBetweenNodes: 25
   }
 }

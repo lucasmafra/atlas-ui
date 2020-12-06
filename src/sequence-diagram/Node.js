@@ -73,13 +73,13 @@ const withStartTime = (sequenceDiagram) => ({
 })
 
 const Node = ({ node, sequenceDiagram, theme, onSelectNode, selectedNode }) => {
-  const { radius, color, hoverColor } = getNodeTheme(theme)
+  const { radius, color, borderColor } = getNodeTheme(theme)
   const { x, y } = useMemo(() => getNodeCoordinates(node, withStartTime(sequenceDiagram), theme), [node, sequenceDiagram, theme])
   const [hoverRef, isHovered] = useHover();
   const actualRadius = isHovered ? radius * 1.4 : radius
-  const strokeWidth = 1
-  const strokeColor = 'black'
-  const fillColor = isHovered ? hoverColor : color
+  const strokeWidth = 2
+  const strokeColor = isHovered ? color : borderColor
+  const fillColor = isHovered ? borderColor : color
   const menu = makeMenu(node)
   const lifelineIndex = getLifelineIndex(node.lifeline, sequenceDiagram)
   const dropdownPosition = lifelineIndex < sequenceDiagram.lifelines.length / 2 ? 'topLeft' : 'topRight'

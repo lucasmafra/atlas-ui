@@ -9,11 +9,13 @@ const withStartTime = (sequenceDiagram) => ({
 })
 
 const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNode, onExpand }) => {
-  const { nodeGroupRadius, color } = getNodeTheme(theme)
+  const { nodeGroupRadius, color, borderColor } = getNodeTheme(theme)
+  const fillColor = borderColor
+  const strokeColor = color
   const { x, y } = useMemo(() => getNodeCoordinates(nodeGroup, withStartTime(sequenceDiagram), theme), [nodeGroup, sequenceDiagram, theme])
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <circle cx="0" cy="0" r={nodeGroupRadius} stroke={'black'} strokeWidth={2} fill={'blue'} onClick={() => onExpand(nodeGroup.id)}/>
+      <circle cx="0" cy="0" r={nodeGroupRadius} stroke={strokeColor} strokeWidth={2} fill={borderColor} onClick={() => onExpand(nodeGroup.id)}/>
       <foreignObject width={nodeGroupRadius * 2} height={nodeGroupRadius * 2} x={-nodeGroupRadius} y={-nodeGroupRadius} style={{
                        display: 'flex',
                        justifyContent: 'center',
@@ -23,14 +25,15 @@ const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNo
           onClick={() => onExpand(nodeGroup.id)}
           style={{
             cursor: 'pointer',
-            fontSize: 12,
+            fontSize: 11,
             color: 'white',
+            fontWeight: 'bold',
             width: '100%',
             height: '100%',
             textAlign: 'center',
             lineHeight: `${nodeGroupRadius * 2}px`
           }}>
-          <span>{nodeGroup.nodes.length}</span>
+          <span>+{nodeGroup.nodes.length}</span>
         </div>
       </foreignObject>
     </g>
