@@ -49,7 +49,7 @@ const sortNodesByTime = (sequenceDiagram) => {
   const { nodes, groupedNodes } = sequenceDiagram
   const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
   const allNodes = [...ungroupedNodes, ...Object.values(groupedNodes)]
-  return _.sortBy(allNodes, ['time'])
+  return _.sortBy(allNodes, ['time', 'id'])
 }
 
 /*
