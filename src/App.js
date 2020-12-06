@@ -22,7 +22,6 @@ function App() {
     <BrowserRouter>
       <Container>
         <Header />
-        <Sidebar selectedNode={selectedNode}/>
         <Switch>
           <Route path='/trace/:traceId'>
             <Trace onSelectNode={selectNode} selectedNode={selectedNode} />

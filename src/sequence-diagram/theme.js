@@ -6,9 +6,9 @@ export const theme = {
     labelFontSize: 10,
     labelLineHeight: 1.5,
     labelLines: 2,
-    iconSize: 24,
+    iconSize: 28,
     labelIconMargin: 0,
-    iconStreakMargin: 16,
+    iconStreakMargin: 36,
     labelWidth: 100,
     streakWidth: 1
   },
@@ -28,6 +28,8 @@ export const theme = {
   yAxisResolution: 1,
   node: {
     radius: 6,
-    color: 'gray'
+    color: 'gray',
+    nodeGroupRadius: 10,
+    spaceBetweenNodes: 20
   }
 }

@@ -1,4 +1,5 @@
 import { getUngroupedNodes } from './node-grouping'
+import * as _ from 'lodash'
 
 /*
  * Retrieves arrow specific theme from general theme
@@ -38,6 +39,16 @@ export const getStreakCoordinates = (theme) => {
     x: labelWidth / 2,
     y: labelHeight + iconSize + labelIconMargin + iconStreakMargin
   }
+}
+
+/*
+ * Computes set of timestamps from nodes
+ */
+
+const getTimes = (sequenceDiagram) => {
+  const { nodes, groupedNodes } = sequenceDiagram
+  const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
+  return [...ungroupedNodes, ...Object.values(groupedNodes)].map((node) => node.time).sort()
 }
 
 /*
@@ -192,11 +203,10 @@ export const getNodeXCoordinate = (node, sequenceDiagram, streakCoordinates, the
  * Computes node y coordinate
  */
 export const getNodeYCoordinate = (node, sequenceDiagram, streakCoordinates, theme) => {
-  const { nodes, groupedNodes } = sequenceDiagram
-  const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
-  const times = [...ungroupedNodes, ...Object.values(groupedNodes)].map((node) => node.time).sort()
+  const { node: { radius, spaceBetweenNodes } } = theme
+  const times = getTimes(sequenceDiagram)
   const index = times.indexOf(node.time)
-  return streakCoordinates.y + (index * 20)
+  return streakCoordinates.y + (index * spaceBetweenNodes)
 }
 
 /*
@@ -215,8 +225,7 @@ export const getNodeCoordinates = (node, sequenceDiagram, theme) => {
  */
 export const getLifelineStreakLength = (sequenceDiagram, theme) => {
   const streakCoordinates = getStreakCoordinates(theme)
-  const { nodes, groupedNodes } = sequenceDiagram
-  const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
-  const times = [...ungroupedNodes, ...Object.values(groupedNodes)].map((node) => node.time).sort()
-  return streakCoordinates.y + (times.length * 20)
+  const { node: { nodeGroupRadius, spaceBetweenNodes } } = theme
+  const times = getTimes(sequenceDiagram)
+  return streakCoordinates.y + (times.length * spaceBetweenNodes)
 }

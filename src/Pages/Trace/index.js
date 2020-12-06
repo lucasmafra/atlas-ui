@@ -10,6 +10,7 @@ const parse = require('csv-parse/lib/sync')
 
 const StyledSpin = styled(Spin)`
   align-self: center;
+  width: 100vw;
 `
 
 const inOrOutNodes = ['in-request', 'in-response', 'out-request', 'out-response', 'in-message', 'out-message']
