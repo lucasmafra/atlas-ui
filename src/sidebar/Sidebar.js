@@ -57,7 +57,6 @@ const withSorting = dataSource => _.sortBy(dataSource, (row) => {
 })
 
 const Sidebar = ({ selectedNode}) => {
-  console.log('selectedNode', selectedNode)
   return (
     <Container>
       <Table dataSource={withSorting(safeNodeToDataSource(selectedNode))} columns={columns} pagination={{pageSize: 200}}/>

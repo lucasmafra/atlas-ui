@@ -11,7 +11,6 @@ const Label = styled.p`
 
 const Select = ({ options, onSelect, placeholder, label }) => {
   const onChange = (id) => {
-    console.log(`selected ${id}`)
     onSelect(id)
   }
 

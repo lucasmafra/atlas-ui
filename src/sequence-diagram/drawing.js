@@ -45,10 +45,11 @@ export const getStreakCoordinates = (theme) => {
  * Computes set of timestamps from nodes
  */
 
-const getTimes = (sequenceDiagram) => {
+const sortNodesByTime = (sequenceDiagram) => {
   const { nodes, groupedNodes } = sequenceDiagram
   const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
-  return [...ungroupedNodes, ...Object.values(groupedNodes)].map((node) => node.time).sort()
+  const allNodes = [...ungroupedNodes, ...Object.values(groupedNodes)]
+  return _.sortBy(allNodes, ['time'])
 }
 
 /*
@@ -204,9 +205,17 @@ export const getNodeXCoordinate = (node, sequenceDiagram, streakCoordinates, the
  */
 export const getNodeYCoordinate = (node, sequenceDiagram, streakCoordinates, theme) => {
   const { node: { radius, spaceBetweenNodes } } = theme
-  const times = getTimes(sequenceDiagram)
-  const index = times.indexOf(node.time)
+  const sorted = sortNodesByTime(sequenceDiagram)
+  const index = sorted.indexOf(node)
   return streakCoordinates.y + (index * spaceBetweenNodes)
+}
+
+/*
+ * Used for debug
+*/
+export const getNodeIndex = (node, sequenceDiagram) => {
+  const sorted = sortNodesByTime(sequenceDiagram)
+  return sorted.indexOf(node)
 }
 
 /*
@@ -226,6 +235,6 @@ export const getNodeCoordinates = (node, sequenceDiagram, theme) => {
 export const getLifelineStreakLength = (sequenceDiagram, theme) => {
   const streakCoordinates = getStreakCoordinates(theme)
   const { node: { nodeGroupRadius, spaceBetweenNodes } } = theme
-  const times = getTimes(sequenceDiagram)
-  return streakCoordinates.y + (times.length * spaceBetweenNodes)
+  const sorted = sortNodesByTime(sequenceDiagram)
+  return streakCoordinates.y + (sorted.length * spaceBetweenNodes)
 }

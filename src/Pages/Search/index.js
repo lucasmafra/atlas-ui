@@ -28,12 +28,8 @@ const Search = () => {
   const objQueryParams = {}
 
   for (const [key, value] of queryParams) {
-    console.log('key = ', key)
-    console.log('value = ', value)
     objQueryParams[key] = value
   }
-
-  console.log(objQueryParams)
 
   return (
     <Container>
