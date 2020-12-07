@@ -7,6 +7,7 @@ import { theme } from './theme'
 import Node from './Node'
 import NodeGroup from './NodeGroup'
 import NodeGroupMarker from './NodeGroupMarker';
+import ExecutionBox from './ExecutionBox';
 import useDimensions from "react-cool-dimensions";
 import { logProfile } from '../common-js/debug'
 import { getUngroupedNodes } from './node-grouping'
@@ -14,8 +15,27 @@ import { Affix, Button, Tooltip } from 'antd';
 import { LineChartOutlined } from '@ant-design/icons';
 
 const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup, onCollapseNodeGroup, onShowAnalysis }) => {
-  const { lifelines, arrows, nodes, groupedNodes } = data
+  const { lifelines, arrows, nodes, groupedNodes, executionBoxes } = data
+  console.log('EXECUTION BOOXES', executionBoxes)
+  console.log('NODES', nodes)
   const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
+
+  const myExecutionBoxes = [{
+    from: {
+      groupId: "node-group-service-2-service-2",
+      id: "service-2",
+      lifeline: "bff",
+      meta: {log: "in-request", logLevel: "INFO", time: "2017-07-14T02:40:00.050Z"},
+      time: 1500000000050
+    },
+    to: {
+      groupId: "node-group-service-2-in-response-service-2-in-response",
+      id: "service-2-in-response",
+      lifeline: "bff",
+      meta: {log: "in-response",logLevel: "INFO",time: "2017-07-14T02:40:03.050Z"},
+      time: 1500000003050
+    },
+  }]
 
   const renderLifelinesHeader = lifelines.map(({ id, label, kind }) => {
     console.log('id', id, 'label', label, 'kind', kind)
@@ -35,6 +55,15 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
     <Arrow
       key={arrow.id}
       arrow={arrow}
+      sequenceDiagram={data}
+      theme={theme}
+    />
+  ))
+
+  const renderExecutionBoxes = executionBoxes.map((executionBox) => (
+    <ExecutionBox
+      key={executionBox.id}
+      executionBox={executionBox}
       sequenceDiagram={data}
       theme={theme}
     />
@@ -90,6 +119,7 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
       <svg width={width + 120} height={height} ref={ref}>
         <g transform={`translate(${horizontalMargin}, ${-verticalMargin})`} >
           {renderLifelinesStreak}
+          {renderExecutionBoxes}
           {renderNodes}
           {renderNodeGroups}
           {renderNodeGroupMarkers}

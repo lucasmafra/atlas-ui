@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { getNodeCoordinates, getNodeTheme } from './drawing'
+import { getNodeCoordinates, getNodeTheme, getExecutionBoxTheme } from './drawing'
 
 const withStartTime = (sequenceDiagram) => ({
   ...sequenceDiagram,
@@ -7,14 +7,15 @@ const withStartTime = (sequenceDiagram) => ({
 })
 
 const Arrow = ({ arrow: { from, to, kind }, sequenceDiagram, theme }) => {
+  const { width: executionBoxWidth } = getExecutionBoxTheme(theme)
   const { nodeGroupRadius, color, borderColor, radius } = getNodeTheme(theme)
   const { x: x1, y: y1 } = useMemo(() => getNodeCoordinates(from, withStartTime(sequenceDiagram), theme), [from, sequenceDiagram, theme])
   const { x: x2, y: y2 } = useMemo(() => getNodeCoordinates(to, withStartTime(sequenceDiagram), theme), [to, sequenceDiagram, theme])
 
   const direction = x1 < x2 ? 'right' : 'left'
 
-  const actualX1 = direction ==  'right' ? x1 + radius : x1 - radius
-  const actualX2 = direction == 'right' ? x2 - radius - 2 : x2 + radius + 2
+  const actualX1 = direction ==  'right' ? x1 + executionBoxWidth : x1 - executionBoxWidth
+  const actualX2 = direction == 'right' ? x2 - executionBoxWidth - 2 : x2 + executionBoxWidth + 2
 
   return (
     <g debug="arrow">

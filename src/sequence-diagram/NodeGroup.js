@@ -11,7 +11,7 @@ const withStartTime = (sequenceDiagram) => ({
 const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNode, onExpand }) => {
   const { nodeGroupRadius, color, borderColor } = getNodeTheme(theme)
   const fillColor = borderColor
-  const strokeColor = color
+  const strokeColor = borderColor
   const { x, y } = useMemo(() => getNodeCoordinates(nodeGroup, withStartTime(sequenceDiagram), theme), [nodeGroup, sequenceDiagram, theme])
   return (
     <g transform={`translate(${x}, ${y})`}>
@@ -25,7 +25,7 @@ const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNo
           onClick={() => onExpand(nodeGroup.id)}
           style={{
             cursor: 'pointer',
-            fontSize: 11,
+            fontSize: 10,
             color: 'white',
             fontWeight: 'bold',
             width: '100%',
@@ -33,7 +33,7 @@ const NodeGroup = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, selectedNo
             textAlign: 'center',
             lineHeight: `${nodeGroupRadius * 2}px`
           }}>
-          <span>+{nodeGroup.nodes.length}</span>
+          <span>{nodeGroup.nodes.length}</span>
         </div>
       </foreignObject>
     </g>

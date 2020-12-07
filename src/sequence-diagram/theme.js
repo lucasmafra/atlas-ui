@@ -1,5 +1,5 @@
 export const theme = {
-  spaceBetweenLifelines: 60,
+  spaceBetweenLifelines: 100,
   verticalMargin: 80,
   horizontalMargin: 0,
   lifeline: {
@@ -13,7 +13,7 @@ export const theme = {
     streakWidth: 2
   },
   executionBox: {
-    width: 16,
+    width: 18,
     color: '#ffd966'
   },
   arrow: {
@@ -31,7 +31,7 @@ export const theme = {
     color: 'white',
     borderColor: '#bfbfbf',
     borderColorError: '#ff4d4f',
-    nodeGroupRadius: 15,
+    nodeGroupRadius: 8,
     spaceBetweenNodes: 25
   }
 }
