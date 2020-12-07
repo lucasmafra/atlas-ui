@@ -14,8 +14,8 @@ const Arrow = ({ arrow: { from, to, kind }, sequenceDiagram, theme }) => {
 
   const direction = x1 < x2 ? 'right' : 'left'
 
-  const actualX1 = direction ==  'right' ? x1 + executionBoxWidth : x1 - executionBoxWidth
-  const actualX2 = direction == 'right' ? x2 - executionBoxWidth - 2 : x2 + executionBoxWidth + 2
+  const actualX1 = direction ==  'right' ? x1 + executionBoxWidth/2 : x1 - executionBoxWidth/2
+  const actualX2 = direction == 'right' ? x2 - executionBoxWidth/2 - 4 : x2 + executionBoxWidth/2 + 4
 
   return (
     <g debug="arrow">

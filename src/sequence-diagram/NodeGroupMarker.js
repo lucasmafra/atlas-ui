@@ -22,7 +22,7 @@ const NodeGroupMarker = ({ nodeGroup, sequenceDiagram, theme, onSelectNode, sele
   const { x: x1, y: y1 } = useMemo(() => getNodeCoordinates(lowerNode, withStartTime(sequenceDiagram), theme), [nodeGroup, sequenceDiagram, theme])
   const { x: x2, y: y2 } = useMemo(() => getNodeCoordinates(upperNode, withStartTime(sequenceDiagram), theme), [nodeGroup, sequenceDiagram, theme])
   const streakWidth = 2
-  const horizontalDistance = radius + 8
+  const horizontalDistance = radius + 4
   const [hoverRef, isHovered] = useHover();
   const strokeColor = isHovered ? 'black' : borderColor
 
