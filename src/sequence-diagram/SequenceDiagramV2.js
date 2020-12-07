@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LifelineLabel from './LifelineLabel'
 import LifelineIcon from './LifelineIcon'
 import LifelineStreak from './LifelineStreak'
@@ -10,8 +10,10 @@ import NodeGroupMarker from './NodeGroupMarker';
 import useDimensions from "react-cool-dimensions";
 import { logProfile } from '../common-js/debug'
 import { getUngroupedNodes } from './node-grouping'
+import { Affix, Button, Tooltip } from 'antd';
+import { LineChartOutlined } from '@ant-design/icons';
 
-const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup, onCollapseNodeGroup }) => {
+const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup, onCollapseNodeGroup, onShowAnalysis }) => {
   const { lifelines, arrows, nodes, groupedNodes } = data
   const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
 
@@ -77,12 +79,12 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
 
   return (
     <div style={{ border: '1px solid #cecece', height: '100%', width: '100%', overflow: 'auto' }}>
-      <svg width={width + 100} height="138" style={{position: 'sticky', top: 0, background: 'white'}}>
+      <svg width={width + 120} height="138" style={{position: 'sticky', top: 0, background: 'white'}}>
         <g transform={`translate(${horizontalMargin}, ${verticalMargin})`}>
           {renderLifelinesHeader}
         </g>
       </svg>
-      <svg width={width + 100} height={height} ref={ref}>
+      <svg width={width + 120} height={height} ref={ref}>
         <g transform={`translate(${horizontalMargin}, ${-verticalMargin})`} >
           {renderLifelinesStreak}
           {renderNodes}
@@ -91,6 +93,11 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
           {renderArrows}
         </g>
       </svg>
+      <Affix style={{ position: 'absolute', bottom: 32, right: 32 }}>
+        <Tooltip title="Analysis">
+          <Button type="primary" shape="circle" icon={<LineChartOutlined />} size={'large'} onClick={onShowAnalysis}/>
+        </Tooltip>
+      </Affix>
     </div>
   )
 }
