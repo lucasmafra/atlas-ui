@@ -30,6 +30,7 @@ export const theme = {
     radius: 5,
     color: 'white',
     borderColor: '#bfbfbf',
+    borderColorError: '#ff4d4f',
     nodeGroupRadius: 15,
     spaceBetweenNodes: 25
   }

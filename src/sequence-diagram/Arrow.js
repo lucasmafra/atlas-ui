@@ -24,7 +24,7 @@ const Arrow = ({ arrow: { from, to, kind }, sequenceDiagram, theme }) => {
       <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
       <path
-        marker-end='url(#markerArrow)'
+        markerEnd='url(#markerArrow)'
         strokeDasharray={kind == 'sync' ? undefined : '4,4'}
         id='arrow'
         stroke={'black'}

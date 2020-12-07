@@ -60,10 +60,21 @@ const findParentLog = (log, logType, logs) => {
   })
 }
 
+const parseLogLevel = log => {
+  const text = log._raw
+  if (text.match(/error|exception/)) {
+    return 'ERROR'
+  }
+  return log.log_level
+}
+
 const parseServiceNode = log => {
   return {
     id: `service-${logToNodeId(log)}`,
-    meta: log,
+    meta: {
+      ...log,
+      log_level: parseLogLevel(log)
+    },
     time: new Date(log._time).getTime(),
     lifeline: log.source
   }

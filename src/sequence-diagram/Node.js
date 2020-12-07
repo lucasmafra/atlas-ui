@@ -59,7 +59,7 @@ const withSorting = dataSource => _.sortBy(dataSource, (row) => {
   return index
 })
 
-const withPicking = node => ({ ...node, meta: { ..._.pick(node.meta, ['source', 'log', 'log_type','_time', 'cid', 'topic', 'query']) } })
+const withPicking = node => ({ ...node, meta: { ..._.pick(node.meta, ['source', 'log', 'log_type','_time', 'cid', 'topic', 'query', 'log_level']) } })
 
 const makeMenu = node => (
   <Container>
@@ -72,14 +72,22 @@ const withStartTime = (sequenceDiagram) => ({
   startTime: sequenceDiagram.nodes.map(node => node.time).sort()[0]
 })
 
+const levelColor = (node, theme) => {
+  const { borderColor, borderColorError } = getNodeTheme(theme)
+  if (node.meta.log_level.toLowerCase() === 'error') {
+    return borderColorError
+  }
+  return borderColor
+}
+
 const Node = ({ node, sequenceDiagram, theme, onSelectNode, selectedNode }) => {
   const { radius, color, borderColor } = getNodeTheme(theme)
   const { x, y } = useMemo(() => getNodeCoordinates(node, withStartTime(sequenceDiagram), theme), [node, sequenceDiagram, theme])
   const [hoverRef, isHovered] = useHover();
   const actualRadius = isHovered ? radius * 1.4 : radius
   const strokeWidth = 2
-  const strokeColor = isHovered ? color : borderColor
-  const fillColor = isHovered ? borderColor : color
+  const strokeColor = isHovered ? color : levelColor(node, theme)
+  const fillColor = isHovered ? levelColor(node, theme) : color
   const menu = makeMenu(node)
   const lifelineIndex = getLifelineIndex(node.lifeline, sequenceDiagram)
   const dropdownPosition = lifelineIndex < sequenceDiagram.lifelines.length / 2 ? 'topLeft' : 'topRight'
