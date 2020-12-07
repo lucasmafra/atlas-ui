@@ -6,7 +6,7 @@ const withStartTime = (sequenceDiagram) => ({
   startTime: sequenceDiagram.nodes.map(node => node.time).sort()[0]
 })
 
-const Arrow = ({ arrow: { from, to }, sequenceDiagram, theme }) => {
+const Arrow = ({ arrow: { from, to, kind }, sequenceDiagram, theme }) => {
   const { nodeGroupRadius, color, borderColor, radius } = getNodeTheme(theme)
   const { x: x1, y: y1 } = useMemo(() => getNodeCoordinates(from, withStartTime(sequenceDiagram), theme), [from, sequenceDiagram, theme])
   const { x: x2, y: y2 } = useMemo(() => getNodeCoordinates(to, withStartTime(sequenceDiagram), theme), [to, sequenceDiagram, theme])
@@ -25,6 +25,7 @@ const Arrow = ({ arrow: { from, to }, sequenceDiagram, theme }) => {
     </marker>
       <path
         marker-end='url(#markerArrow)'
+        strokeDasharray={kind == 'sync' ? undefined : '4,4'}
         id='arrow'
         stroke={'black'}
         strokeWidth={1}

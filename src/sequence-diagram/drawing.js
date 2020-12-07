@@ -48,7 +48,7 @@ export const getStreakCoordinates = (theme) => {
 const sortNodesByTime = (sequenceDiagram) => {
   const { nodes, groupedNodes } = sequenceDiagram
   const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
-  const allNodes = [...ungroupedNodes, ...Object.values(groupedNodes)]
+  const allNodes = [...ungroupedNodes, ...Object.values(groupedNodes).filter((groupNode) => groupNode.collapsed == true)]
   return _.sortBy(allNodes, ['time', 'id'])
 }
 

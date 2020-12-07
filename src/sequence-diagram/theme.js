@@ -3,7 +3,7 @@ export const theme = {
   verticalMargin: 80,
   horizontalMargin: 0,
   lifeline: {
-    labelFontSize: 10,
+    labelFontSize: 9,
     labelLineHeight: 1.5,
     labelLines: 2,
     iconSize: 28,
