@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import SequenceDiagram from '../../sequence-diagram/SequenceDiagramV2'
 import * as logParser from '../../sequence-diagram/log-parser'
-import { expandNodeGroup, collapseNodeGroup } from '../../sequence-diagram/node-grouping'
+import { expandNodeGroup, collapseNodeGroup, withNodeGrouping } from '../../sequence-diagram/node-grouping'
 import { CloseOutlined } from '@ant-design/icons';
+import { objectKeysToCamel } from '../../common-js/misc'
 const parse = require('csv-parse/lib/sync')
 
 const { Title } = Typography;
@@ -22,12 +23,15 @@ const Trace = ({ onSelectNode, selectedNode }) => {
 
   useEffect(() => {
     setLoading(true)
-    fetch(`/${traceId}.csv`)
+    fetch('http://localhost:9000/api/traces/mock_transfer_out/sequence-diagram')
       .then((r) => {
-        return r.text()
+        return r.json()
       })
-      .then( async (rawData) => {
-        return logParser.logsToSequenceDiagram(rawData)
+      .then( async (data) => {
+        return objectKeysToCamel(data).sequenceDiagram
+      })
+      .then(async (sequenceDiagram) => {
+        return withNodeGrouping(sequenceDiagram)
       })
       .then((sequenceDiagram) => {
         setSequenceDiagram(sequenceDiagram)

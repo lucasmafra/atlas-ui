@@ -38,8 +38,8 @@ const columns = [
 const sortFields = [
   'source',
   'log',
-  'log_level',
-  '_time',
+  'logLevel',
+  'time',
   'cid',
   '_raw',
   'method',
@@ -59,7 +59,7 @@ const withSorting = dataSource => _.sortBy(dataSource, (row) => {
   return index
 })
 
-const withPicking = node => ({ ...node, meta: { ..._.pick(node.meta, ['source', 'log', 'log_type','_time', 'cid', 'topic', 'query', 'log_level']) } })
+const withPicking = node => ({ ...node, meta: { ..._.pick(node.meta, ['source', 'log', 'log_type','time', 'cid', 'topic', 'query', 'logLevel']) } })
 
 const makeMenu = node => (
   <Container>
@@ -74,7 +74,7 @@ const withStartTime = (sequenceDiagram) => ({
 
 const levelColor = (node, theme) => {
   const { borderColor, borderColorError } = getNodeTheme(theme)
-  if (node.meta.log_level.toLowerCase() === 'error') {
+  if (node.meta.logLevel.toLowerCase() === 'error') {
     return borderColorError
   }
   return borderColor

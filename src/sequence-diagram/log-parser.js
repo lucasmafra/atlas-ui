@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as _ from 'lodash'
-import { withNodeGroupId, collapseNodes, expandNodeGroup, collapseNodeGroup } from '../sequence-diagram/node-grouping'
 const parse = require('csv-parse/lib/sync')
 
 const { sha256 } = require('js-sha256');
@@ -179,18 +178,12 @@ export const parseArrows = logs => {
   return [...outMessageArrows, ...inMessageArrows, ...requestArrows, ...responseArrows]
 }
 
-const inOrOutNodes = ['in-request', 'in-response', 'out-request', 'out-response', 'in-message', 'out-message']
 
 export const logsToSequenceDiagram = (rawData) => {
   const logs = parse(rawData, { columns: true, skip_empty_lines: true })
-  const nodes = parseNodes(logs)
-  const ungroupableNodes = nodes.filter((node) => inOrOutNodes.indexOf(node.meta.log) !== -1)
-  const nodesWithGroupId = nodes.map((node) => withNodeGroupId(node, nodes, ungroupableNodes.map(node => node.id)))
-  const groupableNodes = nodesWithGroupId.filter((node) => inOrOutNodes.indexOf(node.meta.log) == -1)
   return {
     lifelines: parseLifelines(logs),
-    nodes: nodesWithGroupId,
-    groupedNodes: collapseNodes(groupableNodes, {}),
+    nodes: parseNodes(logs),
     arrows: parseArrows(logs)
   }
 }

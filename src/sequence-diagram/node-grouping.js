@@ -103,3 +103,18 @@ export const collapseNodes = (nodes, groupedNodes) => {
 export const getUngroupedNodes = (nodes, groupedNodes) => {
   return nodes.filter((node) => !isGrouped(node, groupedNodes))
 }
+
+const inOrOutNodes = ['in-request', 'in-response', 'out-request', 'out-response', 'in-message', 'out-message']
+
+export const withNodeGrouping = (sequenceDiagram) => {
+  const { nodes } = sequenceDiagram
+  const ungroupableNodes = nodes.filter((node) => inOrOutNodes.indexOf(node.meta.log) !== -1)
+  const nodesWithGroupId = nodes.map((node) => withNodeGroupId(node, nodes, ungroupableNodes.map(node => node.id)))
+  const groupableNodes = nodesWithGroupId.filter((node) => inOrOutNodes.indexOf(node.meta.log) == -1)
+
+  return {
+    ...sequenceDiagram,
+    nodes: nodesWithGroupId,
+    groupedNodes: collapseNodes(groupableNodes, {}),
+  }
+}

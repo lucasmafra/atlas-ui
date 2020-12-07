@@ -17,12 +17,15 @@ const SequenceDiagramV2 = ({ data, onSelectNode, selectedNode, onExpandNodeGroup
   const { lifelines, arrows, nodes, groupedNodes } = data
   const ungroupedNodes = getUngroupedNodes(nodes, groupedNodes)
 
-  const renderLifelinesHeader = lifelines.map(({ id, label, kind }) => (
-    <g key={id}>
-      <LifelineLabel name={label} label={label} sequenceDiagram={data} theme={theme} />
-      <LifelineIcon  name={label} sequenceDiagram={data} theme={theme} kind={kind} />
-    </g>
-  ))
+  const renderLifelinesHeader = lifelines.map(({ id, label, kind }) => {
+    console.log('id', id, 'label', label, 'kind', kind)
+    return (
+      <g key={id}>
+        <LifelineLabel name={label} label={label} sequenceDiagram={data} theme={theme} />
+        <LifelineIcon  name={label} sequenceDiagram={data} theme={theme} kind={kind} />
+      </g>
+    )
+  })
 
   const renderLifelinesStreak = lifelines.map(({ id, label }) => (
     <LifelineStreak key={id} name={label} sequenceDiagram={data} theme={theme} />
