@@ -10,16 +10,16 @@ const Container = styled.div`
 
 const StyledHeader = styled.h1`
   font-size: 28px;
-  margin: 0;
+  margin-top: 240px;
   text-align: center;
   color: #262626;
-  width: 300px;
+  width: 100vw;
 `
 
 const Home = () => {
   return (
     <Container>
-      <StyledHeader>Busque o trace por ID ou por parâmetros</StyledHeader>
+      <StyledHeader>Busque o trace por ID</StyledHeader>
     </Container>
   )
 }
